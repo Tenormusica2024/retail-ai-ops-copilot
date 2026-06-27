@@ -362,7 +362,6 @@
     .service.red { border-color: #ef4444; background: #fff5f5; }
 
     .service[data-progress] {
-      --progress: 0%;
       --progress-color: #64748b;
       cursor: help;
     }
@@ -373,32 +372,33 @@
     .service[data-progress-tier="high"] { --progress-color: #2f855a; }
 
     .service[data-progress]::before {
-      content: "";
+      content: "進捗率 " attr(data-progress);
       position: absolute;
-      left: 8px;
-      right: 8px;
-      bottom: 4px;
-      height: 4px;
-      border-radius: 999px;
-      background:
-        linear-gradient(
-          90deg,
-          var(--progress-color) 0 var(--progress),
-          #dbe3ee var(--progress) 100%
-        );
+      left: 50%;
+      top: calc(100% + 17px);
+      width: 288px;
+      transform: translate(-50%, -4px);
+      padding: 0 10px;
+      color: var(--progress-color);
+      font-size: 13px;
+      font-weight: 950;
+      line-height: 1.25;
+      letter-spacing: 0;
+      white-space: nowrap;
       opacity: 0;
-      transition: opacity 120ms ease;
-      z-index: 35;
+      pointer-events: none;
+      transition: opacity 120ms ease, transform 120ms ease;
+      z-index: 37;
     }
 
     .service[data-progress]::after {
-      content: "実装進捗: " attr(data-progress) "\A備考: " attr(data-note);
+      content: "実装状況: " attr(data-status) "\A備考: " attr(data-note);
       position: absolute;
       left: 50%;
       top: calc(100% + 8px);
       width: 288px;
       transform: translate(-50%, -4px);
-      padding: 9px 10px 10px;
+      padding: 34px 10px 10px;
       border: 1px solid #9aa8ba;
       border-left: 5px solid var(--progress-color);
       border-radius: 5px;
@@ -406,7 +406,7 @@
       box-shadow: 0 12px 24px rgba(15, 23, 42, 0.18);
       color: #1f2933;
       font-size: 12px;
-      font-weight: 700;
+      font-weight: 720;
       line-height: 1.45;
       letter-spacing: 0;
       white-space: pre-line;
@@ -423,7 +423,18 @@
       transform: translate(0, -4px);
     }
 
+    .service[data-tip="right"]::before {
+      left: 0;
+      transform: translate(0, -4px);
+    }
+
     .service[data-tip="left"]::after {
+      left: auto;
+      right: 0;
+      transform: translate(0, -4px);
+    }
+
+    .service[data-tip="left"]::before {
       left: auto;
       right: 0;
       transform: translate(0, -4px);
@@ -445,9 +456,13 @@
     }
 
     .service[data-tip="right"]:hover::after,
+    .service[data-tip="right"]:hover::before,
     .service[data-tip="right"]:focus-visible::after,
+    .service[data-tip="right"]:focus-visible::before,
     .service[data-tip="left"]:hover::after,
-    .service[data-tip="left"]:focus-visible::after {
+    .service[data-tip="left"]:hover::before,
+    .service[data-tip="left"]:focus-visible::after,
+    .service[data-tip="left"]:focus-visible::before {
       transform: translate(0, 0);
     }
 
@@ -889,162 +904,162 @@
           <div class="subzone-title">AIアクセス層 (Snowflake Cortex)</div>
         </div>
 
-        <div class="service compact green" tabindex="0" data-progress="0%" data-progress-tier="none" data-tip="right" data-note="初期実装では未使用。現在の検証データ源はSnowflake sample / TPCH_SF1。Kaggle CSVは別データ源として保留。" style="left: 62px; top: 185px; --progress: 0%;">
+        <div class="service compact green" tabindex="0" data-progress="0%" data-progress-tier="none" data-tip="right" data-status="未実装" data-note="現在の検証データ源はSnowflake sample / TPCH_SF1。Kaggle CSVは別データ源として保留。" style="left: 62px; top: 185px;">
           <div class="icon sprite sp-kaggle" role="img" aria-label="Kaggle"></div>
           <div class="service-title">Kaggle小売CSV</div>
           <div class="service-sub">小売CSV<br>公開データ</div>
         </div>
-        <div class="service compact source" tabindex="0" data-progress="0%" data-progress-tier="none" data-tip="right" data-note="現行martはTPCH_SF1の小売proxy。実POSの日次売上・明細取込は未実装。" style="left: 62px; top: 288px; --progress: 0%;">
+        <div class="service compact source" tabindex="0" data-progress="0%" data-progress-tier="none" data-tip="right" data-status="未実装" data-note="現行martはTPCH_SF1の小売proxy。実POSの日次売上・明細取込は未実装。" style="left: 62px; top: 288px;">
           <div class="icon sprite sp-pos" role="img" aria-label="POS売上"></div>
           <div class="service-title">POS売上</div>
           <div class="service-sub">日次売上・明細</div>
         </div>
-        <div class="service compact source" tabindex="0" data-progress="0%" data-progress-tier="none" data-tip="right" data-note="在庫・発注・入出庫は設計対象。Snowflake table / semantic定義 / UI表示はいずれも未実装。" style="left: 62px; top: 391px; --progress: 0%;">
+        <div class="service compact source" tabindex="0" data-progress="0%" data-progress-tier="none" data-tip="right" data-status="未実装" data-note="在庫・発注・入出庫は設計対象。Snowflake table / semantic定義 / UI表示はいずれも未実装。" style="left: 62px; top: 391px;">
           <div class="icon sprite sp-inventory" role="img" aria-label="在庫"></div>
           <div class="service-title">在庫</div>
           <div class="service-sub">在庫・発注・入出庫</div>
         </div>
-        <div class="service compact source" tabindex="0" data-progress="0%" data-progress-tier="none" data-tip="right" data-note="販促情報は将来の要因分析用。現時点ではデータ契約・取込・検索とも未実装。" style="left: 62px; top: 494px; --progress: 0%;">
+        <div class="service compact source" tabindex="0" data-progress="0%" data-progress-tier="none" data-tip="right" data-status="未実装" data-note="販促情報は将来の要因分析用。現時点ではデータ契約・取込・検索とも未実装。" style="left: 62px; top: 494px;">
           <div class="icon sprite sp-campaign" role="img" aria-label="販促カレンダー"></div>
           <div class="service-title">販促カレンダー</div>
           <div class="service-sub">キャンペーン情報</div>
         </div>
-        <div class="service compact green" tabindex="0" data-progress="10%" data-progress-tier="low" data-tip="right" data-note="KPI_DEFINITIONS tableのみ作成済み。週報メモ・会議記録・Cortex Search連携は未実装。" style="left: 62px; top: 597px; --progress: 10%;">
+        <div class="service compact green" tabindex="0" data-progress="10%" data-progress-tier="low" data-tip="right" data-status="KPI定義tableのみ作成済み" data-note="週報メモ・会議記録・Cortex Search連携は未実装。" style="left: 62px; top: 597px;">
           <div class="icon sprite sp-memo" role="img" aria-label="週報・業務メモ"></div>
           <div class="service-title">週報・業務メモ</div>
           <div class="service-sub">週次レポート・メモ<br>会議記録</div>
         </div>
 
-        <div class="service small snow" tabindex="0" data-progress="15%" data-progress-tier="low" data-note="Snowflake sampleからmart viewを直接作成。外部stage / RAW層はまだ実体化していない。" style="left: 354px; top: 376px; --progress: 15%;">
+        <div class="service small snow" tabindex="0" data-progress="15%" data-progress-tier="low" data-status="Snowflake sampleからmart viewを直接作成済み" data-note="外部stage / RAW層はまだ実体化していない。" style="left: 354px; top: 376px;">
           <div class="icon sprite sp-stage-db" role="img" aria-label="STAGE RAW"></div>
           <div class="service-title">STAGE / RAW</div>
           <div class="service-sub">外部ステージ<br>(S3 / GCS)</div>
         </div>
-        <div class="service small snow" tabindex="0" data-progress="0%" data-progress-tier="none" data-note="Snowpipeは構成図上の取込候補。継続ロード設定・pipe object・監視は未実装。" style="left: 354px; top: 545px; --progress: 0%;">
+        <div class="service small snow" tabindex="0" data-progress="0%" data-progress-tier="none" data-status="未実装" data-note="Snowpipeは構成図上の取込候補。継続ロード設定・pipe object・監視は未実装。" style="left: 354px; top: 545px;">
           <div class="icon sprite sp-snowpipe" role="img" aria-label="Snowpipe取込"></div>
           <div class="service-title">Snowpipe取込</div>
           <div class="service-sub">継続ロード</div>
         </div>
-        <div class="service small orange" tabindex="0" data-progress="0%" data-progress-tier="none" data-note="dbt stagingは未導入。現状はSQL setupでmart viewを作る最小経路。" style="left: 580px; top: 380px; --progress: 0%;">
+        <div class="service small orange" tabindex="0" data-progress="0%" data-progress-tier="none" data-status="未導入" data-note="現状はSQL setupでmart viewを作る最小経路。" style="left: 580px; top: 380px;">
           <div class="icon sprite sp-dbt-table" role="img" aria-label="dbt staging"></div>
           <div class="service-title">dbt staging</div>
           <div class="service-sub">型・粒度・テスト</div>
         </div>
-        <div class="service small orange" tabindex="0" data-progress="35%" data-progress-tier="mid" data-note="MART_RETAIL_MONTHLY_KPI viewをSnowflake上に作成済み。dbt model化は未実装。" style="left: 580px; top: 480px; --progress: 35%;">
+        <div class="service small orange" tabindex="0" data-progress="35%" data-progress-tier="mid" data-status="MART_RETAIL_MONTHLY_KPI viewをSnowflake上に作成済み" data-note="dbt model化は未実装。" style="left: 580px; top: 480px;">
           <div class="icon sprite sp-dbt-table" role="img" aria-label="dbt marts"></div>
           <div class="service-title">dbt marts</div>
           <div class="service-sub">KPI集計済み</div>
         </div>
-        <div class="service small orange" tabindex="0" data-progress="10%" data-progress-tier="low" data-note="pytestとgolden evalは実装済み。dbt testsとしての品質検証は未導入。" style="left: 580px; top: 580px; --progress: 10%;">
+        <div class="service small orange" tabindex="0" data-progress="10%" data-progress-tier="low" data-status="pytestとgolden evalは実装済み" data-note="dbt testsとしての品質検証は未導入。" style="left: 580px; top: 580px;">
           <div class="icon sprite sp-dbt-tests" role="img" aria-label="dbt tests"></div>
           <div class="service-title">dbt tests</div>
           <div class="service-sub">品質検証</div>
         </div>
-        <div class="service semantic snow" tabindex="0" data-progress="45%" data-progress-tier="mid" data-note="semantic YAMLとverified query draftを作成済み。Cortex Analystへの登録・実呼び出しは未実施。" style="left: 805px; top: 390px; --progress: 45%;">
+        <div class="service semantic snow" tabindex="0" data-progress="45%" data-progress-tier="mid" data-status="semantic YAMLとverified query draftを作成済み" data-note="Cortex Analystへの登録・実呼び出しは未実施。" style="left: 805px; top: 390px;">
           <div class="icon sprite sp-semantic" role="img" aria-label="Semantic KPI Model"></div>
           <div class="service-title">Semantic KPI Model</div>
           <div class="service-sub">(YAML / Semantic Model)<br>指標定義・ディメンション<br>ビジネスルール・メトリクス<br>階層・ルックアップ</div>
         </div>
 
-        <div class="service wide snow" tabindex="0" data-progress="10%" data-progress-tier="low" data-note="KPI定義tableは作成済み。Cortex Search service、引用取得、週報検索は未実装。" style="left: 1050px; top: 455px; --progress: 10%;">
+        <div class="service wide snow" tabindex="0" data-progress="10%" data-progress-tier="low" data-status="KPI定義tableは作成済み" data-note="Cortex Search service、引用取得、週報検索は未実装。" style="left: 1050px; top: 455px;">
           <div class="icon sprite sp-cortex-search" role="img" aria-label="Cortex Search"></div>
           <div class="service-title">Cortex Search Service</div>
           <div class="service-sub">定義・指標・週報・ドキュメント<br>検索・引用取得</div>
         </div>
-        <div class="service wide snow" tabindex="0" data-progress="15%" data-progress-tier="low" data-note="Cortex Analystは本線設計。現MVPはdeterministic planner + Snowflake SQLで境界を先に検証。" style="left: 1050px; top: 330px; --progress: 15%;">
+        <div class="service wide snow" tabindex="0" data-progress="15%" data-progress-tier="low" data-status="本線設計に採用済み" data-note="現MVPはdeterministic planner + Snowflake SQLで境界を先に検証。" style="left: 1050px; top: 330px;">
           <div class="icon sprite sp-cortex-analyst" role="img" aria-label="Cortex Analyst API"></div>
           <div class="service-title">Cortex Analyst API</div>
           <div class="service-sub">構造化データに対する<br>KPI質問・SQL生成・分析</div>
         </div>
-        <div class="service wide snow" tabindex="0" data-progress="0%" data-progress-tier="none" data-note="Cortex Agentsは未接続。まずRouter / Planner / Tool AdapterのMVPをローカルコードで実装。" style="left: 1050px; top: 595px; --progress: 0%;">
+        <div class="service wide snow" tabindex="0" data-progress="0%" data-progress-tier="none" data-status="未接続" data-note="まずRouter / Planner / Tool AdapterのMVPをローカルコードで実装。" style="left: 1050px; top: 595px;">
           <div class="icon sprite sp-cortex-agents" role="img" aria-label="Cortex Agents"></div>
           <div class="service-title">Cortex Agents</div>
           <div class="service-sub">ツール選択・計画・実行制御<br>マルチツール Orchestration</div>
         </div>
 
-        <div class="service compact" tabindex="0" data-progress="15%" data-progress-tier="low" data-note="想定利用者として図示。ロール別UI、店舗スコープ制御、認証連携は未実装。" style="left: 340px; top: 132px; --progress: 15%;">
+        <div class="service compact" tabindex="0" data-progress="15%" data-progress-tier="low" data-status="想定利用者として図示" data-note="ロール別UI、店舗スコープ制御、認証連携は未実装。" style="left: 340px; top: 132px;">
           <div class="icon sprite sp-user" role="img" aria-label="店舗マネージャー"></div>
           <div class="service-title">店舗マネージャー</div>
           <div class="service-sub">店舗KPI確認</div>
         </div>
-        <div class="service compact" tabindex="0" data-progress="15%" data-progress-tier="low" data-note="想定利用者として図示。エリア比較は質問フィルタで一部代替、権限境界は未実装。" style="left: 530px; top: 132px; --progress: 15%;">
+        <div class="service compact" tabindex="0" data-progress="15%" data-progress-tier="low" data-status="想定利用者として図示" data-note="エリア比較は質問フィルタで一部扱う。権限境界は未実装。" style="left: 530px; top: 132px;">
           <div class="icon sprite sp-user" role="img" aria-label="エリアマネージャー"></div>
           <div class="service-title">エリアマネージャー</div>
           <div class="service-sub">エリアKPIの分析<br>施策効果の確認</div>
         </div>
-        <div class="service compact" tabindex="0" data-progress="20%" data-progress-tier="low" data-note="SQL previewと結果確認はUIで可能。深掘り分析・探索workflowはまだ最小実装。" style="left: 720px; top: 132px; --progress: 20%;">
+        <div class="service compact" tabindex="0" data-progress="20%" data-progress-tier="low" data-status="SQL previewと結果確認はUIで可能" data-note="深掘り分析・探索workflowはまだ最小実装。" style="left: 720px; top: 132px;">
           <div class="icon sprite sp-analyst-user" role="img" aria-label="データアナリスト"></div>
           <div class="service-title">データアナリスト</div>
           <div class="service-sub">深掘り分析・レポート作成<br>データ探索</div>
         </div>
 
-        <div class="service wide red" tabindex="0" data-progress="65%" data-progress-tier="high" data-note="Streamlit MVP起動済み。Snowflake live modeで質問、route、SQL、結果表示を確認済み。" style="left: 950px; top: 132px; --progress: 65%;">
+        <div class="service wide red" tabindex="0" data-progress="65%" data-progress-tier="high" data-status="Streamlit MVP起動済み" data-note="Snowflake live modeで質問、route、SQL、結果表示を確認済み。" style="left: 950px; top: 132px;">
           <div class="icon sprite sp-streamlit" role="img" aria-label="Streamlit"></div>
           <div class="service-title">Streamlit UI</div>
           <div class="service-sub">KPI Copilot UI<br>チャット・QA・SQL確認</div>
         </div>
-        <div class="service runtime slate" tabindex="0" data-progress="75%" data-progress-tier="high" data-tip="left" data-note="rule-based routerを実装済み。structured / ambiguous / unsupported / definitionをgolden evalで確認。" style="left: 1370px; top: 292px; --progress: 75%;">
+        <div class="service runtime slate" tabindex="0" data-progress="75%" data-progress-tier="high" data-tip="left" data-status="rule-based routerを実装済み" data-note="structured / ambiguous / unsupported / definitionをgolden evalで確認。" style="left: 1370px; top: 292px;">
           <div class="icon sprite sp-agent-router" role="img" aria-label="Agent Router"></div>
           <div class="service-title">Agent Router</div>
           <div class="service-sub">問い合わせ分類・ルーティング</div>
         </div>
-        <div class="service runtime purple" tabindex="0" data-progress="55%" data-progress-tier="mid" data-tip="left" data-note="SQL plannerは実装済み。LangGraphの状態管理・ツール計画はまだ比較/appendix扱い。" style="left: 1370px; top: 402px; --progress: 55%;">
+        <div class="service runtime purple" tabindex="0" data-progress="55%" data-progress-tier="mid" data-tip="left" data-status="SQL plannerは実装済み" data-note="LangGraphの状態管理・ツール計画はまだ比較/appendix扱い。" style="left: 1370px; top: 402px;">
           <div class="icon sprite sp-planner" role="img" aria-label="Planner"></div>
           <div class="service-title">Planner (LangGraph)</div>
           <div class="service-sub">計画立案・ツール選択<br>状態管理・メモリ</div>
         </div>
-        <div class="service runtime purple" tabindex="0" data-progress="60%" data-progress-tier="high" data-tip="left" data-note="SnowflakeKpiClientとlocal_explicit_test clientを実装。Cortex/Search adapterは未接続。" style="left: 1370px; top: 512px; --progress: 60%;">
+        <div class="service runtime purple" tabindex="0" data-progress="60%" data-progress-tier="high" data-tip="left" data-status="SnowflakeKpiClientとlocal_explicit_test clientを実装" data-note="Cortex/Search adapterは未接続。" style="left: 1370px; top: 512px;">
           <div class="icon sprite sp-tool-adapter" role="img" aria-label="Tool Adapter"></div>
           <div class="service-title">Tool Adapter</div>
           <div class="service-sub">ツール呼び出しアダプタ<br>(Cortex / Search / SQL 等)</div>
         </div>
-        <div class="service runtime purple" tabindex="0" data-progress="55%" data-progress-tier="mid" data-tip="left" data-note="JSONL trace writerは実装済み。Snowflake OPS tableは作成済みだがアプリ書き込みは未接続。" style="left: 1370px; top: 622px; --progress: 55%;">
+        <div class="service runtime purple" tabindex="0" data-progress="55%" data-progress-tier="mid" data-tip="left" data-status="JSONL trace writerは実装済み" data-note="Snowflake OPS tableは作成済みだがアプリ書き込みは未接続。" style="left: 1370px; top: 622px;">
           <div class="icon sprite sp-trace-logger" role="img" aria-label="Trace Logger"></div>
           <div class="service-title">Trace Logger</div>
           <div class="service-sub">実行トレース記録<br>(入力・出力・コスト等)</div>
         </div>
 
-        <div class="service compact orange" tabindex="0" data-progress="65%" data-progress-tier="high" data-tip="right" data-note="public repo、Pages、MVPコードpush済み。CI workflowの自動検証は未拡張。" style="left: 38px; top: 780px; --progress: 65%;">
+        <div class="service compact orange" tabindex="0" data-progress="65%" data-progress-tier="high" data-tip="right" data-status="public repo、Pages、MVPコードpush済み" data-note="CI workflowの自動検証は未拡張。" style="left: 38px; top: 780px;">
           <div class="icon sprite sp-github" role="img" aria-label="GitHub"></div>
           <div class="service-title">GitHub Repo / CI</div>
           <div class="service-sub">dbt / SQL / YAML / Prompt<br>ユーティリティ・コード<br>テスト・データ検証</div>
         </div>
-        <div class="service compact orange" tabindex="0" data-progress="5%" data-progress-tier="low" data-note="CI/CDは図上の予定領域。GitHub Actionsによるdbt build/test/deployは未実装。" style="left: 300px; top: 780px; --progress: 5%;">
+        <div class="service compact orange" tabindex="0" data-progress="5%" data-progress-tier="low" data-status="図上の予定領域" data-note="GitHub Actionsによるdbt build/test/deployは未実装。" style="left: 300px; top: 780px;">
           <div class="icon sprite sp-ci-actions" role="img" aria-label="CI/CD"></div>
           <div class="service-title">CI / CD</div>
           <div class="service-sub">GitHub Actions<br>dbt build / test<br>SQL・データテスト<br>デプロイ (Streamlit)</div>
         </div>
-        <div class="service compact orange" tabindex="0" data-progress="55%" data-progress-tier="mid" data-note="10件のgolden eval runnerを実装し10/10通過。目標の30-50件拡張は未着手。" style="left: 535px; top: 780px; --progress: 55%;">
+        <div class="service compact orange" tabindex="0" data-progress="55%" data-progress-tier="mid" data-status="10件のgolden eval runnerを実装し10/10通過" data-note="目標の30-50件拡張は未着手。" style="left: 535px; top: 780px;">
           <div class="icon sprite sp-golden-eval" role="img" aria-label="Golden Eval"></div>
           <div class="service-title">Golden Eval</div>
           <div class="service-sub">(回帰評価セット)<br>質問セット・期待値<br>正解SQL・結果<br>評価基準・閾値</div>
         </div>
-        <div class="service compact slate" tabindex="0" data-progress="40%" data-progress-tier="mid" data-note="local JSONL traceとSnowflake trace table schemaあり。集計UI・品質dashboardは未実装。" style="left: 785px; top: 780px; --progress: 40%;">
+        <div class="service compact slate" tabindex="0" data-progress="40%" data-progress-tier="mid" data-status="local JSONL traceとSnowflake trace table schemaあり" data-note="集計UI・品質dashboardは未実装。" style="left: 785px; top: 780px;">
           <div class="icon sprite sp-trace-store" role="img" aria-label="Trace Store"></div>
           <div class="service-title">Trace Store</div>
           <div class="service-sub">トレース保存<br>クエリ・レスポンス<br>メトリクス・コスト</div>
         </div>
-        <div class="service compact slate" tabindex="0" data-progress="25%" data-progress-tier="low" data-note="semantic YAML版は存在。prompt、router、Cortex configのregistry/diffは未実装。" style="left: 1010px; top: 780px; --progress: 25%;">
+        <div class="service compact slate" tabindex="0" data-progress="25%" data-progress-tier="low" data-status="semantic YAML版は存在" data-note="prompt、router、Cortex configのregistry/diffは未実装。" style="left: 1010px; top: 780px;">
           <div class="icon sprite sp-version" role="img" aria-label="Version Registry"></div>
           <div class="service-title">Version Registry</div>
           <div class="service-sub">プロンプト・エージェント<br>セマンティックモデル<br>dbtモデル版管理</div>
         </div>
-        <div class="service review-node orange" tabindex="0" data-progress="25%" data-progress-tier="low" data-note="docs上のerror taxonomyは定義済み。実行結果への自動分類・改善集計は未実装。" style="left: 1235px; top: 780px; --progress: 25%;">
+        <div class="service review-node orange" tabindex="0" data-progress="25%" data-progress-tier="low" data-status="docs上のerror taxonomyは定義済み" data-note="実行結果への自動分類・改善集計は未実装。" style="left: 1235px; top: 780px;">
           <div class="icon sprite sp-error" role="img" aria-label="Error Taxonomy"></div>
           <div class="service-title">Error Taxonomy</div>
           <div class="service-sub">エラー分類・原因分析<br>改善アクション管理</div>
         </div>
-        <div class="service review-node green" tabindex="0" data-progress="20%" data-progress-tier="low" data-tip="left" data-note="requires_human_review flagとUI warningのみ。承認queue、修正コメント保存、再評価loopは未実装。" style="left: 1480px; top: 780px; --progress: 20%;">
+        <div class="service review-node green" tabindex="0" data-progress="20%" data-progress-tier="low" data-tip="left" data-status="requires_human_review flagとUI warningのみ" data-note="承認queue、修正コメント保存、再評価loopは未実装。" style="left: 1480px; top: 780px;">
           <div class="icon sprite sp-human-review" role="img" aria-label="人手レビュー"></div>
           <div class="service-title">人手レビュー</div>
           <div class="service-sub">低信頼・エッジケース確認<br>承認・修正・コメント</div>
         </div>
-        <div class="service control-wide slate" tabindex="0" data-progress="10%" data-progress-tier="low" data-note="Snowflake role境界は設計メモ段階。アプリ側のロール別制御・denied-path testは未実装。" style="left: 763px; top: 930px; --progress: 10%;">
+        <div class="service control-wide slate" tabindex="0" data-progress="10%" data-progress-tier="low" data-status="Snowflake role境界は設計メモ段階" data-note="アプリ側のロール別制御・denied-path testは未実装。" style="left: 763px; top: 930px;">
           <div class="icon sprite sp-rbac" role="img" aria-label="RBAC"></div>
           <div class="service-title">RBAC / アクセス制御</div>
           <div class="service-sub">ロール・権限管理（最小権限）<br>データ・機能アクセス制御</div>
         </div>
-        <div class="service compact slate" tabindex="0" data-progress="25%" data-progress-tier="low" data-note="XS warehouse、auto_suspend、manual suspendを確認。budget alertやquery上限は未実装。" style="left: 1060px; top: 930px; --progress: 25%;">
+        <div class="service compact slate" tabindex="0" data-progress="25%" data-progress-tier="low" data-status="XS warehouse、auto_suspend、manual suspendを確認" data-note="budget alertやquery上限は未実装。" style="left: 1060px; top: 930px;">
           <div class="icon sprite sp-cost" role="img" aria-label="Cost Guardrails"></div>
           <div class="service-title">Cost Guardrails</div>
           <div class="service-sub">予算アラート・上限制御<br>トークン・クエリコスト監視</div>

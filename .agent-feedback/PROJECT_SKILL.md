@@ -181,15 +181,19 @@ progress overlay current.
 Required behavior:
 
 - every `.diagram > .service` node must have `data-progress`, `data-note`,
-  `tabindex="0"`, and a matching `--progress` style
+  `data-status`, and `tabindex="0"`
 - progress information should appear on hover and keyboard focus, not as
   always-visible clutter that changes the source-faithful layout
+- do not use a progress bar in the diagram tooltip unless the user explicitly
+  asks for one; make the percentage itself bold and color-coded instead
 - progress notes must distinguish live-verified implementation from conceptual
-  design, local explicit test harnesses, and future/deferred work
+  design, local explicit test harnesses, and future/deferred work by splitting
+  `実装状況` from `備考`
 - node coordinates, card dimensions, connector endpoints, and source-faithful
   layout must not be changed merely to add progress annotations
-- after edits, run a DOM count check that service-node count equals progress
-  metadata count, then visually inspect at least one hovered node screenshot
+- after edits, run a DOM count check that service-node count equals
+  progress/status/note metadata count, then visually inspect at least one
+  hovered node screenshot
 
 ### No Silent Runtime Fallback Gate
 
