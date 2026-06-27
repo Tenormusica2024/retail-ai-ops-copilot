@@ -51,14 +51,23 @@ node rectangles before accepting HITL or final review.
 
 Use rendered geometry for SVG endpoints:
 
-- measure target/source cards with `offsetLeft`, `offsetTop`, `offsetWidth`,
-  and `offsetHeight`
+- measure target/source cards with `getBoundingClientRect()` after the page is
+  rendered, then convert the DOM rectangle into the SVG/viewBox coordinate
+  system, such as with `getScreenCTM().inverse()`, before comparing it with path
+  coordinates
+- use `offsetLeft`, `offsetTop`, `offsetWidth`, and `offsetHeight` only as a
+  fallback for simple unscaled fixed-layout checks; do not use them as the
+  primary proof when the page uses transforms, responsive scale, or SVG
+  coordinate conversion
 - measure SVG path start/end with `getPointAtLength(0)` and
   `getPointAtLength(getTotalLength())`
-- fail if a connector intended to attach to a node edge enters the node body,
-  even by a small amount
+- fail if a connector intended to attach to a node edge starts away from the
+  measured edge, stops short in whitespace, or enters the node body even by a
+  small amount
 - treat `H`/`V` shorthand paths as requiring rendered endpoint measurement,
   because numeric token parsing can misread the effective final point
+- record endpoint proof with selector/path id, source rectangle, target
+  rectangle, path start/end, tolerance, and PASS/FAIL before accepting the fix
 
 ### Diagram Source Hierarchy Fidelity Gate
 
@@ -86,6 +95,22 @@ Model`, when the source relationship is actually attached to the dbt
 transformation frame, semantic layer, data lake frame, or another nested
 category.
 
+The reviewer output must include a source hierarchy matrix, not only prose. Use
+at least these fields:
+
+- `source_parent_frame`
+- `source_nested_frame`
+- `source_child_node`
+- `source_edge_anchor`
+- `html_selector_or_path`
+- `evidence` such as source crop, rendered screenshot crop, DOM selector, or
+  SVG path id
+- `status=<matched/FAIL/intentional-difference/要確認>`
+
+Do not mark the hierarchy gate PASS unless each nested source frame and each
+nearby arrow anchor has either rendered evidence or a documented intentional
+difference.
+
 ### Sub-Agent Firing E2E Gate
 
 Separate feedback reflection completion from real sub-agent firing.
@@ -93,14 +118,17 @@ Separate feedback reflection completion from real sub-agent firing.
 When the task objective is to verify that a sub-agent fires, the E2E cannot pass
 only because the main context updated the artifact, ledger, or skills.
 
-Also separate sub-agent firing from sub-agent verdict. `real-subagent` proves
-that a lane fired; it does not prove that the reviewer passed the artifact,
-workflow, or source fidelity. Report both fields when the user asks about
-firing status:
+Also separate sub-agent mode, firing, verdict, main-agent action, and final
+artifact status. `real-subagent` proves that a lane fired; it does not prove
+that the reviewer passed the artifact, workflow, or source fidelity. Report the
+full tuple when the user asks about firing status or when the task is an E2E of
+the feedback workflow:
 
-- `last_subagent_firing=<PASS/FAIL>`
-- `last_subagent_verdict=<PASS/FAIL/proposed-only>`
-- `main_agent_action=<remediated/pending/accepted>`
+- `last_subagent_mode=<real-subagent/main-context-substituted/unavailable/not-required/pending>`
+- `last_subagent_firing=<PASS/FAIL/PARTIAL/not-applicable>`
+- `last_subagent_verdict=<PASS/FAIL/proposed-only/stale/not-returned/要確認>`
+- `main_agent_action=<remediated/pending/accepted/escalated/not-applicable>`
+- `final_artifact_status=<PASS/FAIL/pending/not-reviewed/not-applicable>`
 
 For `real sub-agent mode`, record:
 
@@ -128,8 +156,22 @@ hold separate persistent ledgers for the same trigger batch.
 
 When feedback spans several areas, load only the relevant child packs, such as
 process, layout/visual, connector/arrow, assets/text, and ledger hygiene. Final
-reporting should name which packs were used when the routing decision itself is
-part of the user question.
+reporting should name which packs were used whenever child-pack routing affects
+the work, not only when the routing decision itself is the user question.
+
+Installed child pack paths:
+
+- `/Users/urayahadays/.codex/skills/imagegen-diagram-feedback-skill-ledger/child-skills/routing-process/SKILL.md`
+- `/Users/urayahadays/.codex/skills/imagegen-diagram-feedback-skill-ledger/child-skills/routing-layout-visual/SKILL.md`
+- `/Users/urayahadays/.codex/skills/imagegen-diagram-feedback-skill-ledger/child-skills/routing-connector-arrow/SKILL.md`
+- `/Users/urayahadays/.codex/skills/imagegen-diagram-feedback-skill-ledger/child-skills/routing-assets-text/SKILL.md`
+- `/Users/urayahadays/.codex/skills/imagegen-diagram-feedback-skill-ledger/child-skills/routing-ledger-hygiene/SKILL.md`
+
+When a child pack is loaded, record `loaded_child_packs=[...]` in the final
+status or in `.agent-feedback/SUBAGENT_INVOCATIONS.md`, together with
+`routing_reason=...` and `evidence=...`. If no child pack was loaded for a
+trigger that spans process, layout, arrow, asset/text, or ledger hygiene, record
+the reason instead of silently relying on memory.
 
 ## Do Not Use This File As A Raw Dump
 

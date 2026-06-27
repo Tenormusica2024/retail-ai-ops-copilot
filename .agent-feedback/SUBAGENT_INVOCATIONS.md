@@ -9,6 +9,16 @@ intentionally substituted the main context.
 - `main-context-substituted`: no real sub-agent was used; the reason is recorded
 - `pending`: the invocation was started but not finished before handoff
 
+## Status Tuple
+
+When sub-agent firing itself matters, report these fields separately:
+
+- `last_subagent_mode=<real-subagent/main-context-substituted/unavailable/not-required/pending>`
+- `last_subagent_firing=<PASS/FAIL/PARTIAL/not-applicable>`
+- `last_subagent_verdict=<PASS/FAIL/proposed-only/stale/not-returned/要確認>`
+- `main_agent_action=<remediated/pending/accepted/escalated/not-applicable>`
+- `final_artifact_status=<PASS/FAIL/pending/not-reviewed/not-applicable>`
+
 ## Invocations
 
 | Run ID | Date | Trigger IDs | Mode | Agent ID | Nickname | Prompt Summary | Verdict | Main Agent Action | Evidence |
@@ -20,3 +30,4 @@ intentionally substituted the main context.
 | INV-20260628-005 | 2026-06-28 | REQ-006 REQ-007 FB-006 FB-007 IMP-006 | real-subagent | 019f09d0-0eb7-72b1-bd63-6d1964d4c0c3 | Raman | Non-blocking feedback reflection lane for the HITL dbt subcategory/Snowpipe icon trigger batch. | proposed-only: existing rules partially covered parent-zone and icon fidelity, but nested mini-frame inventory was not explicit enough. | Added ledger rows, project source hierarchy gate, and installed-skill routing updates. | Raman sub-agent verdict |
 | INV-20260628-006 | 2026-06-28 | FB-006 FB-007 FB-008 IMP-005 IMP-006 | real-subagent | 019f09d0-2732-7f23-b702-7a8f47539d9e | Mencius | Read-only source-fidelity review of selected-source vs current HTML around dbt/data lake/Snowpipe. | FAIL for exact source fidelity after the first fix: dbt logo/header, inner dbt stack frame, Snowpipe nesting, and arrow marker/endpoint details still needed. | Added dbt header/icon, inner frames, Snowpipe source-derived sprite card, CI/CD dual marker, and dbt-frame-to-Semantic card edge routing. | Mencius sub-agent verdict; screenshot `outputs/dbt-subzones-snowpipe-check-v2.png` |
 | INV-20260628-007 | 2026-06-28 | REQ-008 FB-009 FB-010 IMP-007 | real-subagent | 019f09df-31dd-7623-800c-1ffa88f46490 | Huygens | Review prior firing status and whether feedback-routing should split into child packs/subskills. | proposed-only: prior firing was PASS, latest reviewer verdict was FAIL before main remediation; child packs should be added lightly while parent remains single trigger owner. | Added child routing packs, status wording, project ledger rows, and project child-pack gate. | Huygens sub-agent verdict |
+| INV-20260628-008 | 2026-06-28 | REQ-009 FB-011 FB-012 FB-013 FB-014 IMP-008 | real-subagent | 019f09e9-2613-7652-8dde-6f42cf0dd834 | Bacon | Read-only review of remaining prompt-quality improvements for feedback-routing and child-pack workflow. | FAIL before remediation: child-pack evidence, status tuple vocabulary, source hierarchy matrix output, and endpoint coordinate conversion needed tightening. | Remediated by updating project feedback rules and installed parent/child diagram feedback skills. | loaded_child_packs=[process,layout-visual,connector-arrow,ledger-hygiene]; routing_reason=prompt-quality review spans process/layout/connector/ledger hygiene; status_tuple=last_subagent_mode:real-subagent,last_subagent_firing:PASS,last_subagent_verdict:FAIL,main_agent_action:remediated,final_artifact_status:not-applicable; verdict_timing=before-remediation |
