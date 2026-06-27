@@ -1,0 +1,777 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Retail AI Ops Copilot - システム構成図</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <style>
+    :root {
+      --ink: #1f2933;
+      --muted: #5f6b7a;
+      --line: #526071;
+      --grid: #edf1f6;
+      --border: #c7d0dc;
+      --blue: #2f72bc;
+      --green: #2f855a;
+      --snow: #29b5e8;
+      --purple: #6d5bd0;
+      --orange: #d97706;
+      --slate: #64748b;
+      --red: #dc2626;
+      --card: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      background: #eef1f5;
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+        "Yu Gothic UI", "Yu Gothic", Meiryo, sans-serif;
+    }
+
+    .page {
+      width: 1290px;
+      margin: 20px auto 32px;
+      background: #fff;
+      border: 1px solid #d7dde7;
+      box-shadow: 0 10px 28px rgba(31, 41, 55, 0.12);
+      overflow: hidden;
+    }
+
+    .topbar {
+      height: 56px;
+      border-bottom: 2px solid #222;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 22px;
+      background: #fff;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .brand-badge {
+      width: 30px;
+      height: 30px;
+      border-radius: 4px;
+      background: #232f3e;
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .caption {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    .caption span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .legend-line {
+      width: 28px;
+      border-top: 2px solid var(--line);
+      display: inline-block;
+    }
+
+    .legend-line.data { border-color: var(--blue); }
+    .legend-line.tool { border-color: var(--purple); }
+    .legend-line.human { border-color: var(--green); }
+    .legend-line.ops {
+      border-color: var(--orange);
+      border-top-style: dashed;
+    }
+    .legend-line.guard {
+      border-color: var(--slate);
+      border-top-style: dashed;
+    }
+
+    .diagram-shell {
+      width: 1290px;
+      height: 1000px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .diagram {
+      position: relative;
+      width: 1500px;
+      height: 1162px;
+      transform: scale(0.86);
+      transform-origin: top left;
+      background:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+      background-size: 20px 20px;
+      overflow: hidden;
+    }
+
+    .title {
+      position: absolute;
+      left: 24px;
+      top: 16px;
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.16;
+      font-weight: 900;
+      letter-spacing: 0;
+      background: rgba(255, 255, 255, 0.93);
+      padding: 4px 12px 4px 0;
+    }
+
+    .subtitle {
+      position: absolute;
+      left: 25px;
+      top: 54px;
+      color: var(--muted);
+      font-size: 13px;
+      background: rgba(255, 255, 255, 0.93);
+      padding: 2px 10px 2px 0;
+    }
+
+    .zone {
+      position: absolute;
+      border: 2px solid var(--border);
+      background: rgba(255, 255, 255, 0.74);
+    }
+
+    .zone.dashed {
+      border-style: dashed;
+    }
+
+    .zone-label {
+      position: absolute;
+      left: 12px;
+      top: -13px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 0 9px;
+      border-radius: 2px;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0;
+      white-space: nowrap;
+    }
+
+    .zone-label.blue { background: var(--blue); }
+    .zone-label.green { background: var(--green); }
+    .zone-label.purple { background: var(--purple); }
+    .zone-label.orange { background: var(--orange); }
+    .zone-label.slate { background: var(--slate); }
+
+    .service {
+      position: absolute;
+      width: 140px;
+      min-height: 78px;
+      padding: 5px 8px 8px;
+      border: 1.6px solid #8c98a8;
+      background: var(--card);
+      text-align: center;
+      box-shadow: 0 1px 0 rgba(31, 41, 55, 0.07);
+    }
+
+    .service.compact {
+      width: 130px;
+      min-height: 72px;
+      padding-top: 5px;
+    }
+
+    .service.wide {
+      width: 185px;
+      min-height: 86px;
+    }
+
+    .service.narrow {
+      width: 124px;
+      min-height: 70px;
+    }
+
+    .service.source { border-color: #75aee7; background: #f7fbff; }
+    .service.green { border-color: #58a76a; background: #f0fff4; }
+    .service.snow { border-color: var(--snow); background: #effaff; }
+    .service.orange { border-color: var(--orange); background: #fff7ed; }
+    .service.purple { border-color: var(--purple); background: #f6f1ff; }
+    .service.slate { border-color: var(--slate); background: #f8fafc; }
+    .service.red { border-color: #ef4444; background: #fff5f5; }
+
+    .icon {
+      width: 32px;
+      height: 32px;
+      margin: 0 auto 5px;
+      display: grid;
+      place-items: center;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .icon img {
+      width: 25px;
+      height: 25px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .icon.dbt img {
+      width: 30px;
+      height: 18px;
+    }
+
+    .icon.logo-snow { background: #e8f8ff; }
+    .icon.logo-dbt { background: #fff3ef; border: 1px solid #fec3b2; }
+    .icon.logo-streamlit { background: #fff0f0; }
+    .icon.logo-kaggle { background: #e7f8ff; }
+    .icon.logo-github { background: #f4f5f7; }
+
+    .icon.sprite {
+      width: 56px;
+      height: 56px;
+      margin-bottom: 1px;
+      background-image: url("assets/source-derived-icons/source-derived-icon-sprite.png");
+      background-repeat: no-repeat;
+      background-size: 448px 224px;
+      background-position: var(--pos);
+      background-color: transparent;
+      border: none;
+      border-radius: 0;
+    }
+
+    .sp-kaggle { --pos: 0 0; }
+    .sp-pos { --pos: -56px 0; }
+    .sp-inventory { --pos: -112px 0; }
+    .sp-campaign { --pos: -168px 0; }
+    .sp-memo { --pos: -224px 0; }
+    .sp-user { --pos: -280px 0; }
+    .sp-analyst-user { --pos: -336px 0; }
+    .sp-streamlit { --pos: -392px 0; }
+    .sp-snowflake { --pos: 0 -56px; }
+    .sp-stage-db { --pos: -56px -56px; }
+    .sp-snowpipe { --pos: -112px -56px; }
+    .sp-dbt { --pos: -168px -56px; }
+    .sp-dbt-table { --pos: -224px -56px; }
+    .sp-dbt-tests { --pos: -280px -56px; }
+    .sp-semantic { --pos: -336px -56px; }
+    .sp-cortex-analyst { --pos: -392px -56px; }
+    .sp-cortex-search { --pos: 0 -112px; }
+    .sp-cortex-agents { --pos: -56px -112px; }
+    .sp-agent-router { --pos: -112px -112px; }
+    .sp-planner { --pos: -168px -112px; }
+    .sp-tool-adapter { --pos: -224px -112px; }
+    .sp-trace-logger { --pos: -280px -112px; }
+    .sp-github { --pos: -336px -112px; }
+    .sp-ci-actions { --pos: -392px -112px; }
+    .sp-golden-eval { --pos: 0 -168px; }
+    .sp-trace-store { --pos: -56px -168px; }
+    .sp-version { --pos: -112px -168px; }
+    .sp-error { --pos: -168px -168px; }
+    .sp-human-review { --pos: -224px -168px; }
+    .sp-rbac { --pos: -280px -168px; }
+    .sp-cost { --pos: -336px -168px; }
+
+    .icon.generic {
+      border: 1px solid #aab5c4;
+      background: #f8fafc;
+      color: #475569;
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .icon.generic.green {
+      border-color: #8fc39b;
+      color: #2f855a;
+      background: #f2fbf4;
+    }
+
+    .icon.generic.purple {
+      border-color: #b5a8ea;
+      color: #5b4bb2;
+      background: #f5f2ff;
+    }
+
+    .icon.generic.orange {
+      border-color: #f3bc72;
+      color: #b45309;
+      background: #fff7ed;
+    }
+
+    .service-title {
+      font-size: 12px;
+      font-weight: 850;
+      line-height: 1.16;
+      letter-spacing: 0;
+      white-space: nowrap;
+      word-break: keep-all;
+      overflow-wrap: normal;
+    }
+
+    .service-sub {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.28;
+      letter-spacing: 0;
+      white-space: nowrap;
+      word-break: keep-all;
+      overflow-wrap: normal;
+    }
+
+    .flow-label {
+      position: absolute;
+      background: #fff;
+      border: 1px solid #b7c0cc;
+      color: #3d4652;
+      padding: 3px 7px;
+      border-radius: 2px;
+      font-size: 11px;
+      font-weight: 800;
+      white-space: nowrap;
+      z-index: 8;
+    }
+
+    .rail-label {
+      position: absolute;
+      color: #64748b;
+      font-size: 11px;
+      font-weight: 850;
+      letter-spacing: 0;
+      line-height: 1;
+      padding: 4px 7px;
+      border: 1px solid #cbd5e1;
+      border-radius: 2px;
+      background: rgba(255, 255, 255, 0.94);
+      white-space: nowrap;
+    }
+
+    .boundary-note {
+      position: absolute;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.35;
+      background: rgba(255, 255, 255, 0.9);
+      border-left: 3px solid #cbd5e1;
+      padding: 5px 8px;
+      width: 238px;
+    }
+
+    .connectors {
+      position: absolute;
+      inset: 0;
+      width: 1500px;
+      height: 1162px;
+      pointer-events: none;
+      z-index: 4;
+    }
+
+    .diagram > *:not(.connectors) {
+      z-index: 5;
+    }
+
+    .diagram > .zone {
+      z-index: 1;
+    }
+
+    .diagram > .service {
+      z-index: 6;
+    }
+
+    .diagram > .flow-label,
+    .diagram > .rail-label,
+    .diagram > .boundary-note,
+    .diagram > .footer-note,
+    .diagram > .title,
+    .diagram > .subtitle {
+      z-index: 8;
+    }
+
+    .connectors path,
+    .connectors line {
+      fill: none;
+      stroke: var(--line);
+      stroke-width: 2;
+      stroke-linecap: square;
+      stroke-linejoin: miter;
+    }
+
+    .connectors .data { stroke: var(--blue); }
+    .connectors .tool { stroke: var(--purple); }
+    .connectors .ops {
+      stroke: var(--orange);
+      stroke-dasharray: 7 5;
+    }
+    .connectors .guard {
+      stroke: var(--slate);
+      stroke-dasharray: 4 4;
+    }
+    .connectors .human { stroke: var(--green); }
+
+    .footer-note {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      color: #64748b;
+      font-size: 11px;
+      border-top: 1px solid #d7dde7;
+      padding-top: 8px;
+      background: rgba(255, 255, 255, 0.92);
+    }
+
+    @media screen and (max-width: 1400px) {
+      .page {
+        width: 1260px;
+      }
+
+      .diagram-shell {
+        width: 1260px;
+        height: 976px;
+      }
+
+      .diagram {
+        transform: scale(0.84);
+      }
+    }
+
+    @media screen and (max-width: 900px) {
+      .page {
+        width: 870px;
+      }
+
+      .topbar {
+        padding: 0 16px;
+      }
+
+      .caption {
+        gap: 8px;
+        font-size: 10px;
+      }
+
+      .diagram-shell {
+        width: 870px;
+        height: 674px;
+      }
+
+      .diagram {
+        transform: scale(0.58);
+      }
+    }
+
+    @media print {
+      body { background: #fff; }
+      .page {
+        margin: 0;
+        border: none;
+        box-shadow: none;
+      }
+      .diagram {
+        transform: none;
+      }
+      .diagram-shell {
+        width: 1500px;
+        height: 1162px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-badge">AI</span>
+        <span>Retail AI Ops Copilot</span>
+      </div>
+      <div class="caption" aria-label="凡例">
+        <span><i class="legend-line data"></i>データ</span>
+        <span><i class="legend-line tool"></i>ツール</span>
+        <span><i class="legend-line human"></i>利用/承認</span>
+        <span><i class="legend-line ops"></i>評価</span>
+        <span><i class="legend-line guard"></i>統制</span>
+      </div>
+    </header>
+
+    <div class="diagram-shell">
+      <section class="diagram" aria-label="Retail AI Ops Copilot システム構成図">
+        <h1 class="title">システム構成図 A: Snowflake Native 構成</h1>
+        <div class="subtitle">Cacoo / AWS Documentation 風。技術選定の理由を質問しやすいよう、サービス境界と責務を分離する。</div>
+
+        <svg class="connectors" viewBox="0 0 1500 1162" aria-hidden="true">
+          <defs>
+            <marker id="arrowBase" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#526071"></path>
+            </marker>
+            <marker id="arrowData" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#2f72bc"></path>
+            </marker>
+            <marker id="arrowTool" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#6d5bd0"></path>
+            </marker>
+            <marker id="arrowHuman" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#2f855a"></path>
+            </marker>
+            <marker id="arrowOps" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#d97706"></path>
+            </marker>
+            <marker id="arrowGuard" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"></path>
+            </marker>
+          </defs>
+
+          <!-- 外部データソース -> Snowflake RAW -->
+          <path class="data" d="M 205 222 H 258 V 365 H 345" marker-end="url(#arrowData)"></path>
+          <path class="data" d="M 205 337 H 258 V 382 H 345" marker-end="url(#arrowData)"></path>
+          <path class="data" d="M 205 452 H 258 V 399 H 345" marker-end="url(#arrowData)"></path>
+          <path class="data" d="M 205 567 H 258 V 416 H 345" marker-end="url(#arrowData)"></path>
+          <path class="data" d="M 205 682 H 300 V 571 H 525" marker-end="url(#arrowData)"></path>
+
+          <!-- Snowflake 内のデータ整備 -->
+          <path class="data" d="M 485 369 H 525" marker-end="url(#arrowData)"></path>
+          <path class="data" d="M 665 369 H 705" marker-end="url(#arrowData)"></path>
+          <path class="data" d="M 845 369 H 890" marker-end="url(#arrowData)"></path>
+          <path class="data" d="M 982 386 V 425" marker-end="url(#arrowData)"></path>
+          <path class="data" d="M 655 571 H 775" marker-end="url(#arrowData)"></path>
+
+          <!-- 利用者 -> Streamlit UI -->
+          <path class="human" d="M 405 192 V 218 H 1298 V 280" marker-end="url(#arrowHuman)"></path>
+          <path class="human" d="M 590 192 V 218 H 1298 V 280" marker-end="url(#arrowHuman)"></path>
+          <path class="human" d="M 775 192 V 218 H 1298 V 280" marker-end="url(#arrowHuman)"></path>
+
+          <!-- 承認要求 -->
+          <path class="human" d="M 1386 323 H 1455 V 157 H 1418" marker-end="url(#arrowHuman)"></path>
+
+          <!-- App Runtime 内 -->
+          <path class="tool" d="M 1298 366 V 405" marker-end="url(#arrowTool)"></path>
+          <path class="tool" d="M 1298 491 V 530" marker-end="url(#arrowTool)"></path>
+
+          <!-- Agent Router -> Snowflake Cortex tools -->
+          <path class="tool" d="M 1205 572 H 1145 V 468 H 1075" marker-end="url(#arrowTool)"></path>
+          <path class="tool" d="M 1205 592 H 1162 V 578 H 960" marker-end="url(#arrowTool)"></path>
+
+          <!-- Trace / 評価改善ループ -->
+          <path class="ops" d="M 1298 616 V 695 H 1100 V 760" marker-end="url(#arrowOps)"></path>
+          <path class="ops" d="M 1100 760 V 704 H 570 V 760" marker-end="url(#arrowOps)"></path>
+          <path class="ops" d="M 1100 704 H 745 V 760" marker-end="url(#arrowOps)"></path>
+          <path class="ops" d="M 1100 704 H 920 V 760" marker-end="url(#arrowOps)"></path>
+
+          <!-- 統制レーン: カードを避けて外側からAgent Routerへ入れる -->
+          <path class="guard" d="M 745 986 V 1048 H 1450 V 572 H 1390" marker-end="url(#arrowGuard)"></path>
+          <path class="guard" d="M 920 986 V 1048 H 1450" marker-end="url(#arrowGuard)"></path>
+        </svg>
+
+        <div class="zone" style="left: 38px; top: 132px; width: 212px; height: 620px;">
+          <div class="zone-label blue">外部データソース</div>
+        </div>
+        <div class="zone dashed" style="left: 300px; top: 250px; width: 830px; height: 440px;">
+          <div class="zone-label green">Snowflake Account</div>
+        </div>
+        <div class="zone dashed" style="left: 1160px; top: 250px; width: 270px; height: 430px;">
+          <div class="zone-label purple">App Runtime</div>
+        </div>
+        <div class="zone" style="left: 300px; top: 720px; width: 925px; height: 330px;">
+          <div class="zone-label orange">LLMOps運用</div>
+        </div>
+        <div class="zone dashed" style="left: 315px; top: 96px; width: 610px; height: 132px;">
+          <div class="zone-label slate">利用者</div>
+        </div>
+        <div class="zone" style="left: 1265px; top: 96px; width: 170px; height: 132px;">
+          <div class="zone-label green">承認</div>
+        </div>
+
+        <div class="service compact green" style="left: 75px; top: 185px;">
+          <div class="icon sprite sp-kaggle" role="img" aria-label="Kaggle"></div>
+          <div class="service-title">Kaggle小売CSV</div>
+          <div class="service-sub">学習用サンプル</div>
+        </div>
+        <div class="service compact source" style="left: 75px; top: 300px;">
+          <div class="icon sprite sp-pos" role="img" aria-label="POS売上"></div>
+          <div class="service-title">POS売上</div>
+          <div class="service-sub">店舗・商品・日次</div>
+        </div>
+        <div class="service compact source" style="left: 75px; top: 415px;">
+          <div class="icon sprite sp-inventory" role="img" aria-label="在庫"></div>
+          <div class="service-title">在庫</div>
+          <div class="service-sub">欠品・補充リスク</div>
+        </div>
+        <div class="service compact source" style="left: 75px; top: 530px;">
+          <div class="icon sprite sp-campaign" role="img" aria-label="販促カレンダー"></div>
+          <div class="service-title">販促カレンダー</div>
+          <div class="service-sub">キャンペーン</div>
+        </div>
+        <div class="service compact green" style="left: 75px; top: 645px;">
+          <div class="icon sprite sp-memo" role="img" aria-label="週報・業務メモ"></div>
+          <div class="service-title">週報・業務メモ</div>
+          <div class="service-sub">定義と補足根拠</div>
+        </div>
+
+        <div class="service compact snow" style="left: 345px; top: 330px;">
+          <div class="icon sprite sp-stage-db" role="img" aria-label="STAGE RAW"></div>
+          <div class="service-title">STAGE / RAW</div>
+          <div class="service-sub">CSVロード</div>
+        </div>
+        <div class="service compact orange" style="left: 525px; top: 330px;">
+          <div class="icon sprite sp-dbt-table" role="img" aria-label="dbt staging"></div>
+          <div class="service-title">dbt staging</div>
+          <div class="service-sub">型・粒度・テスト</div>
+        </div>
+        <div class="service compact orange" style="left: 705px; top: 330px;">
+          <div class="icon sprite sp-dbt-table" role="img" aria-label="dbt marts"></div>
+          <div class="service-title">dbt marts</div>
+          <div class="service-sub">KPI集計済み</div>
+        </div>
+        <div class="service wide snow" style="left: 890px; top: 300px;">
+          <div class="icon sprite sp-semantic" role="img" aria-label="Semantic KPI Model"></div>
+          <div class="service-title">Semantic KPI Model</div>
+          <div class="service-sub">KPI意味モデル</div>
+        </div>
+
+        <div class="service compact snow" style="left: 525px; top: 535px;">
+          <div class="icon sprite sp-memo" role="img" aria-label="Docs Table"></div>
+          <div class="service-title">Docs Table</div>
+          <div class="service-sub">定義・週報保管</div>
+        </div>
+        <div class="service wide snow" style="left: 775px; top: 535px;">
+          <div class="icon sprite sp-cortex-search" role="img" aria-label="Cortex Search"></div>
+          <div class="service-title">Cortex Search</div>
+          <div class="service-sub">定義・週報検索</div>
+        </div>
+        <div class="service wide snow" style="left: 890px; top: 425px;">
+          <div class="icon sprite sp-cortex-analyst" role="img" aria-label="Cortex Analyst API"></div>
+          <div class="service-title">Cortex Analyst API</div>
+          <div class="service-sub">構造化KPI質問</div>
+        </div>
+
+        <div class="service compact" style="left: 340px; top: 120px;">
+          <div class="icon sprite sp-user" role="img" aria-label="店舗マネージャー"></div>
+          <div class="service-title">店舗マネージャー</div>
+          <div class="service-sub">店舗KPI確認</div>
+        </div>
+        <div class="service compact" style="left: 525px; top: 120px;">
+          <div class="icon sprite sp-user" role="img" aria-label="エリアマネージャー"></div>
+          <div class="service-title">エリアマネージャー</div>
+          <div class="service-sub">地域比較</div>
+        </div>
+        <div class="service compact" style="left: 710px; top: 120px;">
+          <div class="icon sprite sp-analyst-user" role="img" aria-label="分析担当"></div>
+          <div class="service-title">分析担当</div>
+          <div class="service-sub">評価・改善</div>
+        </div>
+
+        <div class="service narrow green" style="left: 1288px; top: 120px;">
+          <div class="icon sprite sp-human-review" role="img" aria-label="承認キュー"></div>
+          <div class="service-title">承認キュー</div>
+          <div class="service-sub">送信・更新前</div>
+        </div>
+
+        <div class="service wide red" style="left: 1205px; top: 280px;">
+          <div class="icon sprite sp-streamlit" role="img" aria-label="Streamlit"></div>
+          <div class="service-title">Streamlit UI</div>
+          <div class="service-sub">チャット・文脈・SQL確認</div>
+        </div>
+        <div class="service wide snow" style="left: 1205px; top: 405px;">
+          <div class="icon sprite sp-cortex-agents" role="img" aria-label="Cortex Agents"></div>
+          <div class="service-title">Cortex Agents</div>
+          <div class="service-sub">ツール選択・実行制御</div>
+        </div>
+        <div class="service wide slate" style="left: 1205px; top: 530px;">
+          <div class="icon sprite sp-agent-router" role="img" aria-label="Agent Router"></div>
+          <div class="service-title">Agent Router</div>
+          <div class="service-sub">計画・状態・退避制御</div>
+        </div>
+
+        <div class="service compact orange" style="left: 330px; top: 760px;">
+          <div class="icon sprite sp-github" role="img" aria-label="GitHub"></div>
+          <div class="service-title">GitHub / CI</div>
+          <div class="service-sub">dbtテスト・評価</div>
+        </div>
+        <div class="service compact orange" style="left: 505px; top: 760px;">
+          <div class="icon sprite sp-golden-eval" role="img" aria-label="Golden Eval"></div>
+          <div class="service-title">Golden Eval</div>
+          <div class="service-sub">質問・期待値</div>
+        </div>
+        <div class="service compact slate" style="left: 680px; top: 760px;">
+          <div class="icon sprite sp-version" role="img" aria-label="Version Registry"></div>
+          <div class="service-title">Version Registry</div>
+          <div class="service-sub">プロンプト・モデル版</div>
+        </div>
+        <div class="service compact orange" style="left: 855px; top: 760px;">
+          <div class="icon sprite sp-error" role="img" aria-label="Error Taxonomy"></div>
+          <div class="service-title">Error Taxonomy</div>
+          <div class="service-sub">失敗分類表</div>
+        </div>
+        <div class="service compact slate" style="left: 1030px; top: 760px;">
+          <div class="icon sprite sp-trace-store" role="img" aria-label="Trace Store"></div>
+          <div class="service-title">Trace Store</div>
+          <div class="service-sub">SQL・結果・回答</div>
+        </div>
+        <div class="service compact green" style="left: 505px; top: 900px;">
+          <div class="icon sprite sp-human-review" role="img" aria-label="人手レビュー"></div>
+          <div class="service-title">人手レビュー</div>
+          <div class="service-sub">低信頼ケース</div>
+        </div>
+        <div class="service compact slate" style="left: 680px; top: 900px;">
+          <div class="icon sprite sp-rbac" role="img" aria-label="RBAC"></div>
+          <div class="service-title">RBAC Policy</div>
+          <div class="service-sub">ロール境界</div>
+        </div>
+        <div class="service compact slate" style="left: 855px; top: 900px;">
+          <div class="icon sprite sp-cost" role="img" aria-label="Cost Guardrails"></div>
+          <div class="service-title">Cost Guardrails</div>
+          <div class="service-sub">行数・時間上限</div>
+        </div>
+
+        <div class="flow-label" style="left: 229px; top: 338px;">データ取込</div>
+        <div class="flow-label" style="left: 571px; top: 300px;">dbt構築・テスト</div>
+        <div class="flow-label" style="left: 913px; top: 270px;">意味モデル問い合わせ</div>
+        <div class="flow-label" style="left: 787px; top: 500px;">文書検索</div>
+        <div class="flow-label" style="left: 1084px; top: 525px;">ツール呼び出し</div>
+        <div class="flow-label" style="left: 1418px; top: 204px;">人手承認</div>
+        <div class="flow-label" style="left: 1110px; top: 704px;">トレース・評価反映</div>
+        <div class="flow-label" style="left: 1215px; top: 1028px;">統制レーン</div>
+
+        <div class="rail-label" style="left: 56px; top: 760px;">データソース</div>
+        <div class="rail-label" style="left: 312px; top: 620px;">データ基盤</div>
+        <div class="rail-label" style="left: 1150px; top: 646px;">エージェント実行</div>
+        <div class="rail-label" style="left: 312px; top: 1022px;">LLMOps運用</div>
+
+        <div class="boundary-note" style="left: 330px; top: 650px;">
+          前処理は深掘りしすぎず、整備済みマートとデータ契約を前提にする。
+        </div>
+        <div class="boundary-note" style="left: 885px; top: 650px;">
+          学習の主対象は意味モデル、ツールルーティング、trace、eval、human review。
+        </div>
+
+        <div class="footer-note">
+          <span>公開プレビュー用の学習アーキテクチャ図。実ロゴは公開アセットを参照し、役割ノードは汎用アイコンで誤認を避ける。</span>
+          <span>目的: 「なぜこの技術選定か」を質問できる構成図</span>
+        </div>
+      </section>
+    </div>
+  </main>
+</body>
+</html>

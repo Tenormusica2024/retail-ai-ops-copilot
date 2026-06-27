@@ -1,0 +1,661 @@
+{
+  "source": "../../archive/imagegen-candidates/2026-06-27/selected-source.png",
+  "source_image": "selected-source.png",
+  "description": "Source-derived icon sprite cropped from selected imagegen architecture diagram. Not an original icon pack. Cells are rebuilt from tight content boxes to keep final HTML icons readable after scaling.",
+  "cell_size": 96,
+  "columns": 8,
+  "rows": 4,
+  "icons": [
+    {
+      "name": "kaggle-source",
+      "source_rect": [
+        28,
+        298,
+        70,
+        350
+      ],
+      "cell": {
+        "x": 0,
+        "y": 0,
+        "width": 96,
+        "height": 96
+      },
+      "content_box": {
+        "x": 27,
+        "y": 22,
+        "width": 42,
+        "height": 52
+      }
+    },
+    {
+      "name": "pos-sales",
+      "source_rect": [
+        30,
+        382,
+        70,
+        426
+      ],
+      "cell": {
+        "x": 96,
+        "y": 0,
+        "width": 96,
+        "height": 96
+      },
+      "content_box": {
+        "x": 124,
+        "y": 26,
+        "width": 40,
+        "height": 44
+      }
+    },
+    {
+      "name": "inventory-stock",
+      "source_rect": [
+        28,
+        455,
+        72,
+        501
+      ],
+      "cell": {
+        "x": 192,
+        "y": 0,
+        "width": 96,
+        "height": 96
+      },
+      "content_box": {
+        "x": 218,
+        "y": 25,
+        "width": 44,
+        "height": 46
+      }
+    },
+    {
+      "name": "promotion-calendar",
+      "source_rect": [
+        27,
+        532,
+        75,
+        578
+      ],
+      "cell": {
+        "x": 288,
+        "y": 0,
+        "width": 96,
+        "height": 96
+      },
+      "content_box": {
+        "x": 312,
+        "y": 25,
+        "width": 48,
+        "height": 46
+      }
+    },
+    {
+      "name": "business-memo",
+      "source_rect": [
+        30,
+        609,
+        70,
+        657
+      ],
+      "cell": {
+        "x": 384,
+        "y": 0,
+        "width": 96,
+        "height": 96
+      },
+      "content_box": {
+        "x": 412,
+        "y": 24,
+        "width": 40,
+        "height": 48
+      }
+    },
+    {
+      "name": "business-user",
+      "source_rect": [
+        238,
+        101,
+        283,
+        145
+      ],
+      "cell": {
+        "x": 480,
+        "y": 0,
+        "width": 96,
+        "height": 96
+      },
+      "content_box": {
+        "x": 505,
+        "y": 26,
+        "width": 45,
+        "height": 44
+      }
+    },
+    {
+      "name": "data-analyst-user",
+      "source_rect": [
+        627,
+        101,
+        669,
+        145
+      ],
+      "cell": {
+        "x": 576,
+        "y": 0,
+        "width": 96,
+        "height": 96
+      },
+      "content_box": {
+        "x": 603,
+        "y": 26,
+        "width": 42,
+        "height": 44
+      }
+    },
+    {
+      "name": "streamlit-ui",
+      "source_rect": [
+        899,
+        86,
+        960,
+        127
+      ],
+      "cell": {
+        "x": 672,
+        "y": 0,
+        "width": 96,
+        "height": 96
+      },
+      "content_box": {
+        "x": 689,
+        "y": 27,
+        "width": 61,
+        "height": 41
+      }
+    },
+    {
+      "name": "snowflake-account",
+      "source_rect": [
+        275,
+        247,
+        324,
+        292
+      ],
+      "cell": {
+        "x": 0,
+        "y": 96,
+        "width": 96,
+        "height": 96
+      },
+      "content_box": {
+        "x": 23,
+        "y": 121,
+        "width": 49,
+        "height": 45
+      }
+    },
+    {
+      "name": "stage-raw-db",
+      "source_rect": [
+        320,
+        420,
+        392,
+        478
+      ],
+      "cell": {
+        "x": 96,
+        "y": 96,
+        "width": 96,
+        "height": 96
+      },
+      "content_box": {
+        "x": 112,
+        "y": 118,
+        "width": 64,
+        "height": 52
+      }
+    },
+    {
+      "name": "snowpipe-load",
+      "source_rect": [
+        331,
+        546,
+        377,
+        594
+      ],
+      "cell": {
+        "x": 192,
+        "y": 96,
+        "width": 96,
+        "height": 96
+      },
+      "content_box": {
+        "x": 217,
+        "y": 120,
+        "width": 46,
+        "height": 48
+      }
+    },
+    {
+      "name": "dbt-mark",
+      "source_rect": [
+        494,
+        346,
+        532,
+        382
+      ],
+      "cell": {
+        "x": 288,
+        "y": 96,
+        "width": 96,
+        "height": 96
+      },
+      "content_box": {
+        "x": 317,
+        "y": 126,
+        "width": 38,
+        "height": 36
+      }
+    },
+    {
+      "name": "dbt-table",
+      "source_rect": [
+        478,
+        400,
+        518,
+        440
+      ],
+      "cell": {
+        "x": 384,
+        "y": 96,
+        "width": 96,
+        "height": 96
+      },
+      "content_box": {
+        "x": 412,
+        "y": 124,
+        "width": 40,
+        "height": 40
+      }
+    },
+    {
+      "name": "dbt-tests",
+      "source_rect": [
+        482,
+        563,
+        515,
+        606
+      ],
+      "cell": {
+        "x": 480,
+        "y": 96,
+        "width": 96,
+        "height": 96
+      },
+      "content_box": {
+        "x": 511,
+        "y": 122,
+        "width": 33,
+        "height": 43
+      }
+    },
+    {
+      "name": "semantic-kpi-model",
+      "source_rect": [
+        693,
+        398,
+        763,
+        466
+      ],
+      "cell": {
+        "x": 576,
+        "y": 96,
+        "width": 96,
+        "height": 96
+      },
+      "content_box": {
+        "x": 592,
+        "y": 113,
+        "width": 64,
+        "height": 62
+      }
+    },
+    {
+      "name": "cortex-analyst",
+      "source_rect": [
+        887,
+        339,
+        939,
+        391
+      ],
+      "cell": {
+        "x": 672,
+        "y": 96,
+        "width": 96,
+        "height": 96
+      },
+      "content_box": {
+        "x": 694,
+        "y": 118,
+        "width": 52,
+        "height": 52
+      }
+    },
+    {
+      "name": "cortex-search",
+      "source_rect": [
+        889,
+        455,
+        940,
+        508
+      ],
+      "cell": {
+        "x": 0,
+        "y": 192,
+        "width": 96,
+        "height": 96
+      },
+      "content_box": {
+        "x": 22,
+        "y": 213,
+        "width": 51,
+        "height": 53
+      }
+    },
+    {
+      "name": "cortex-agents",
+      "source_rect": [
+        887,
+        566,
+        942,
+        615
+      ],
+      "cell": {
+        "x": 96,
+        "y": 192,
+        "width": 96,
+        "height": 96
+      },
+      "content_box": {
+        "x": 116,
+        "y": 215,
+        "width": 55,
+        "height": 49
+      }
+    },
+    {
+      "name": "agent-router",
+      "source_rect": [
+        1235,
+        318,
+        1274,
+        364
+      ],
+      "cell": {
+        "x": 192,
+        "y": 192,
+        "width": 96,
+        "height": 96
+      },
+      "content_box": {
+        "x": 220,
+        "y": 217,
+        "width": 39,
+        "height": 46
+      }
+    },
+    {
+      "name": "planner-langgraph-mark",
+      "source_rect": [
+        1230,
+        415,
+        1280,
+        452
+      ],
+      "cell": {
+        "x": 288,
+        "y": 192,
+        "width": 96,
+        "height": 96
+      },
+      "content_box": {
+        "x": 311,
+        "y": 221,
+        "width": 50,
+        "height": 37
+      }
+    },
+    {
+      "name": "tool-adapter",
+      "source_rect": [
+        1232,
+        513,
+        1280,
+        560
+      ],
+      "cell": {
+        "x": 384,
+        "y": 192,
+        "width": 96,
+        "height": 96
+      },
+      "content_box": {
+        "x": 408,
+        "y": 216,
+        "width": 48,
+        "height": 47
+      }
+    },
+    {
+      "name": "trace-logger",
+      "source_rect": [
+        1230,
+        606,
+        1280,
+        662
+      ],
+      "cell": {
+        "x": 480,
+        "y": 192,
+        "width": 96,
+        "height": 96
+      },
+      "content_box": {
+        "x": 503,
+        "y": 212,
+        "width": 50,
+        "height": 56
+      }
+    },
+    {
+      "name": "github-ci-source",
+      "source_rect": [
+        28,
+        786,
+        72,
+        836
+      ],
+      "cell": {
+        "x": 576,
+        "y": 192,
+        "width": 96,
+        "height": 96
+      },
+      "content_box": {
+        "x": 602,
+        "y": 215,
+        "width": 44,
+        "height": 50
+      }
+    },
+    {
+      "name": "ci-cd-actions",
+      "source_rect": [
+        301,
+        782,
+        351,
+        840
+      ],
+      "cell": {
+        "x": 672,
+        "y": 192,
+        "width": 96,
+        "height": 96
+      },
+      "content_box": {
+        "x": 695,
+        "y": 211,
+        "width": 50,
+        "height": 58
+      }
+    },
+    {
+      "name": "golden-eval",
+      "source_rect": [
+        544,
+        782,
+        584,
+        831
+      ],
+      "cell": {
+        "x": 0,
+        "y": 288,
+        "width": 96,
+        "height": 96
+      },
+      "content_box": {
+        "x": 28,
+        "y": 311,
+        "width": 40,
+        "height": 49
+      }
+    },
+    {
+      "name": "trace-store",
+      "source_rect": [
+        766,
+        782,
+        815,
+        836
+      ],
+      "cell": {
+        "x": 96,
+        "y": 288,
+        "width": 96,
+        "height": 96
+      },
+      "content_box": {
+        "x": 119,
+        "y": 309,
+        "width": 49,
+        "height": 54
+      }
+    },
+    {
+      "name": "version-registry",
+      "source_rect": [
+        973,
+        783,
+        1008,
+        818
+      ],
+      "cell": {
+        "x": 192,
+        "y": 288,
+        "width": 96,
+        "height": 96
+      },
+      "content_box": {
+        "x": 222,
+        "y": 318,
+        "width": 35,
+        "height": 35
+      }
+    },
+    {
+      "name": "error-taxonomy",
+      "source_rect": [
+        1169,
+        780,
+        1210,
+        824
+      ],
+      "cell": {
+        "x": 288,
+        "y": 288,
+        "width": 96,
+        "height": 96
+      },
+      "content_box": {
+        "x": 315,
+        "y": 314,
+        "width": 41,
+        "height": 44
+      }
+    },
+    {
+      "name": "human-review",
+      "source_rect": [
+        1335,
+        781,
+        1380,
+        828
+      ],
+      "cell": {
+        "x": 384,
+        "y": 288,
+        "width": 96,
+        "height": 96
+      },
+      "content_box": {
+        "x": 409,
+        "y": 312,
+        "width": 45,
+        "height": 47
+      }
+    },
+    {
+      "name": "rbac-access",
+      "source_rect": [
+        741,
+        902,
+        779,
+        941
+      ],
+      "cell": {
+        "x": 480,
+        "y": 288,
+        "width": 96,
+        "height": 96
+      },
+      "content_box": {
+        "x": 509,
+        "y": 316,
+        "width": 38,
+        "height": 39
+      }
+    },
+    {
+      "name": "cost-guardrails",
+      "source_rect": [
+        1014,
+        900,
+        1054,
+        940
+      ],
+      "cell": {
+        "x": 576,
+        "y": 288,
+        "width": 96,
+        "height": 96
+      },
+      "content_box": {
+        "x": 604,
+        "y": 316,
+        "width": 40,
+        "height": 40
+      }
+    }
+  ]
+}
