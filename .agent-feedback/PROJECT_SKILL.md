@@ -259,6 +259,12 @@ Required behavior:
   all attached connector endpoints after node movement. A helper/header removal
   can leave nodes visually pushed to the lower-right even when no overlap is
   detected.
+- category-frame spacing is not finished just because the child-stack center is
+  aligned. Also check inter-node gaps and visible top/bottom/left/right
+  breathing room. If later edits make those margins or gaps drift, remeasure and
+  adjust them again. When a frame has three stacked nodes, avoid excessive
+  vertical gaps that make the stack look sparse or close to overflowing; reduce
+  the gaps and recenter the resulting stack together with connector endpoints.
 - sequential pipeline nodes must respect prerequisite readiness; do not score a
   downstream node, such as `dbt marts`, above an unimplemented upstream node,
   such as `dbt staging`, when the flow depends on that upstream layer

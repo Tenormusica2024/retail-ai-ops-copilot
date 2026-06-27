@@ -800,12 +800,12 @@
           <path class="data" data-edge="sql-join-to-mart-view" d="M 646 427 V 459" marker-end="url(#arrow-data)"></path>
           <path class="data" data-edge="mart-view-to-dbt-tests-placeholder" d="M 646 527 V 559" marker-end="url(#arrow-data)"></path>
           <path class="data" data-edge="mart-view-to-semantic-kpi-model" d="M 721 493 H 795" marker-end="url(#arrow-data)"></path>
-          <path class="data" data-edge="semantic-to-cortex-analyst" d="M 1015 464 H 1040 V 373 H 1050" marker-end="url(#arrow-data)"></path>
+          <path class="data" data-edge="semantic-to-cortex-analyst" d="M 1015 464 H 1040 V 390 H 1050" marker-end="url(#arrow-data)"></path>
           <path class="docs" data-edge="semantic-to-cortex-search" d="M 1015 477 H 1050" marker-end="url(#arrow-docs)"></path>
           <path class="docs" data-edge="cortex-search-to-semantic" d="M 1050 493 H 1015" marker-end="url(#arrow-docs)"></path>
-          <path class="docs" data-edge="semantic-to-cortex-agents-reference" d="M 1015 488 H 1040 V 638 H 1050" marker-end="url(#arrow-docs)"></path>
-          <path class="data" data-edge="cortex-search-to-agents" d="M 1160 539 V 595" marker-end="url(#arrow-data)"></path>
-          <path class="data" data-edge="cortex-agents-to-search" d="M 1176 595 V 539" marker-end="url(#arrow-data)"></path>
+          <path class="docs" data-edge="semantic-to-cortex-agents-reference" d="M 1015 488 H 1040 V 606 H 1050" marker-end="url(#arrow-docs)"></path>
+          <path class="data" data-edge="cortex-search-to-agents" d="M 1160 540 V 564" marker-end="url(#arrow-data)"></path>
+          <path class="data" data-edge="cortex-agents-to-search" d="M 1176 564 V 540" marker-end="url(#arrow-data)"></path>
 
           <!-- 利用者 -> Streamlit UI / Streamlit <-> Snowflake -->
           <path class="data" data-edge="analyst-to-streamlit-question" d="M 896 157 H 950" marker-end="url(#arrow-data)"></path>
@@ -815,7 +815,7 @@
 
           <!-- Snowflake Cortex -> App Runtime -->
           <path class="tool" data-edge="cortex-analyst-to-agent-router" d="M 1280 373 H 1328 V 333 H 1370" marker-end="url(#arrow-tool)"></path>
-          <path class="tool" data-edge="cortex-agents-to-tool-adapter" d="M 1280 638 H 1332 V 553 H 1370" marker-end="url(#arrow-tool)"></path>
+          <path class="tool" data-edge="cortex-agents-to-tool-adapter" d="M 1280 606 H 1332 V 553 H 1370" marker-end="url(#arrow-tool)"></path>
 
           <!-- App Runtime 内: 元図の主鎖 -->
           <path class="tool" d="M 1520 374 V 402" marker-end="url(#arrow-tool)"></path>
@@ -931,17 +931,17 @@
           <div class="service-sub">(YAML / Semantic Model)<br>指標定義・ディメンション<br>ビジネスルール・メトリクス<br>階層・ルックアップ</div>
         </div>
 
-        <div class="service wide snow" tabindex="0" data-progress="10%" data-progress-tier="low" data-status="KPI定義tableは作成済み" data-note="Cortex Search service、引用取得、週報検索は未実装。" style="left: 1050px; top: 455px;">
+        <div class="service wide snow" tabindex="0" data-progress="10%" data-progress-tier="low" data-status="KPI定義tableは作成済み" data-note="Cortex Search service、引用取得、週報検索は未実装。" style="left: 1050px; top: 456px;">
           <div class="icon sprite sp-cortex-search" role="img" aria-label="Cortex Search"></div>
           <div class="service-title">Cortex Search Service</div>
           <div class="service-sub">定義・指標・週報・ドキュメント<br>検索・引用取得</div>
         </div>
-        <div class="service wide snow" tabindex="0" data-progress="10%" data-progress-tier="low" data-status="本線設計に採用済み" data-note="現MVPはdeterministic plannerで代替検証中。Cortex Analyst実呼び出し・品質評価は未実施。" style="left: 1050px; top: 330px;">
+        <div class="service wide snow" tabindex="0" data-progress="10%" data-progress-tier="low" data-status="本線設計に採用済み" data-note="現MVPはdeterministic plannerで代替検証中。Cortex Analyst実呼び出し・品質評価は未実施。" style="left: 1050px; top: 348px;">
           <div class="icon sprite sp-cortex-analyst" role="img" aria-label="Cortex Analyst API"></div>
           <div class="service-title">Cortex Analyst API</div>
           <div class="service-sub">構造化データに対する<br>KPI質問・SQL生成・分析</div>
         </div>
-        <div class="service wide snow" tabindex="0" data-progress="0%" data-progress-tier="none" data-status="未接続" data-note="まずRouter / Planner / Tool AdapterのMVPをローカルコードで実装。" style="left: 1050px; top: 595px;">
+        <div class="service wide snow" tabindex="0" data-progress="0%" data-progress-tier="none" data-status="未接続" data-note="まずRouter / Planner / Tool AdapterのMVPをローカルコードで実装。" style="left: 1050px; top: 564px;">
           <div class="icon sprite sp-cortex-agents" role="img" aria-label="Cortex Agents"></div>
           <div class="service-title">Cortex Agents</div>
           <div class="service-sub">ツール選択・計画・実行制御<br>マルチツール Orchestration</div>

@@ -41,6 +41,7 @@ blocked.
 | REQ-022 | 2026-06-28 | user | Use Japanese-first visible labels for sample data nodes and related sample/seed labels, even when the underlying source table names are English. | The user called out `sample参照/seed` and English sample node names as inconsistent with the Japanese diagram. | architecture HTML / sample data matrix / project skill | reflected |
 | REQ-023 | 2026-06-28 | user | Remove visual elements that look like architecture nodes unless they represent real components or source-faithful group headers. | The user questioned the extra `SQLビュー` icon/label inside the SQL view/dbt frame. | architecture HTML / project skill | reflected |
 | REQ-024 | 2026-06-28 | user | Center child nodes within their subcategory/category frames so the content is not visually pushed to one side after helper elements are added or removed. | The user pointed out that removing the extra SQL view helper still left the three SQL/dbt nodes pushed toward the lower-right of the small category frame. | architecture HTML / project skill | reflected |
+| REQ-025 | 2026-06-28 | user | Keep category-frame child spacing adjustable after future edits; if top/bottom/left/right equal spacing drifts, remeasure and correct it. | The user clarified that equal spacing should continue to be adjusted whenever later diagram edits disturb it. | project skill / architecture HTML | reflected |
 
 ## 指摘
 
@@ -74,6 +75,7 @@ blocked.
 | FB-026 | 2026-06-28 | user | After aligning the diagram to TPCH, visible node names such as `ORDERS / LINEITEM`, `CUSTOMER / GEO`, `PART / PARTSUPP`, `KPI seed`, and `sample参照 / seed` were still English-heavy. | The implementation kept raw source identifiers as primary display labels instead of moving them to hover notes or supporting matrices. | Japanese text policy / source identity | reflected |
 | FB-027 | 2026-06-28 | user | The icon-plus-text `SQLビュー` heading inside the SQL view/dbt frame looked like a mysterious extra node. | A decorative/helper subzone heading duplicated the parent frame title and reused node-like icon/text styling, making it indistinguishable from real architecture components. | node identity / visual hierarchy | reflected |
 | FB-028 | 2026-06-28 | user | The SQL/dbt subcategory nodes remained lower-right biased after the helper heading was removed. | The previous helper heading had consumed top visual space, and the artifact fix removed the helper but did not re-center child-node stack geometry or refresh attached connector endpoints. | layout centering / connector invalidation | reflected |
+| FB-029 | 2026-06-28 | user | The AI access frame had equalized placement but the three node gaps were too large and the stack looked close to overflowing. | The previous centering check optimized stack center, not the acceptable inter-node gap and visible top/bottom breathing room inside the category frame. | layout spacing / frame fit | reflected |
 
 ## 改善
 
@@ -108,6 +110,7 @@ blocked.
 | IMP-027 | 2026-06-28 | implementation | Convert visible sample data labels to Japanese-first names: `公式サンプルDB`, `注文・明細`, `顧客・地域`, `商品・原価`, `KPI定義`, `元テーブル`, `SQL結合`, and `KPI集計ビュー`. | Raw table names remain in hover notes, `aria-label`, or the sample coverage matrix for traceability. | architecture HTML / sample data matrix / project skill | reflected |
 | IMP-028 | 2026-06-28 | implementation | Remove the redundant `subzone-heading` element and CSS so the SQL view/dbt frame contains only real service nodes plus the parent frame label. | The parent frame title already communicates the group; keeping an icon-only helper heading created node ambiguity without adding architecture information. | architecture HTML / project skill | reflected |
 | IMP-029 | 2026-06-28 | implementation | Recenter subcategory child stacks by measuring the child bounding box against the nested frame or usable parent-frame content area, then update connector endpoints with the node moves. | Chrome geometry check confirmed `SQLビュー / dbt予定` moved from `dx=8, dy=20` to `dx=-1, dy=-1`; sample, semantic, and AI-access frames are within centering tolerance with no overlaps or text overflow. | architecture HTML / project skill | reflected |
+| IMP-030 | 2026-06-28 | implementation | Compress the AI access child stack to roughly half the prior inter-node gap while preserving frame fit and connector endpoints. | Cortex Analyst/Search/Agents moved to `top=348/456/564`, reducing gaps to about 24px and keeping the stack inside the AI access frame. | architecture HTML / project skill | reflected |
 
 ## Pending Reflection
 
