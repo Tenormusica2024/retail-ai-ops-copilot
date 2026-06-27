@@ -29,6 +29,7 @@ blocked.
 | REQ-010 | 2026-06-28 | user | Do not silently fall back when Snowflake is unavailable. | Silent fallback would hide the exact live integration failure the user needs to learn from. | runtime mode / project feedback rules | reflected |
 | REQ-011 | 2026-06-28 | user | Show implementation progress percentages and important notes on hover for every system-diagram node. | The architecture diagram should double as a learning map showing which parts are implemented, live-verified, conceptual, or deferred. | architecture HTML / project diagram rule | reflected |
 | REQ-012 | 2026-06-28 | user | Remove progress bars and make the percentage itself bold and colored; split tooltip content into implementation status and notes. | The bar added visual noise; the user wants progress to read as text-first learning metadata. | architecture HTML / project diagram rule | reflected |
+| REQ-013 | 2026-06-28 | user | Treat user-facing progress percentages as readiness including answer-quality validation, not just component plumbing. | Streamlit UI had been rated 65% even though answer quality tests and UI E2E were not done. | architecture HTML / project diagram rule | reflected |
 
 ## 指摘
 
@@ -66,6 +67,7 @@ blocked.
 | IMP-010 | 2026-06-28 | implementation | Rename internal route-blocking metadata from `fallback_reason` to `safe_stop_reason`. | This prevents Snowflake runtime fallback from being conflated with agent-level clarification, refusal, or handoff states. | model / trace / UI / tests / docs | reflected |
 | IMP-011 | 2026-06-28 | implementation | Add hover/focus progress metadata to every `.service` node and verify node count equals progress metadata count. | Chrome DOM check found 31 service nodes and 31 progress/note/tabindex annotations; hover screenshot confirmed tooltip rendering. | architecture HTML / project skill | reflected |
 | IMP-012 | 2026-06-28 | implementation | Replace the progress bar with a bold colored progress label and split node metadata into `data-status` and `data-note`. | Tooltip now renders progress as the visual anchor, with separate `実装状況` and `備考` lines for learning review. | architecture HTML / project skill | reflected |
+| IMP-013 | 2026-06-28 | implementation | Recalibrate Streamlit UI and Golden Eval progress downward because answer-quality validation is not implemented yet. | Streamlit UI moved from 65% to 35%; Golden Eval moved from 55% to 35% and now states routing eval, not answer-quality eval. | architecture HTML / project skill | reflected |
 
 ## Pending Reflection
 

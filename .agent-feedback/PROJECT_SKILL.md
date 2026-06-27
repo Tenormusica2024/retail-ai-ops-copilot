@@ -189,6 +189,10 @@ Required behavior:
 - progress notes must distinguish live-verified implementation from conceptual
   design, local explicit test harnesses, and future/deferred work by splitting
   `実装状況` from `備考`
+- for user-facing nodes such as Streamlit UI and evaluation nodes such as Golden
+  Eval, progress means readiness including answer-quality validation, SQL/result
+  correctness, source grounding, and E2E coverage. Do not rate them highly only
+  because the UI renders, a query executes, or routing tests pass.
 - node coordinates, card dimensions, connector endpoints, and source-faithful
   layout must not be changed merely to add progress annotations
 - after edits, run a DOM count check that service-node count equals
