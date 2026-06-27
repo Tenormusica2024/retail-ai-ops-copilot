@@ -76,41 +76,59 @@
 
     .caption {
       display: flex;
-      gap: 15px;
+      gap: 12px;
       align-items: center;
       color: var(--muted);
-      font-size: 11px;
+      font-size: 10.5px;
       white-space: nowrap;
     }
 
     .caption span {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
     }
 
     .legend-line {
-      width: 28px;
-      border-top: 2px solid var(--line);
+      position: relative;
+      width: 26px;
+      border-top: 2px solid currentColor;
+      color: var(--line);
       display: inline-block;
     }
 
-    .legend-line.data { border-color: var(--line); }
+    .legend-line::after {
+      content: "";
+      position: absolute;
+      right: -1px;
+      top: -5px;
+      width: 0;
+      height: 0;
+      border-left: 7px solid currentColor;
+      border-top: 4px solid transparent;
+      border-bottom: 4px solid transparent;
+    }
+
+    .legend-line.data { color: var(--line); }
     .legend-line.docs {
-      border-color: var(--blue);
+      color: var(--blue);
       border-top-style: dashed;
     }
-    .legend-line.tool { border-color: var(--purple); }
+    .legend-line.tool { color: var(--purple); }
+    .legend-line.tool-dashed {
+      color: var(--purple);
+      border-top-style: dashed;
+    }
     .legend-line.human {
-      border-color: var(--green);
+      color: var(--green);
       border-top-style: dashed;
     }
     .legend-line.ops {
-      border-color: var(--orange);
+      color: var(--orange);
       border-top-style: dashed;
     }
-    .legend-line.guard {
-      border-color: var(--slate);
+    .legend-line.review-dashed {
+      color: var(--red);
       border-top-style: dashed;
     }
 
@@ -473,10 +491,6 @@
       stroke: var(--red);
       stroke-dasharray: 7 5;
     }
-    .connectors .guard {
-      stroke: var(--slate);
-      stroke-dasharray: 4 4;
-    }
     .connectors .human {
       stroke: var(--green);
       stroke-dasharray: 7 5;
@@ -564,9 +578,10 @@
         <span><i class="legend-line data"></i>データ</span>
         <span><i class="legend-line docs"></i>参照</span>
         <span><i class="legend-line tool"></i>実行</span>
+        <span><i class="legend-line tool-dashed"></i>改善反映</span>
         <span><i class="legend-line human"></i>承認</span>
         <span><i class="legend-line ops"></i>評価</span>
-        <span><i class="legend-line guard"></i>統制</span>
+        <span><i class="legend-line review-dashed"></i>修正依頼</span>
       </div>
     </header>
 
@@ -594,9 +609,6 @@
             </marker>
             <marker id="arrow-review" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="3.6" markerHeight="3.6" orient="auto-start-reverse" markerUnits="strokeWidth">
               <path d="M 0.8 1.1 L 7 4 L 0.8 6.9 Z" fill="#dc2626" stroke="#dc2626" stroke-width="0.4"></path>
-            </marker>
-            <marker id="arrow-guard" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="3.6" markerHeight="3.6" orient="auto-start-reverse" markerUnits="strokeWidth">
-              <path d="M 0.8 1.1 L 7 4 L 0.8 6.9 Z" fill="#64748b" stroke="#64748b" stroke-width="0.4"></path>
             </marker>
           </defs>
 
@@ -650,7 +662,7 @@
           <path class="data" d="M 1235 832 H 1186" marker-end="url(#arrow-data)"></path>
           <path class="data" d="M 1411 820 H 1480" marker-end="url(#arrow-data)"></path>
           <path class="human" data-edge="approval-feedback-to-human-review" d="M 1568 758 V 780" marker-end="url(#arrow-human)"></path>
-          <path class="review-dashed" d="M 1323 876 V 1044 H 1568 V 876" marker-end="url(#arrow-review)"></path>
+          <path class="review-dashed" d="M 1323 864 V 1044 H 1568 V 864" marker-end="url(#arrow-review)"></path>
 
           <!-- 統制 / 承認フィードバック -->
           <path class="data" data-edge="trace-store-to-rbac" d="M 873 854 V 930" marker-end="url(#arrow-data)"></path>
@@ -841,18 +853,11 @@
         <div class="flow-label" style="left: 690px; top: 742px;">評価結果</div>
         <div class="flow-label" style="left: 1440px; top: 718px;">トレース /<br>メトリクス</div>
         <div class="flow-label" style="left: 1548px; top: 716px;">承認結果 /<br>フィードバック</div>
+        <div class="flow-label" style="left: 1398px; top: 1020px;">修正依頼</div>
 
         <div class="rail-label" style="left: 128px; top: 690px;">データソース</div>
         <div class="rail-label" style="left: 312px; top: 652px;">データ基盤</div>
         <div class="rail-label" style="left: 1166px; top: 716px;">エージェント実行</div>
-        <div class="rail-label" style="left: 20px; top: 1080px;">LLMOps運用</div>
-
-        <div class="boundary-note" style="left: 330px; top: 1060px; width: 500px;">
-          前処理は深掘りしすぎず、整備済みマートとデータ契約を前提にする。
-        </div>
-        <div class="boundary-note" style="left: 860px; top: 1060px; width: 500px;">
-          学習の主対象: 意味モデル、ツールルーティング、トレース・評価、人手レビュー。
-        </div>
 
         <div class="footer-note">
           <span>公開プレビュー用の学習アーキテクチャ図。実ロゴは公開アセットを参照し、役割ノードは汎用アイコンで誤認を避ける。</span>
