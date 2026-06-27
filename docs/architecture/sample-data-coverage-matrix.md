@@ -42,13 +42,13 @@
 
 主図は、現在の実装証跡に合わせてTPCH/Snowflake sample中心に寄せる。
 
-| 主図のデータノード | 現在のTPCH_SF1での対応 | 一致度 | メモ |
+| 主図の表示ノード | 対応する実データ | 一致度 | メモ |
 | --- | --- | --- | --- |
-| `TPCH_SF1` | あり | 直接一致 | 現在の学習用データ源は `SNOWFLAKE_SAMPLE_DATA.TPCH_SF1`。 |
-| `ORDERS / LINEITEM` | あり | 直接一致 | 注文数、数量、割引後売上、平均割引、月次集計の入力。POS売上そのものではなく注文/明細proxy。 |
-| `CUSTOMER / GEO` | あり | 部分一致 | `customer`、`nation`、`region` を使い、国/地域フィルタを作る。店舗や担当エリアではない。 |
-| `PART / PARTSUPP` | あり | 部分一致 | `part` で商品カテゴリproxy、`partsupp` で供給原価proxyを作る。SKU階層や在庫推移ではない。 |
-| `KPI定義 seed table` | 手動seed | 部分一致 | setup SQLの `VALUES` で `KPI_DEFINITIONS` を作成。Snowflake sample由来の週報/文書データではない。 |
+| 公式サンプルDB | `SNOWFLAKE_SAMPLE_DATA.TPCH_SF1` | 直接一致 | 現在の学習用データ源。 |
+| 注文・明細 | `orders` / `lineitem` | 直接一致 | 注文数、数量、割引後売上、平均割引、月次集計の入力。POS売上そのものではなく注文/明細proxy。 |
+| 顧客・地域 | `customer` / `nation` / `region` | 部分一致 | 国/地域フィルタを作る。店舗や担当エリアではない。 |
+| 商品・原価 | `part` / `partsupp` | 部分一致 | 商品カテゴリproxyと供給原価proxyを作る。SKU階層や在庫推移ではない。 |
+| KPI定義 | `KPI_DEFINITIONS` の手動 `VALUES` 投入 | 部分一致 | setup SQLで作成。Snowflake sample由来の週報/文書データではない。 |
 
 ## 小売ターゲットカテゴリとの差分
 

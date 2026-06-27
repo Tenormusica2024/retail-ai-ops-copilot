@@ -242,6 +242,10 @@ Required behavior:
   target, revise the visible diagram labels toward the real sample entities
   rather than keeping business-friendly placeholders. Preserve the business
   target and gaps in supporting docs, not as misleading primary nodes.
+- visible node titles, zone labels, and flow labels should be Japanese-first
+  even when the underlying sample tables use English identifiers. Keep raw
+  identifiers such as `TPCH_SF1`, `orders`, or `lineitem` in hover notes,
+  subtext, or supporting matrices when they are needed for traceability.
 - sequential pipeline nodes must respect prerequisite readiness; do not score a
   downstream node, such as `dbt marts`, above an unimplemented upstream node,
   such as `dbt staging`, when the flow depends on that upstream layer
