@@ -246,6 +246,12 @@ Required behavior:
   even when the underlying sample tables use English identifiers. Keep raw
   identifiers such as `TPCH_SF1`, `orders`, or `lineitem` in hover notes,
   subtext, or supporting matrices when they are needed for traceability.
+- do not add icon-plus-text helper headings inside a frame when the parent
+  frame label already names that group. If an element uses node-like visual
+  styling, it must represent a real component, source-faithful group header, or
+  intentionally documented label. Decorative helper headings can be mistaken for
+  mystery architecture nodes and should be removed or restyled as plain frame
+  labels.
 - sequential pipeline nodes must respect prerequisite readiness; do not score a
   downstream node, such as `dbt marts`, above an unimplemented upstream node,
   such as `dbt staging`, when the flow depends on that upstream layer
