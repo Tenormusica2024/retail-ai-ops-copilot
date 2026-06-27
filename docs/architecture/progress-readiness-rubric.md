@@ -37,6 +37,10 @@ tests, answer-quality checks, integration proof, and operational confidence.
   cannot raise the actual target component's readiness. For example, direct mart
   SQL does not raise `STAGE / RAW`, and pytest routing checks do not raise
   `dbt tests`.
+- For sequential pipeline nodes, do not score a downstream node above an
+  upstream prerequisite when the downstream readiness depends on that upstream
+  flow. For example, `dbt marts` should not be above `dbt staging` when the dbt
+  staging layer itself is not implemented.
 - Use `data-progress-tier="high"` only when the node has both implemented
   behavior and repeatable quality evidence.
 

@@ -930,7 +930,7 @@
           <div class="service-sub">週次レポート・メモ<br>会議記録</div>
         </div>
 
-        <div class="service small snow" tabindex="0" data-progress="10%" data-progress-tier="low" data-status="mart view直作成の迂回経路のみ" data-note="直接mart SQLはSTAGE / RAWの品質証跡ではない。外部stage、RAW層、取込テストは未実装。" style="left: 354px; top: 376px;">
+        <div class="service small snow" tabindex="0" data-progress="0%" data-progress-tier="none" data-status="STAGE / RAWは未実装" data-note="直接mart SQLはSTAGE / RAWの品質証跡ではない。外部stage、RAW層、取込テストは未実装。" style="left: 354px; top: 376px;">
           <div class="icon sprite sp-stage-db" role="img" aria-label="STAGE RAW"></div>
           <div class="service-title">STAGE / RAW</div>
           <div class="service-sub">外部ステージ<br>(S3 / GCS)</div>
@@ -940,17 +940,17 @@
           <div class="service-title">Snowpipe取込</div>
           <div class="service-sub">継続ロード</div>
         </div>
-        <div class="service small orange" tabindex="0" data-progress="0%" data-progress-tier="none" data-status="未導入" data-note="現状はSQL setupでmart viewを作る最小経路。" style="left: 580px; top: 380px;">
+        <div class="service small orange" tabindex="0" data-progress="0%" data-progress-tier="none" data-status="dbt project未導入" data-note="staging modelは未実装。直接SQLでmart viewを作る迂回経路はdbt stagingの品質証跡ではない。" style="left: 580px; top: 380px;">
           <div class="icon sprite sp-dbt-table" role="img" aria-label="dbt staging"></div>
           <div class="service-title">dbt staging</div>
           <div class="service-sub">型・粒度・テスト</div>
         </div>
-        <div class="service small orange" tabindex="0" data-progress="25%" data-progress-tier="low" data-status="MART_RETAIL_MONTHLY_KPI view作成SQLあり" data-note="dbt model化、dbt test、SQL結果期待値テストは未実装。" style="left: 580px; top: 480px;">
+        <div class="service small orange" tabindex="0" data-progress="0%" data-progress-tier="none" data-status="dbt martsは未実装" data-note="staging未実装のためdbt martsフローも未成立。SQL mart viewはあるがdbt nodeのreadinessには加算しない。" style="left: 580px; top: 480px;">
           <div class="icon sprite sp-dbt-table" role="img" aria-label="dbt marts"></div>
           <div class="service-title">dbt marts</div>
           <div class="service-sub">KPI集計済み</div>
         </div>
-        <div class="service small orange" tabindex="0" data-progress="5%" data-progress-tier="low" data-status="pytestは存在するがdbt testsは未導入" data-note="pytest/routing evalはdbt testsの品質証跡ではない。dbt build/test、data test、schema testは未実装。" style="left: 580px; top: 580px;">
+        <div class="service small orange" tabindex="0" data-progress="0%" data-progress-tier="none" data-status="dbt testsは未実装" data-note="pytest/routing evalはdbt testsの品質証跡ではない。dbt build/test、data test、schema testは未実装。" style="left: 580px; top: 580px;">
           <div class="icon sprite sp-dbt-tests" role="img" aria-label="dbt tests"></div>
           <div class="service-title">dbt tests</div>
           <div class="service-sub">品質検証</div>

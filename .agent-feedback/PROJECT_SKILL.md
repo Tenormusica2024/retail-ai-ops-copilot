@@ -224,6 +224,9 @@ Required behavior:
 - route/metric-only evaluation should cap Golden Eval around 40% and Agent
   Router around 50%; manual-only proof should cap at 30%; substitute or bypass
   evidence must not raise the target node's readiness
+- sequential pipeline nodes must respect prerequisite readiness; do not score a
+  downstream node, such as `dbt marts`, above an unimplemented upstream node,
+  such as `dbt staging`, when the flow depends on that upstream layer
 - for user-facing nodes such as Streamlit UI and evaluation nodes such as Golden
   Eval, progress means readiness including answer-quality validation, SQL/result
   correctness, source grounding, and E2E coverage. Do not rate them highly only
