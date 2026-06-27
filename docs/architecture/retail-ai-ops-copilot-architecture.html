@@ -993,7 +993,7 @@
           <div class="service-sub">深掘り分析・レポート作成<br>データ探索</div>
         </div>
 
-        <div class="service wide red" tabindex="0" data-progress="30%" data-progress-tier="low" data-status="Streamlit MVPとSnowflake live表示を手動確認済み" data-note="手動確認のみのため30%上限。UI E2E、回答品質、複数ロール、失敗時UXの自動テストは未実装。" style="left: 950px; top: 132px;">
+        <div class="service wide red" tabindex="0" data-progress="30%" data-progress-tier="low" data-status="Reference MVPのチャットUIあり。dbt/Cortexは未経由" data-note="Snowflake modeはMART_RETAIL_MONTHLY_KPIへ直接SQL実行。local_explicit_testは固定メモリrows。UI E2Eと回答品質テストは未実装。" style="left: 950px; top: 132px;">
           <div class="icon sprite sp-streamlit" role="img" aria-label="Streamlit"></div>
           <div class="service-title">Streamlit UI</div>
           <div class="service-sub">KPI Copilot UI<br>チャット・QA・SQL確認</div>
@@ -1008,7 +1008,7 @@
           <div class="service-title">Planner (LangGraph)</div>
           <div class="service-sub">計画立案・ツール選択<br>状態管理・メモリ</div>
         </div>
-        <div class="service runtime purple" tabindex="0" data-progress="45%" data-progress-tier="mid" data-tip="left" data-status="LocalKpiClient、SnowflakeKpiClient、fail-fast testあり" data-note="Snowflake成功経路の自動統合テスト、Cortex/Search adapterは未接続。" style="left: 1370px; top: 512px;">
+        <div class="service runtime purple" tabindex="0" data-progress="45%" data-progress-tier="mid" data-tip="left" data-status="LocalKpiClientとSnowflake direct SQL clientあり" data-note="dbt・Cortex・Search adapterは未接続。Snowflake成功経路の自動統合テストも未実装で、直接mart viewを読むreference MVP段階。" style="left: 1370px; top: 512px;">
           <div class="icon sprite sp-tool-adapter" role="img" aria-label="Tool Adapter"></div>
           <div class="service-title">Tool Adapter</div>
           <div class="service-sub">ツール呼び出しアダプタ<br>(Cortex / Search / SQL 等)</div>

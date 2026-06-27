@@ -37,6 +37,10 @@ tests, answer-quality checks, integration proof, and operational confidence.
   cannot raise the actual target component's readiness. For example, direct mart
   SQL does not raise `STAGE / RAW`, and pytest routing checks do not raise
   `dbt tests`.
+- If a downstream UI or agent can answer through a bypass path while upstream
+  pipeline nodes are 0%, name the actual read path in the tooltip. Do not let a
+  working chat UI imply that dbt, STAGE / RAW, Cortex Analyst, or Cortex Search
+  is being used.
 - For sequential pipeline nodes, do not score a downstream node above an
   upstream prerequisite when the downstream readiness depends on that upstream
   flow. For example, `dbt marts` should not be above `dbt staging` when the dbt

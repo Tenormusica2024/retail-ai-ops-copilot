@@ -224,6 +224,11 @@ Required behavior:
 - route/metric-only evaluation should cap Golden Eval around 40% and Agent
   Router around 50%; manual-only proof should cap at 30%; substitute or bypass
   evidence must not raise the target node's readiness
+- when a downstream UI or agent can run through a bypass path while upstream
+  pipeline nodes remain unimplemented, the tooltip must name the actual read
+  path and say which intended components are not used. A chat UI that reads a
+  direct mart view or in-memory rows must not imply dbt, STAGE / RAW, Cortex
+  Analyst, or Cortex Search readiness.
 - sequential pipeline nodes must respect prerequisite readiness; do not score a
   downstream node, such as `dbt marts`, above an unimplemented upstream node,
   such as `dbt staging`, when the flow depends on that upstream layer
