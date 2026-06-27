@@ -203,6 +203,9 @@ the reason instead of silently relying on memory.
 When implementation progress changes, keep the architecture diagram's node
 progress overlay current.
 
+Progress means quality-confirmed readiness, not implementation volume. Use
+`docs/architecture/progress-readiness-rubric.md` as the scoring source.
+
 Required behavior:
 
 - every `.diagram > .service` node must have `data-progress`, `data-note`,
@@ -214,6 +217,13 @@ Required behavior:
 - progress notes must distinguish live-verified implementation from conceptual
   design, local explicit test harnesses, and future/deferred work by splitting
   `実装状況` from `備考`
+- a fully implemented but completely untested node should normally be capped at
+  30%; local/unit-only proof should normally stay at or below 45%; user-facing
+  answer paths without answer-quality eval, UI E2E, role behavior, and
+  failure-path coverage should normally stay below 50%
+- route/metric-only evaluation should cap Golden Eval around 40% and Agent
+  Router around 50%; manual-only proof should cap at 30%; substitute or bypass
+  evidence must not raise the target node's readiness
 - for user-facing nodes such as Streamlit UI and evaluation nodes such as Golden
   Eval, progress means readiness including answer-quality validation, SQL/result
   correctness, source grounding, and E2E coverage. Do not rate them highly only
