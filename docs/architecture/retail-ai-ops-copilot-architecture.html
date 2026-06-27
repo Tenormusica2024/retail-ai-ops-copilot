@@ -904,10 +904,10 @@
           <div class="subzone-title">AIアクセス層 (Snowflake Cortex)</div>
         </div>
 
-        <div class="service compact green" tabindex="0" data-progress="0%" data-progress-tier="none" data-tip="right" data-status="未実装" data-note="現在の検証データ源はSnowflake sample / TPCH_SF1。Kaggle CSVは別データ源として保留。" style="left: 62px; top: 185px;">
-          <div class="icon sprite sp-kaggle" role="img" aria-label="Kaggle"></div>
-          <div class="service-title">Kaggle小売CSV</div>
-          <div class="service-sub">小売CSV<br>公開データ</div>
+        <div class="service compact snow" tabindex="0" data-progress="25%" data-progress-tier="low" data-tip="right" data-status="検証用データ源として採用済み" data-note="SNOWFLAKE_SAMPLE_DATA.TPCH_SF1からMART_RETAIL_MONTHLY_KPIをdirect SQL viewで作成。STAGE/RAW・dbt・Kaggleは未経由。" style="left: 62px; top: 185px;">
+          <div class="icon sprite sp-snowflake" role="img" aria-label="Snowflake Sample Data"></div>
+          <div class="service-title">Snowflake<br>サンプル</div>
+          <div class="service-sub">TPCH_SF1<br>学習用データ</div>
         </div>
         <div class="service compact source" tabindex="0" data-progress="0%" data-progress-tier="none" data-tip="right" data-status="未実装" data-note="現行martはTPCH_SF1の小売proxy。実POSの日次売上・明細取込は未実装。" style="left: 62px; top: 288px;">
           <div class="icon sprite sp-pos" role="img" aria-label="POS売上"></div>

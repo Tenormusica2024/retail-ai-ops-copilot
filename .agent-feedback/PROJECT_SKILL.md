@@ -229,6 +229,10 @@ Required behavior:
   path and say which intended components are not used. A chat UI that reads a
   direct mart view or in-memory rows must not imply dbt, STAGE / RAW, Cortex
   Analyst, or Cortex Search readiness.
+- reference data sources used by the current MVP must be visible as their own
+  honest node, logo, and label. Do not hide the real source, such as
+  `SNOWFLAKE_SAMPLE_DATA.TPCH_SF1`, inside another dataset's tooltip or under a
+  mismatched vendor icon like Kaggle.
 - sequential pipeline nodes must respect prerequisite readiness; do not score a
   downstream node, such as `dbt marts`, above an unimplemented upstream node,
   such as `dbt staging`, when the flow depends on that upstream layer

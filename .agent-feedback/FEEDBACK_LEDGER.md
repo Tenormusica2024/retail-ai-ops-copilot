@@ -35,6 +35,7 @@ blocked.
 | REQ-016 | 2026-06-28 | user | Make the repo boundary explicit: this repo owns diagram HTML reproduction/progress visualization, while concrete pipeline tests and workflow improvements should move back to the implementation repo. | Hover progress and scoring rubric can live in the diagram repo, but quality-improving implementation work belongs in the pipeline implementation repo. | README / AGENTS / repo boundary doc / project skill | reflected |
 | REQ-017 | 2026-06-28 | user | Keep sequential pipeline node progress consistent with prerequisite flow readiness. | The user questioned why `dbt marts` was 25% while upstream `dbt staging` was 0%, since marts normally depends on staging. | architecture HTML / progress readiness rubric / project skill | reflected |
 | REQ-018 | 2026-06-28 | user | Make the Streamlit chat node explain what it actually reads when dbt and upstream pipeline nodes are 0%. | A working chat UI can be valid as a reference MVP, but the tooltip must not imply that dbt/Cortex/STAGE paths are already wired. | architecture HTML / progress readiness rubric / project skill | reflected |
+| REQ-019 | 2026-06-28 | user | Make the current Snowflake learning dataset visible in the diagram, not hidden in another data-source tooltip. | The user asked where the Snowflake learning data exists in the system diagram. | architecture HTML / project skill | reflected |
 
 ## 指摘
 
@@ -62,6 +63,7 @@ blocked.
 | FB-020 | 2026-06-28 | user | `dbt marts` was scored higher than `dbt staging` even though the actual dbt flow is not implemented. | The score used direct SQL mart-view evidence as if it raised dbt marts readiness, violating the substitute/bypass evidence rule and ignoring upstream prerequisite readiness. | progress readiness scoring / dbt node consistency | reflected |
 | FB-021 | 2026-06-28 | sub-agent review | `STAGE / RAW` still counted direct mart SQL as readiness after the dbt correction. | The same substitute/bypass evidence rule applied: direct mart SQL does not prove external stage, RAW layer, ingestion, or tests. Evidence: `INV-20260628-013`. | progress readiness scoring / STAGE RAW node | reflected |
 | FB-022 | 2026-06-28 | user | Streamlit UI could show chat while dbt is 0%, but the diagram did not clearly say the chat path reads a direct mart view or local fixed rows instead of dbt. | The progress tooltip separated implementation status and notes, but did not include an actual read-path inventory for bypass/reference MVP paths. | architecture tooltip wording / progress readiness rule | reflected |
+| FB-023 | 2026-06-28 | user | The current Snowflake sample dataset was only mentioned inside the Kaggle node tooltip, so the visible node/logo implied the wrong data source. | The diagram preserved an earlier candidate/source label after the implementation source changed to Snowflake sample data. | source identity / architecture tooltip wording | reflected |
 
 ## 改善
 
@@ -90,6 +92,7 @@ blocked.
 | IMP-021 | 2026-06-28 | implementation | Lower dbt staging, dbt marts, and dbt tests to 0% until an actual dbt project/model/test flow exists, and add a prerequisite-readiness rule. | Direct SQL mart view remains evidence for the reference MVP, but no longer raises dbt node readiness. | architecture HTML / progress readiness rubric / project skill | reflected |
 | IMP-022 | 2026-06-28 | sub-agent review remediation | Lower `STAGE / RAW` to 0% because direct mart SQL is not STAGE/RAW readiness evidence. | McClintock found the adjacent node still violated the substitute/bypass evidence cap after dbt nodes were corrected. | architecture HTML | reflected |
 | IMP-023 | 2026-06-28 | implementation | Update Streamlit UI and Tool Adapter hover text to name the actual current read path: Snowflake direct SQL to `MART_RETAIL_MONTHLY_KPI` or local fixed rows, not dbt/Cortex. | Code inspection showed `streamlit_app/app.py` selects `SnowflakeKpiClient` or `LocalKpiClient`, and `planner.py` builds SQL against `qualified_mart(settings)`. | architecture HTML / progress readiness rubric / project skill | reflected |
+| IMP-024 | 2026-06-28 | implementation | Replace the visible Kaggle data-source node with `Snowflake Sample Data / TPCH_SF1` using the Snowflake sprite and tooltip that names the direct mart-view path. | The actual setup SQL reads `SNOWFLAKE_SAMPLE_DATA.TPCH_SF1` and creates `RETAIL_AI_OPS.MART.MART_RETAIL_MONTHLY_KPI`. | architecture HTML / project skill | reflected |
 
 ## Pending Reflection
 
