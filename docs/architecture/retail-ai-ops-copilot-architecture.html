@@ -95,9 +95,16 @@
       display: inline-block;
     }
 
-    .legend-line.data { border-color: var(--blue); }
+    .legend-line.data { border-color: var(--line); }
+    .legend-line.docs {
+      border-color: var(--blue);
+      border-top-style: dashed;
+    }
     .legend-line.tool { border-color: var(--purple); }
-    .legend-line.human { border-color: var(--green); }
+    .legend-line.human {
+      border-color: var(--green);
+      border-top-style: dashed;
+    }
     .legend-line.ops {
       border-color: var(--orange);
       border-top-style: dashed;
@@ -375,7 +382,7 @@
       background: rgba(255, 255, 255, 0.9);
       border-left: 3px solid #cbd5e1;
       padding: 5px 8px;
-      width: 238px;
+      width: 340px;
     }
 
     .connectors {
@@ -417,23 +424,38 @@
       stroke-linejoin: miter;
     }
 
-    .connectors .data { stroke: var(--blue); }
+    .connectors .data { stroke: var(--line); }
+    .connectors .docs {
+      stroke: var(--blue);
+      stroke-dasharray: 7 5;
+    }
     .connectors .tool { stroke: var(--purple); }
+    .connectors .tool-dashed {
+      stroke: var(--purple);
+      stroke-dasharray: 7 5;
+    }
     .connectors .ops {
       stroke: var(--orange);
+      stroke-dasharray: 7 5;
+    }
+    .connectors .review-dashed {
+      stroke: var(--red);
       stroke-dasharray: 7 5;
     }
     .connectors .guard {
       stroke: var(--slate);
       stroke-dasharray: 4 4;
     }
-    .connectors .human { stroke: var(--green); }
+    .connectors .human {
+      stroke: var(--green);
+      stroke-dasharray: 7 5;
+    }
 
     .footer-note {
       position: absolute;
       left: 24px;
       right: 24px;
-      bottom: 16px;
+      bottom: 28px;
       display: flex;
       justify-content: space-between;
       gap: 20px;
@@ -509,8 +531,9 @@
       </div>
       <div class="caption" aria-label="凡例">
         <span><i class="legend-line data"></i>データ</span>
-        <span><i class="legend-line tool"></i>ツール</span>
-        <span><i class="legend-line human"></i>利用/承認</span>
+        <span><i class="legend-line docs"></i>参照</span>
+        <span><i class="legend-line tool"></i>実行</span>
+        <span><i class="legend-line human"></i>承認</span>
         <span><i class="legend-line ops"></i>評価</span>
         <span><i class="legend-line guard"></i>統制</span>
       </div>
@@ -538,69 +561,81 @@
             <marker id="arrowOps" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
               <path d="M 0 0 L 10 5 L 0 10 z" fill="#d97706"></path>
             </marker>
+            <marker id="arrowReview" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#dc2626"></path>
+            </marker>
             <marker id="arrowGuard" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
               <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"></path>
             </marker>
           </defs>
 
-          <!-- 外部データソース -> Snowflake RAW -->
-          <path class="data" d="M 205 222 H 258 V 365 H 345" marker-end="url(#arrowData)"></path>
-          <path class="data" d="M 205 337 H 258 V 382 H 345" marker-end="url(#arrowData)"></path>
-          <path class="data" d="M 205 452 H 258 V 399 H 345" marker-end="url(#arrowData)"></path>
-          <path class="data" d="M 205 567 H 258 V 416 H 345" marker-end="url(#arrowData)"></path>
-          <path class="data" d="M 205 682 H 300 V 571 H 525" marker-end="url(#arrowData)"></path>
+          <!-- 外部データソース -> Snowflake RAW: 共有取込バス / Auto Loader -->
+          <path class="data" d="M 205 222 H 258"></path>
+          <path class="data" d="M 205 337 H 258"></path>
+          <path class="data" d="M 205 452 H 258"></path>
+          <path class="data" d="M 205 567 H 258"></path>
+          <path class="data" d="M 258 222 V 567"></path>
+          <path class="data" d="M 258 389 H 345" marker-end="url(#arrowBase)"></path>
+          <path class="docs" d="M 205 682 H 258 V 416 H 345" marker-end="url(#arrowData)"></path>
 
           <!-- Snowflake 内のデータ整備 -->
-          <path class="data" d="M 485 369 H 525" marker-end="url(#arrowData)"></path>
-          <path class="data" d="M 665 369 H 705" marker-end="url(#arrowData)"></path>
-          <path class="data" d="M 845 369 H 890" marker-end="url(#arrowData)"></path>
-          <path class="data" d="M 982 386 V 425" marker-end="url(#arrowData)"></path>
-          <path class="data" d="M 655 571 H 775" marker-end="url(#arrowData)"></path>
+          <path class="data" d="M 485 369 H 525" marker-end="url(#arrowBase)"></path>
+          <path class="data" d="M 590 430 V 450" marker-end="url(#arrowBase)"></path>
+          <path class="data" d="M 590 550 V 570" marker-end="url(#arrowBase)"></path>
+          <path class="data" d="M 655 498 H 680 V 444 H 700" marker-end="url(#arrowBase)"></path>
+          <path class="data" d="M 885 430 H 905 V 373 H 920" marker-end="url(#arrowBase)"></path>
+          <path class="docs" d="M 885 470 H 905 V 498 H 920" marker-start="url(#arrowData)" marker-end="url(#arrowData)"></path>
+          <path class="docs" d="M 885 488 H 905 V 623 H 920" marker-end="url(#arrowData)"></path>
+          <path class="data" d="M 1012 541 V 580" marker-start="url(#arrowBase)" marker-end="url(#arrowBase)"></path>
 
-          <!-- 利用者 -> Streamlit UI -->
-          <path class="human" d="M 405 192 V 218 H 1298 V 280" marker-end="url(#arrowHuman)"></path>
-          <path class="human" d="M 590 192 V 218 H 1298 V 280" marker-end="url(#arrowHuman)"></path>
-          <path class="human" d="M 775 192 V 218 H 1298 V 280" marker-end="url(#arrowHuman)"></path>
+          <!-- 利用者 -> Streamlit UI / Streamlit <-> Snowflake -->
+          <path class="data" d="M 840 145 H 945" marker-end="url(#arrowBase)"></path>
+          <path class="data" d="M 840 177 H 945" marker-end="url(#arrowBase)"></path>
+          <path class="data" d="M 1000 206 V 250" marker-end="url(#arrowBase)"></path>
+          <path class="data" d="M 1065 250 V 206" marker-end="url(#arrowBase)"></path>
 
-          <!-- 承認要求 -->
-          <path class="human" d="M 1386 323 H 1455 V 157 H 1418" marker-end="url(#arrowHuman)"></path>
+          <!-- Snowflake Cortex -> App Runtime -->
+          <path class="tool" d="M 1105 373 H 1145 V 323 H 1205" marker-end="url(#arrowTool)"></path>
+          <path class="tool" d="M 1105 623 H 1155 V 543 H 1205" marker-end="url(#arrowTool)"></path>
 
-          <!-- App Runtime 内 -->
-          <path class="tool" d="M 1298 366 V 405" marker-end="url(#arrowTool)"></path>
-          <path class="tool" d="M 1298 491 V 530" marker-end="url(#arrowTool)"></path>
+          <!-- App Runtime 内: 元図の主鎖 -->
+          <path class="tool" d="M 1298 366 V 390" marker-end="url(#arrowTool)"></path>
+          <path class="tool" d="M 1298 476 V 500" marker-end="url(#arrowTool)"></path>
+          <path class="tool" d="M 1298 586 V 610" marker-end="url(#arrowTool)"></path>
 
-          <!-- Agent Router -> Snowflake Cortex tools -->
-          <path class="tool" d="M 1205 572 H 1145 V 468 H 1075" marker-end="url(#arrowTool)"></path>
-          <path class="tool" d="M 1205 592 H 1162 V 578 H 960" marker-end="url(#arrowTool)"></path>
+          <!-- Trace / LLMOps -->
+          <path class="data" d="M 570 760 V 702 H 590 V 682" marker-end="url(#arrowBase)"></path>
+          <path class="ops" d="M 745 748 V 710 H 705 V 500" marker-start="url(#arrowOps)" marker-end="url(#arrowOps)"></path>
+          <path class="tool-dashed" d="M 1205 670 H 1188 V 710 H 922 V 748" marker-end="url(#arrowTool)"></path>
+          <path class="tool" d="M 1298 696 V 735 H 1408 V 900" marker-end="url(#arrowTool)"></path>
+          <path class="data" d="M 460 803 H 505" marker-end="url(#arrowBase)"></path>
+          <path class="data" d="M 635 803 H 680" marker-end="url(#arrowBase)"></path>
+          <path class="data" d="M 855 803 H 812" marker-end="url(#arrowBase)"></path>
+          <path class="data" d="M 985 803 H 1030" marker-start="url(#arrowBase)" marker-end="url(#arrowBase)"></path>
+          <path class="data" d="M 1160 803 H 1205" marker-start="url(#arrowBase)" marker-end="url(#arrowBase)"></path>
+          <path class="data" d="M 1270 846 H 1353 V 900" marker-end="url(#arrowBase)"></path>
+          <path class="review-dashed" d="M 1270 846 V 1028 H 1353 V 1006" marker-end="url(#arrowReview)"></path>
+          <path class="human" d="M 1418 948 H 1455 V 875 H 1428" marker-end="url(#arrowHuman)"></path>
 
-          <!-- Trace / 評価改善ループ -->
-          <path class="ops" d="M 1298 616 V 695 H 1100 V 760" marker-end="url(#arrowOps)"></path>
-          <path class="ops" d="M 1100 760 V 704 H 570 V 760" marker-end="url(#arrowOps)"></path>
-          <path class="ops" d="M 1100 704 H 745 V 760" marker-end="url(#arrowOps)"></path>
-          <path class="ops" d="M 1100 704 H 920 V 760" marker-end="url(#arrowOps)"></path>
-
-          <!-- 統制レーン: カードを避けて外側からAgent Routerへ入れる -->
-          <path class="guard" d="M 745 986 V 1048 H 1450 V 572 H 1390" marker-end="url(#arrowGuard)"></path>
-          <path class="guard" d="M 920 986 V 1048 H 1450" marker-end="url(#arrowGuard)"></path>
+          <!-- 統制 / 承認フィードバック -->
+          <path class="data" d="M 922 846 V 900 H 825" marker-end="url(#arrowBase)"></path>
+          <path class="guard" d="M 890 943 H 935" marker-start="url(#arrowGuard)" marker-end="url(#arrowGuard)"></path>
         </svg>
 
         <div class="zone" style="left: 38px; top: 132px; width: 212px; height: 620px;">
           <div class="zone-label blue">外部データソース</div>
         </div>
-        <div class="zone dashed" style="left: 300px; top: 250px; width: 830px; height: 440px;">
+        <div class="zone dashed" style="left: 300px; top: 250px; width: 850px; height: 440px;">
           <div class="zone-label green">Snowflake Account</div>
         </div>
-        <div class="zone dashed" style="left: 1160px; top: 250px; width: 270px; height: 430px;">
+        <div class="zone dashed" style="left: 1160px; top: 250px; width: 270px; height: 450px;">
           <div class="zone-label purple">App Runtime</div>
         </div>
-        <div class="zone" style="left: 300px; top: 720px; width: 925px; height: 330px;">
+        <div class="zone" style="left: 300px; top: 720px; width: 1135px; height: 330px;">
           <div class="zone-label orange">LLMOps運用</div>
         </div>
-        <div class="zone dashed" style="left: 315px; top: 96px; width: 610px; height: 132px;">
+        <div class="zone dashed" style="left: 315px; top: 96px; width: 835px; height: 132px;">
           <div class="zone-label slate">利用者</div>
-        </div>
-        <div class="zone" style="left: 1265px; top: 96px; width: 170px; height: 132px;">
-          <div class="zone-label green">承認</div>
         </div>
 
         <div class="service compact green" style="left: 75px; top: 185px;">
@@ -639,31 +674,36 @@
           <div class="service-title">dbt staging</div>
           <div class="service-sub">型・粒度・テスト</div>
         </div>
-        <div class="service compact orange" style="left: 705px; top: 330px;">
+        <div class="service compact orange" style="left: 525px; top: 450px;">
           <div class="icon sprite sp-dbt-table" role="img" aria-label="dbt marts"></div>
           <div class="service-title">dbt marts</div>
           <div class="service-sub">KPI集計済み</div>
         </div>
-        <div class="service wide snow" style="left: 890px; top: 300px;">
+        <div class="service compact orange" style="left: 525px; top: 570px;">
+          <div class="icon sprite sp-dbt-tests" role="img" aria-label="dbt tests"></div>
+          <div class="service-title">dbt tests</div>
+          <div class="service-sub">品質検証</div>
+        </div>
+        <div class="service wide snow" style="left: 700px; top: 390px;">
           <div class="icon sprite sp-semantic" role="img" aria-label="Semantic KPI Model"></div>
           <div class="service-title">Semantic KPI Model</div>
           <div class="service-sub">KPI意味モデル</div>
         </div>
 
-        <div class="service compact snow" style="left: 525px; top: 535px;">
-          <div class="icon sprite sp-memo" role="img" aria-label="Docs Table"></div>
-          <div class="service-title">Docs Table</div>
-          <div class="service-sub">定義・週報保管</div>
-        </div>
-        <div class="service wide snow" style="left: 775px; top: 535px;">
+        <div class="service wide snow" style="left: 920px; top: 455px;">
           <div class="icon sprite sp-cortex-search" role="img" aria-label="Cortex Search"></div>
           <div class="service-title">Cortex Search</div>
           <div class="service-sub">定義・週報検索</div>
         </div>
-        <div class="service wide snow" style="left: 890px; top: 425px;">
+        <div class="service wide snow" style="left: 920px; top: 330px;">
           <div class="icon sprite sp-cortex-analyst" role="img" aria-label="Cortex Analyst API"></div>
           <div class="service-title">Cortex Analyst API</div>
           <div class="service-sub">構造化KPI質問</div>
+        </div>
+        <div class="service wide snow" style="left: 920px; top: 580px;">
+          <div class="icon sprite sp-cortex-agents" role="img" aria-label="Cortex Agents"></div>
+          <div class="service-title">Cortex Agents</div>
+          <div class="service-sub">ツール選択・実行制御</div>
         </div>
 
         <div class="service compact" style="left: 340px; top: 120px;">
@@ -682,88 +722,102 @@
           <div class="service-sub">評価・改善</div>
         </div>
 
-        <div class="service narrow green" style="left: 1288px; top: 120px;">
-          <div class="icon sprite sp-human-review" role="img" aria-label="承認キュー"></div>
-          <div class="service-title">承認キュー</div>
-          <div class="service-sub">送信・更新前</div>
-        </div>
-
-        <div class="service wide red" style="left: 1205px; top: 280px;">
+        <div class="service wide red" style="left: 945px; top: 120px;">
           <div class="icon sprite sp-streamlit" role="img" aria-label="Streamlit"></div>
           <div class="service-title">Streamlit UI</div>
           <div class="service-sub">チャット・文脈・SQL確認</div>
         </div>
-        <div class="service wide snow" style="left: 1205px; top: 405px;">
-          <div class="icon sprite sp-cortex-agents" role="img" aria-label="Cortex Agents"></div>
-          <div class="service-title">Cortex Agents</div>
-          <div class="service-sub">ツール選択・実行制御</div>
-        </div>
-        <div class="service wide slate" style="left: 1205px; top: 530px;">
+        <div class="service wide slate" style="left: 1205px; top: 280px;">
           <div class="icon sprite sp-agent-router" role="img" aria-label="Agent Router"></div>
           <div class="service-title">Agent Router</div>
           <div class="service-sub">計画・状態・退避制御</div>
         </div>
+        <div class="service wide purple" style="left: 1205px; top: 390px;">
+          <div class="icon sprite sp-planner" role="img" aria-label="Planner"></div>
+          <div class="service-title">Planner</div>
+          <div class="service-sub">計画・ルール選択</div>
+        </div>
+        <div class="service wide purple" style="left: 1205px; top: 500px;">
+          <div class="icon sprite sp-tool-adapter" role="img" aria-label="Tool Adapter"></div>
+          <div class="service-title">Tool Adapter</div>
+          <div class="service-sub">Cortex・Search接続</div>
+        </div>
+        <div class="service wide purple" style="left: 1205px; top: 610px;">
+          <div class="icon sprite sp-trace-logger" role="img" aria-label="Trace Logger"></div>
+          <div class="service-title">Trace Logger</div>
+          <div class="service-sub">実行ログ・メトリクス</div>
+        </div>
 
         <div class="service compact orange" style="left: 330px; top: 760px;">
           <div class="icon sprite sp-github" role="img" aria-label="GitHub"></div>
-          <div class="service-title">GitHub / CI</div>
-          <div class="service-sub">dbtテスト・評価</div>
+          <div class="service-title">GitHub Repo</div>
+          <div class="service-sub">dbt・SQL・YAML</div>
         </div>
         <div class="service compact orange" style="left: 505px; top: 760px;">
+          <div class="icon sprite sp-ci-actions" role="img" aria-label="CI/CD"></div>
+          <div class="service-title">CI / CD</div>
+          <div class="service-sub">dbt構築・テスト</div>
+        </div>
+        <div class="service compact orange" style="left: 680px; top: 760px;">
           <div class="icon sprite sp-golden-eval" role="img" aria-label="Golden Eval"></div>
           <div class="service-title">Golden Eval</div>
           <div class="service-sub">質問・期待値</div>
         </div>
-        <div class="service compact slate" style="left: 680px; top: 760px;">
-          <div class="icon sprite sp-version" role="img" aria-label="Version Registry"></div>
-          <div class="service-title">Version Registry</div>
-          <div class="service-sub">プロンプト・モデル版</div>
-        </div>
-        <div class="service compact orange" style="left: 855px; top: 760px;">
-          <div class="icon sprite sp-error" role="img" aria-label="Error Taxonomy"></div>
-          <div class="service-title">Error Taxonomy</div>
-          <div class="service-sub">失敗分類表</div>
-        </div>
-        <div class="service compact slate" style="left: 1030px; top: 760px;">
+        <div class="service compact slate" style="left: 855px; top: 760px;">
           <div class="icon sprite sp-trace-store" role="img" aria-label="Trace Store"></div>
           <div class="service-title">Trace Store</div>
           <div class="service-sub">SQL・結果・回答</div>
         </div>
-        <div class="service compact green" style="left: 505px; top: 900px;">
+        <div class="service compact slate" style="left: 1030px; top: 760px;">
+          <div class="icon sprite sp-version" role="img" aria-label="Version Registry"></div>
+          <div class="service-title">Version Registry</div>
+          <div class="service-sub">プロンプト・モデル版</div>
+        </div>
+        <div class="service compact orange" style="left: 1205px; top: 760px;">
+          <div class="icon sprite sp-error" role="img" aria-label="Error Taxonomy"></div>
+          <div class="service-title">Error Taxonomy</div>
+          <div class="service-sub">失敗分類表</div>
+        </div>
+        <div class="service compact green" style="left: 1288px; top: 900px;">
           <div class="icon sprite sp-human-review" role="img" aria-label="人手レビュー"></div>
           <div class="service-title">人手レビュー</div>
           <div class="service-sub">低信頼ケース</div>
         </div>
-        <div class="service compact slate" style="left: 680px; top: 900px;">
+        <div class="service compact slate" style="left: 760px; top: 900px;">
           <div class="icon sprite sp-rbac" role="img" aria-label="RBAC"></div>
           <div class="service-title">RBAC Policy</div>
           <div class="service-sub">ロール境界</div>
         </div>
-        <div class="service compact slate" style="left: 855px; top: 900px;">
+        <div class="service compact slate" style="left: 935px; top: 900px;">
           <div class="icon sprite sp-cost" role="img" aria-label="Cost Guardrails"></div>
           <div class="service-title">Cost Guardrails</div>
           <div class="service-sub">行数・時間上限</div>
         </div>
 
-        <div class="flow-label" style="left: 229px; top: 338px;">データ取込</div>
-        <div class="flow-label" style="left: 571px; top: 300px;">dbt構築・テスト</div>
-        <div class="flow-label" style="left: 913px; top: 270px;">意味モデル問い合わせ</div>
-        <div class="flow-label" style="left: 787px; top: 500px;">文書検索</div>
-        <div class="flow-label" style="left: 1084px; top: 525px;">ツール呼び出し</div>
-        <div class="flow-label" style="left: 1418px; top: 204px;">人手承認</div>
-        <div class="flow-label" style="left: 1110px; top: 704px;">トレース・評価反映</div>
-        <div class="flow-label" style="left: 1215px; top: 1028px;">統制レーン</div>
+        <div class="flow-label" style="left: 252px; top: 332px;">Auto Loader</div>
+        <div class="flow-label" style="left: 394px; top: 658px;">dbt build / test<br>モデル・指標デプロイ</div>
+        <div class="flow-label" style="left: 948px; top: 232px;">質問・文脈</div>
+        <div class="flow-label" style="left: 1042px; top: 232px;">回答・可視化</div>
+        <div class="flow-label" style="left: 748px; top: 500px;">文書・参照</div>
+        <div class="flow-label" style="left: 1110px; top: 552px;">ツール呼び出し</div>
+        <div class="flow-label" style="left: 1124px; top: 474px;">実行・制御</div>
+        <div class="flow-label" style="left: 1000px; top: 686px;">改善適用（バージョン更新）</div>
+        <div class="flow-label" style="left: 630px; top: 708px;">指標定義 / Prompt改善</div>
+        <div class="flow-label" style="left: 810px; top: 734px;">評価結果</div>
+        <div class="flow-label" style="left: 1346px; top: 746px;">トレース /<br>メトリクス</div>
+        <div class="flow-label" style="left: 1322px; top: 862px;">承認結果 / フィードバック</div>
+        <div class="flow-label" style="left: 822px; top: 1028px;">統制境界</div>
 
         <div class="rail-label" style="left: 56px; top: 760px;">データソース</div>
-        <div class="rail-label" style="left: 312px; top: 620px;">データ基盤</div>
-        <div class="rail-label" style="left: 1150px; top: 646px;">エージェント実行</div>
+        <div class="rail-label" style="left: 312px; top: 652px;">データ基盤</div>
+        <div class="rail-label" style="left: 1166px; top: 716px;">エージェント実行</div>
         <div class="rail-label" style="left: 312px; top: 1022px;">LLMOps運用</div>
 
-        <div class="boundary-note" style="left: 330px; top: 650px;">
+        <div class="boundary-note" style="left: 330px; top: 1060px; width: 500px;">
           前処理は深掘りしすぎず、整備済みマートとデータ契約を前提にする。
         </div>
-        <div class="boundary-note" style="left: 885px; top: 650px;">
-          学習の主対象は意味モデル、ツールルーティング、trace、eval、human review。
+        <div class="boundary-note" style="left: 860px; top: 1060px; width: 500px;">
+          学習の主対象: 意味モデル、ツールルーティング、トレース・評価、人手レビュー。
         </div>
 
         <div class="footer-note">
