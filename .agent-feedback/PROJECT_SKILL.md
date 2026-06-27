@@ -60,6 +60,32 @@ Use rendered geometry for SVG endpoints:
 - treat `H`/`V` shorthand paths as requiring rendered endpoint measurement,
   because numeric token parsing can misread the effective final point
 
+### Diagram Source Hierarchy Fidelity Gate
+
+Before implementing or reviewing architecture HTML, inventory parent zones,
+child nodes, and any nested mini-frames, subcategory boxes, inner stack frames,
+or grouped frames inside a parent category.
+
+If the selected source shows components such as `dbt staging`, `dbt marts`,
+`dbt tests`, `STAGE / RAW`, or `Snowpipe取込` inside a smaller category or
+inner frame, preserve that nested structure in HTML. Do not flatten those items
+into peer service cards unless the difference is explicitly documented.
+
+When arrows appear near nested frames, classify the source relationship before
+drawing:
+
+- parent category to parent category
+- subcategory frame to subcategory frame
+- inner frame to node
+- node edge to node edge
+- shared lane/bus/label anchor to node
+
+Fail the review if flattening makes readers infer unsupported direct
+relationships, such as `CI / CD -> dbt tests` or `dbt marts -> Semantic KPI
+Model`, when the source relationship is actually attached to the dbt
+transformation frame, semantic layer, data lake frame, or another nested
+category.
+
 ### Sub-Agent Firing E2E Gate
 
 Separate feedback reflection completion from real sub-agent firing.

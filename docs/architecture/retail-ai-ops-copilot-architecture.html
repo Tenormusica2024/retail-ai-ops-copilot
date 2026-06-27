@@ -208,6 +208,71 @@
     .zone-label.orange { background: var(--orange); }
     .zone-label.slate { background: var(--slate); }
 
+    .subzone {
+      position: absolute;
+      border: 1.4px solid #93b8e4;
+      background: rgba(255, 255, 255, 0.54);
+      border-radius: 6px;
+    }
+
+    .subzone.orange {
+      border-color: #e9a36f;
+      background: rgba(255, 247, 237, 0.5);
+    }
+
+    .subzone.semantic-frame {
+      border-color: #9bb8ea;
+      background: rgba(239, 250, 255, 0.46);
+    }
+
+    .subzone-title {
+      position: absolute;
+      left: 12px;
+      top: 10px;
+      font-size: 11px;
+      font-weight: 850;
+      color: #1f2933;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 2px 6px;
+      border-radius: 2px;
+      white-space: nowrap;
+      z-index: 2;
+    }
+
+    .subzone-heading {
+      position: absolute;
+      left: 48px;
+      top: 42px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 18px;
+      font-weight: 900;
+      color: #1f2933;
+      background: rgba(255, 255, 255, 0.88);
+      padding: 2px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+      z-index: 2;
+    }
+
+    .subzone-heading .icon.sprite {
+      width: 32px;
+      height: 32px;
+      background-size: 256px 128px;
+      background-position:
+        calc(var(--col) * -32px)
+        calc(var(--row) * -32px);
+    }
+
+    .nested-frame {
+      position: absolute;
+      border: 1.2px solid #c2ccd9;
+      background: rgba(255, 255, 255, 0.42);
+      border-radius: 5px;
+      z-index: 1;
+    }
+
     .service {
       position: absolute;
       box-sizing: border-box;
@@ -230,6 +295,32 @@
     .service.compact {
       width: 176px;
       min-height: 74px;
+    }
+
+    .service.small {
+      width: 150px;
+      min-height: 68px;
+      grid-template-columns: 42px minmax(0, 1fr);
+      column-gap: 7px;
+      padding: 6px 8px;
+    }
+
+    .service.small .icon.sprite {
+      width: 42px;
+      height: 42px;
+      background-size: 336px 168px;
+      background-position:
+        calc(var(--col) * -42px)
+        calc(var(--row) * -42px);
+    }
+
+    .service.small .service-title {
+      font-size: 11px;
+    }
+
+    .service.small .service-sub {
+      font-size: 9.3px;
+      line-height: 1.24;
     }
 
     .service.wide {
@@ -451,6 +542,10 @@
       z-index: 1;
     }
 
+    .diagram > .subzone {
+      z-index: 2;
+    }
+
     .diagram > .service {
       z-index: 6;
     }
@@ -618,18 +713,18 @@
           <path class="data" d="M 238 428 H 270"></path>
           <path class="data" d="M 238 531 H 270"></path>
           <path class="data" d="M 270 222 V 531"></path>
-          <path class="data" data-edge="external-source-bus-to-raw" d="M 270 389 H 365" marker-end="url(#arrow-data)"></path>
-          <path class="docs" data-edge="memo-docs-to-raw" d="M 238 634 H 282 V 398 H 365" marker-end="url(#arrow-docs)"></path>
+          <path class="data" data-edge="external-source-bus-to-raw" d="M 270 389 H 354" marker-end="url(#arrow-data)"></path>
+          <path class="docs" data-edge="memo-docs-to-raw" d="M 238 634 H 282 V 398 H 354" marker-end="url(#arrow-docs)"></path>
 
           <!-- Snowflake 内のデータ整備 -->
-          <path class="data" d="M 541 369 H 580" marker-end="url(#arrow-data)"></path>
-          <path class="data" d="M 668 404 V 450" marker-end="url(#arrow-data)"></path>
-          <path class="data" d="M 668 524 V 570" marker-end="url(#arrow-data)"></path>
-          <path class="data" data-edge="dbt-marts-to-semantic" d="M 756 486 H 785" marker-end="url(#arrow-data)"></path>
-          <path class="data" data-edge="semantic-to-cortex-analyst" d="M 1005 430 H 1024 V 373 H 1050" marker-end="url(#arrow-data)"></path>
-          <path class="docs" data-edge="semantic-to-cortex-search" d="M 1005 477 H 1050" marker-end="url(#arrow-docs)"></path>
-          <path class="docs" data-edge="cortex-search-to-semantic" d="M 1050 493 H 1005" marker-end="url(#arrow-docs)"></path>
-          <path class="docs" data-edge="semantic-to-cortex-agents-reference" d="M 1005 488 H 1024 V 638 H 1050" marker-end="url(#arrow-docs)"></path>
+          <path class="data" data-edge="data-lake-to-dbt-modeling-frame" d="M 504 414 H 580" marker-end="url(#arrow-data)"></path>
+          <path class="data" data-edge="dbt-staging-to-marts" d="M 655 448 V 480" marker-end="url(#arrow-data)"></path>
+          <path class="data" data-edge="dbt-marts-to-tests" d="M 655 548 V 580" marker-end="url(#arrow-data)"></path>
+          <path class="data" data-edge="dbt-modeling-frame-to-semantic-kpi-model" d="M 746 486 H 805" marker-end="url(#arrow-data)"></path>
+          <path class="data" data-edge="semantic-to-cortex-analyst" d="M 1025 430 H 1040 V 373 H 1050" marker-end="url(#arrow-data)"></path>
+          <path class="docs" data-edge="semantic-to-cortex-search" d="M 1025 477 H 1050" marker-end="url(#arrow-docs)"></path>
+          <path class="docs" data-edge="cortex-search-to-semantic" d="M 1050 493 H 1025" marker-end="url(#arrow-docs)"></path>
+          <path class="docs" data-edge="semantic-to-cortex-agents-reference" d="M 1025 488 H 1040 V 638 H 1050" marker-end="url(#arrow-docs)"></path>
           <path class="data" data-edge="cortex-search-to-agents" d="M 1160 539 V 595" marker-end="url(#arrow-data)"></path>
           <path class="data" data-edge="cortex-agents-to-search" d="M 1176 595 V 539" marker-end="url(#arrow-data)"></path>
 
@@ -649,7 +744,7 @@
           <path class="tool" d="M 1520 594 V 622" marker-end="url(#arrow-tool)"></path>
 
           <!-- Trace / LLMOps -->
-          <path class="data" data-edge="ci-cd-to-dbt-build-test" d="M 388 780 V 702 H 668 V 644" marker-start="url(#arrow-data)" marker-end="url(#arrow-data)"></path>
+          <path class="data" data-edge="ci-cd-to-dbt-modeling-frame" d="M 388 780 V 704 H 658 V 652" marker-start="url(#arrow-data)" marker-end="url(#arrow-data)"></path>
           <path class="ops" data-edge="golden-eval-to-semantic-improvement" d="M 623 780 V 710 H 895 V 494" marker-start="url(#arrow-ops)" marker-end="url(#arrow-ops)"></path>
           <path class="tool-dashed" d="M 1370 682 H 1335 V 730 H 873 V 780" marker-end="url(#arrow-tool)"></path>
           <path class="tool" data-edge="trace-logger-to-trace-metrics" d="M 1520 704 V 780" marker-end="url(#arrow-tool)"></path>
@@ -685,6 +780,25 @@
           <div class="zone-label slate">利用者</div>
         </div>
 
+        <div class="subzone" style="left: 330px; top: 304px; width: 190px; height: 348px;">
+          <div class="subzone-title">データレイク / 取込層</div>
+          <div class="nested-frame" style="left: 14px; top: 54px; width: 162px; height: 270px;"></div>
+        </div>
+        <div class="subzone orange" style="left: 545px; top: 304px; width: 201px; height: 348px;">
+          <div class="subzone-title">変換・モデリング (dbt)</div>
+          <div class="subzone-heading">
+            <span class="icon sprite sp-dbt" role="img" aria-label="dbt"></span>
+            <span>dbt</span>
+          </div>
+          <div class="nested-frame" style="left: 15px; top: 34px; width: 172px; height: 310px;"></div>
+        </div>
+        <div class="subzone semantic-frame" style="left: 780px; top: 350px; width: 250px; height: 230px;">
+          <div class="subzone-title">セマンティック層</div>
+        </div>
+        <div class="subzone semantic-frame" style="left: 1036px; top: 300px; width: 260px; height: 378px;">
+          <div class="subzone-title">AIアクセス層 (Snowflake Cortex)</div>
+        </div>
+
         <div class="service compact green" style="left: 62px; top: 185px;">
           <div class="icon sprite sp-kaggle" role="img" aria-label="Kaggle"></div>
           <div class="service-title">Kaggle小売CSV</div>
@@ -711,27 +825,32 @@
           <div class="service-sub">週次レポート・メモ<br>会議記録</div>
         </div>
 
-        <div class="service compact snow" style="left: 365px; top: 330px;">
+        <div class="service small snow" style="left: 354px; top: 376px;">
           <div class="icon sprite sp-stage-db" role="img" aria-label="STAGE RAW"></div>
           <div class="service-title">STAGE / RAW</div>
-          <div class="service-sub">外部ステージ (S3 / GCS)<br>Snowpipe取込</div>
+          <div class="service-sub">外部ステージ<br>(S3 / GCS)</div>
         </div>
-        <div class="service compact orange" style="left: 580px; top: 330px;">
+        <div class="service small snow" style="left: 354px; top: 545px;">
+          <div class="icon sprite sp-snowpipe" role="img" aria-label="Snowpipe取込"></div>
+          <div class="service-title">Snowpipe取込</div>
+          <div class="service-sub">継続ロード</div>
+        </div>
+        <div class="service small orange" style="left: 580px; top: 380px;">
           <div class="icon sprite sp-dbt-table" role="img" aria-label="dbt staging"></div>
           <div class="service-title">dbt staging</div>
           <div class="service-sub">型・粒度・テスト</div>
         </div>
-        <div class="service compact orange" style="left: 580px; top: 450px;">
+        <div class="service small orange" style="left: 580px; top: 480px;">
           <div class="icon sprite sp-dbt-table" role="img" aria-label="dbt marts"></div>
           <div class="service-title">dbt marts</div>
           <div class="service-sub">KPI集計済み</div>
         </div>
-        <div class="service compact orange" style="left: 580px; top: 570px;">
+        <div class="service small orange" style="left: 580px; top: 580px;">
           <div class="icon sprite sp-dbt-tests" role="img" aria-label="dbt tests"></div>
           <div class="service-title">dbt tests</div>
           <div class="service-sub">品質検証</div>
         </div>
-        <div class="service semantic snow" style="left: 785px; top: 390px;">
+        <div class="service semantic snow" style="left: 805px; top: 390px;">
           <div class="icon sprite sp-semantic" role="img" aria-label="Semantic KPI Model"></div>
           <div class="service-title">Semantic KPI Model</div>
           <div class="service-sub">(YAML / Semantic Model)<br>指標定義・ディメンション<br>ビジネスルール・メトリクス<br>階層・ルックアップ</div>
