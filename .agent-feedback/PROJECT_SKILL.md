@@ -24,8 +24,8 @@ appear during project work:
 
 ### Feedback Reflection Migration
 
-The global `agent-feedback-ledger` owns trigger capture and final reflection
-status for this project.
+The main agent runs the global `agent-feedback-ledger` flow as the single
+reflection lane for this project.
 
 If an existing diagram-specific feedback skill also applies, use it as context
 or as the update target for the single reflection lane. Do not spawn a generic
@@ -149,6 +149,26 @@ fix and feedback reflection are otherwise complete.
 does not by itself prove real sub-agent firing. When no real-subagent E2E is in
 scope, state `sub-agent firing: not required/not tested`. When firing is in
 scope, include the status tuple and the matching invocation row.
+
+### Reviewer Sub-Agent Launch Gate
+
+Use `.agent-feedback/REVIEWER_SUBAGENT_DESIGN.md` for the reviewer pattern.
+
+The default feedback-reflection owner is the main agent. The reviewer sub-agent
+is an independent read-only reviewer unless the user explicitly asks for a
+worker. It does not receive reliable full-session context by default, so launch
+it with a context pack containing objective, target files, current user signal,
+allowed facts, suspected failure modes, output format, and edit permission.
+
+Reviewer sub-agents should not directly own final skill edits. They return
+findings and proposed actions; the main agent integrates them into the ledger,
+project rules, installed skills, or marks them `non-reusable`.
+
+Reviewer launches are non-blocking unless the user's acceptance criterion
+depends on the reviewer verdict, such as sub-agent firing proof, workflow E2E,
+or source-fidelity approval. If the reviewer is still running and artifact work
+can safely continue, record `pending with handoff` instead of stopping the main
+task.
 
 ### Feedback Routing Child Pack Gate
 
