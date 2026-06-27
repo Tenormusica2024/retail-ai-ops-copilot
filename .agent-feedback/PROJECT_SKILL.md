@@ -173,7 +173,10 @@ task.
 ### Feedback Routing Child Pack Gate
 
 The installed diagram feedback skill may use child routing packs to improve
-classification accuracy, but the parent skill remains the single trigger owner.
+classification accuracy, but the global feedback-ledger lane remains the single
+reflection owner when it is active. The diagram parent skill is the routing
+parent and update target for diagram-specific lessons, not a duplicate standing
+lane.
 
 Child routing packs are references, not extra standing reflection lanes. They
 must not spawn duplicate feedback sub-agents, claim final reflection status, or
@@ -183,6 +186,24 @@ When feedback spans several areas, load only the relevant child packs, such as
 process, layout/visual, connector/arrow, assets/text, and ledger hygiene. Final
 reporting should name which packs were used whenever child-pack routing affects
 the work, not only when the routing decision itself is the user question.
+
+For every reusable feedback item, decide the target scope before writing the
+skill update:
+
+- `child-specific`: one child pack owns the concrete checklist
+- `multi-child`: several child packs need concrete checklist updates
+- `parent-skill`: the diagram feedback parent needs routing, taxonomy, or
+  cross-child acceptance-gate wording
+- `project-wide`: this project-wide rule file needs the default workflow,
+  evidence policy, or final reporting contract
+- `global`: the installed global skill should change because the lesson applies
+  across projects and the user has authorized that scope
+
+A trigger can require more than one target. For example, a tooltip text issue
+can route to `assets-text` for typography, `layout-visual` for overflow, and
+`ledger-hygiene` for routing evidence; a missed routing decision should also
+update the parent or project-wide rule. Do not treat adding a bullet to this
+file as sufficient when the child-pack structure is relevant.
 
 Installed child pack paths:
 
@@ -194,9 +215,10 @@ Installed child pack paths:
 
 When a child pack is loaded, record `loaded_child_packs=[...]` in the final
 status or in `.agent-feedback/SUBAGENT_INVOCATIONS.md`, together with
-`routing_reason=...` and `evidence=...`. If no child pack was loaded for a
-trigger that spans process, layout, arrow, asset/text, or ledger hygiene, record
-the reason instead of silently relying on memory.
+`routing_reason=...`, `target_scope=...`, and `evidence=...`. If no child pack
+was loaded for a trigger that spans process, layout, arrow, asset/text, or
+ledger hygiene, record the reason instead of silently relying on memory. Missing
+child-pack or parent-scope evidence is itself a feedback reflection defect.
 
 ### Diagram Progress Overlay Gate
 
