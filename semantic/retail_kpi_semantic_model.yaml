@@ -1,0 +1,83 @@
+name: retail_kpi_semantic_model_v0_1
+description: >
+  Semantic model draft for a Snowflake-native retail operations KPI copilot.
+  The first implementation uses a curated mart created from Snowflake sample
+  data. Tasty Bytes can replace the mart later without changing the agent
+  contract.
+tables:
+  - name: retail_monthly_kpi
+    base_table:
+      database: RETAIL_AI_OPS
+      schema: MART
+      table: MART_RETAIL_MONTHLY_KPI
+    description: Monthly retail/distribution KPI mart built from Snowflake sample data.
+    dimensions:
+      - name: month_start
+        expr: month_start
+        data_type: date
+        description: Month grain used for trend questions.
+      - name: region_name
+        expr: region_name
+        data_type: text
+        description: Region proxy from Snowflake sample geography.
+      - name: nation_name
+        expr: nation_name
+        data_type: text
+        description: Nation proxy used as the first MVP area filter.
+      - name: category_name
+        expr: category_name
+        data_type: text
+        description: Product category proxy.
+    measures:
+      - name: net_sales
+        expr: net_sales
+        default_aggregation: sum
+        data_type: number
+        description: Discount-adjusted sales amount.
+      - name: gross_margin
+        expr: gross_margin
+        default_aggregation: sum
+        data_type: number
+        description: Net sales minus supply cost proxy.
+      - name: gross_margin_rate
+        expr: gross_margin_rate
+        default_aggregation: avg
+        data_type: number
+        description: Gross margin divided by net sales. Use carefully when aggregating.
+      - name: order_count
+        expr: order_count
+        default_aggregation: sum
+        data_type: number
+        description: Count of distinct orders in the mart grain.
+      - name: avg_discount
+        expr: avg_discount
+        default_aggregation: avg
+        data_type: number
+        description: Average line-item discount rate.
+verified_queries:
+  - name: jp_monthly_margin_rate
+    question: 日本の粗利率を月次で見て
+    use_as_onboarding_question: true
+    sql: |
+      select
+        month_start,
+        nation_name,
+        category_name,
+        gross_margin_rate,
+        net_sales
+      from __retail_monthly_kpi
+      where nation_name = 'JAPAN'
+      order by month_start desc, net_sales desc
+      limit 20
+  - name: asia_monthly_sales
+    question: Asiaの売上を月次で見て
+    sql: |
+      select
+        month_start,
+        region_name,
+        sum(net_sales) as net_sales
+      from __retail_monthly_kpi
+      where region_name = 'ASIA'
+      group by month_start, region_name
+      order by month_start desc
+      limit 12

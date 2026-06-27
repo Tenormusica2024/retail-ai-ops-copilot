@@ -26,6 +26,7 @@ blocked.
 | REQ-007 | 2026-06-28 | user | Show a Snowpipe icon for the data lake ingestion area when the source identifies Snowpipe. | Source shows Snowpipe as an ingestion item, but the HTML only had Snowpipe as text inside STAGE/RAW. | architecture HTML / logo asset skill | reflected |
 | REQ-008 | 2026-06-28 | user | Allow splitting the feedback-routing skill into child packs/subskills when it improves routing accuracy. | Current installed diagram feedback skill mixes trigger ownership, routing taxonomy, ledger traceability, and invocation evidence. | installed diagram feedback skill / project feedback rules | reflected |
 | REQ-009 | 2026-06-28 | user | Actively improve the remaining prompt-quality issues instead of leaving them as review findings. | Prior review found weak child-pack evidence, ambiguous sub-agent status vocabulary, insufficient source-hierarchy evidence, and brittle endpoint measurement wording. | project feedback rules / installed diagram feedback skills | reflected |
+| REQ-010 | 2026-06-28 | user | Do not silently fall back when Snowflake is unavailable. | Silent fallback would hide the exact live integration failure the user needs to learn from. | runtime mode / project feedback rules | reflected |
 
 ## 指摘
 
@@ -45,6 +46,7 @@ blocked.
 | FB-012 | 2026-06-28 | user / sub-agent review | Sub-agent reporting still risked mixing mode, firing, reviewer verdict, main-agent action, and final artifact status. | PASS/FAIL vocabulary was too narrow and did not cover unavailable, not-required, stale, not-returned, or not-reviewed states. Evidence: `INV-20260628-008`. | process routing / E2E status tuple | reflected |
 | FB-013 | 2026-06-28 | user / sub-agent review | Source hierarchy fidelity rules still leaned on inventory prose without requiring a structured evidence matrix. | A reviewer could say "nested frames checked" without source crop, selector/path evidence, or row-level matched/FAIL status. Evidence: `INV-20260628-008`. | layout routing / source hierarchy matrix | reflected |
 | FB-014 | 2026-06-28 | user / sub-agent review | Connector endpoint guidance over-relied on `offsetLeft`/`offsetTop`, which is brittle under transforms, responsive scale, nested containers, or SVG coordinate conversion. | The robust method is rendered DOM measurement with `getBoundingClientRect()` and conversion into SVG coordinates, such as `getScreenCTM().inverse()`. Evidence: `INV-20260628-008`. | connector endpoint measurement | reflected |
+| FB-015 | 2026-06-28 | user | The first implementation wording introduced "Snowflake unavailable -> local stub" as a fallback, which could hide live Snowflake/Cortex failures. | The implementation treated local mode as a convenience fallback instead of an explicitly selected test harness. | runtime mode / UI / docs | reflected |
 
 ## 改善
 
@@ -58,6 +60,8 @@ blocked.
 | IMP-006 | 2026-06-28 | implementation | Promote a nested mini-frame inventory and subframe-vs-node arrow anchor classification rule so future diagram work does not flatten source hierarchy into misleading direct edges. | Raman proposed the durable rule; Mencius found the first fix still incomplete until dbt header/inner frames and Snowpipe nesting were added. | project skill / installed diagram skills | reflected |
 | IMP-007 | 2026-06-28 | implementation / sub-agent review | Add child routing packs under the installed diagram feedback skill while keeping the parent skill as the single trigger owner. | Huygens recommended light child packs and warned against over-splitting; implementation added process, layout/visual, connector/arrow, assets/text, and ledger hygiene packs as reference packs, not separate lanes. | installed diagram feedback skill / project feedback rules | reflected |
 | IMP-008 | 2026-06-28 | implementation / sub-agent review | Tighten the feedback-routing prompt contract with concrete child-pack paths and evidence fields, a five-part sub-agent status tuple, source hierarchy matrix requirements, and rendered SVG endpoint coordinate conversion. | Bacon confirmed the four weak spots; project and installed skills were updated in organized sections rather than raw append-only notes. | project feedback rules / installed diagram feedback skills | reflected |
+| IMP-009 | 2026-06-28 | implementation | Replace implicit fallback with explicit `snowflake` vs `local_explicit_test` runtime modes, and make Snowflake live failures visible. | Streamlit now defaults to Snowflake mode and errors on missing credentials; local test execution is only available through an explicit UI mode. | runtime mode / README / docs / project skill | reflected |
+| IMP-010 | 2026-06-28 | implementation | Rename internal route-blocking metadata from `fallback_reason` to `safe_stop_reason`. | This prevents Snowflake runtime fallback from being conflated with agent-level clarification, refusal, or handoff states. | model / trace / UI / tests / docs | reflected |
 
 ## Pending Reflection
 

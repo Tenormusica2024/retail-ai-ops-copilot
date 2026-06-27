@@ -46,7 +46,7 @@ AIエージェントを「何でも答えるチャット」ではなく、業務
 | `unsafe_action_request` | 通知、送信、変更、登録 | human approval |
 | `unsupported_question` | semantic model / docs 外 | refusal or handoff |
 
-## Fallback states
+## Safe-stop states
 
 - `clarify_needed`
 - `no_data`
@@ -56,7 +56,7 @@ AIエージェントを「何でも答えるチャット」ではなく、業務
 - `tool_error`
 - `human_review_required`
 
-fallback は失敗ではなく、業務上の安全状態として扱う。
+safe-stop は代替実行ではなく、業務上の確認・保留・拒否状態として扱う。
 
 ## Human approval
 

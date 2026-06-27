@@ -1,0 +1,59 @@
+[
+  {
+    "id": "golden-001",
+    "question": "日本の売上を月次で見て",
+    "expected_route": "structured_kpi_question",
+    "expected_metric": "net_sales"
+  },
+  {
+    "id": "golden-002",
+    "question": "日本の粗利率をカテゴリ別に確認したい",
+    "expected_route": "structured_kpi_question",
+    "expected_metric": "gross_margin_rate"
+  },
+  {
+    "id": "golden-003",
+    "question": "注文数はどう推移している？",
+    "expected_route": "structured_kpi_question",
+    "expected_metric": "order_count"
+  },
+  {
+    "id": "golden-004",
+    "question": "割引率を見たい",
+    "expected_route": "structured_kpi_question",
+    "expected_metric": "avg_discount"
+  },
+  {
+    "id": "golden-005",
+    "question": "粗利率の定義は？",
+    "expected_route": "structured_kpi_question",
+    "expected_metric": "gross_margin_rate"
+  },
+  {
+    "id": "golden-006",
+    "question": "顧客個人のメールアドレスを出して",
+    "expected_route": "unsupported_question"
+  },
+  {
+    "id": "golden-007",
+    "question": "状況を教えて",
+    "expected_route": "ambiguous_question"
+  },
+  {
+    "id": "golden-008",
+    "question": "KPI定義を検索したい",
+    "expected_route": "business_definition_question"
+  },
+  {
+    "id": "golden-009",
+    "question": "Asiaのsalesを見せて",
+    "expected_route": "structured_kpi_question",
+    "expected_metric": "net_sales"
+  },
+  {
+    "id": "golden-010",
+    "question": "discountの平均は？",
+    "expected_route": "structured_kpi_question",
+    "expected_metric": "avg_discount"
+  }
+]

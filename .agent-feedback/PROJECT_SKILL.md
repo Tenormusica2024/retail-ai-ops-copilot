@@ -173,6 +173,25 @@ status or in `.agent-feedback/SUBAGENT_INVOCATIONS.md`, together with
 trigger that spans process, layout, arrow, asset/text, or ledger hygiene, record
 the reason instead of silently relying on memory.
 
+### No Silent Runtime Fallback Gate
+
+For Snowflake/Cortex implementation work, do not silently switch from a live
+Snowflake path to local test data, cached data, or demo mode.
+
+Allowed modes:
+
+- `snowflake`: live Snowflake/Cortex path. Missing credentials, unavailable
+  sample data, permission errors, warehouse errors, and SQL failures must be
+  visible failures.
+- `local_explicit_test`: intentionally selected local test harness for router,
+  trace, eval, UI smoke, and cost-free development.
+
+Local test mode must be named as such in UI, logs, docs, and final answers. Do
+not describe it as equivalent validation of Snowflake/Cortex behavior. If a
+Snowflake live run fails, report the failure and next action rather than
+returning `local_explicit_test` results. Avoid naming local test data as a
+runtime fallback or treating it as a transparent substitute.
+
 ## Do Not Use This File As A Raw Dump
 
 Raw history belongs in `.agent-feedback/FEEDBACK_LEDGER.md`. This skill should

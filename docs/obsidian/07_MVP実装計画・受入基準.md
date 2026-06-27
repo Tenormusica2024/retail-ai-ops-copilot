@@ -18,9 +18,9 @@ cssclasses: [excel-agent-wide-table]
 
 ## Phase 1: ローカルMVP骨格
 
-Snowflake接続前に、ローカルでAgent設計を検証する。
+Snowflake接続前またはCortex課金を抑えたい時に、明示的な `local_explicit_test` でAgent設計を検証する。これはSnowflake失敗時の代替実行ではなくテストハーネス。
 
-- sample KPI mart CSV
+- Snowflake sample martと同じ契約を前提にしたlocal explicit test data
 - semantic model YAML draft
 - router
 - planner output
@@ -34,13 +34,14 @@ Snowflake接続前に、ローカルでAgent設計を検証する。
 - structured / ambiguous / unsupported のrouteが分かれる
 - traceがJSONLまたはSQLiteに残る
 - follow-upで前回contextを再利用できる
+- Snowflake live modeではlocal_explicit_testへ自動切替しない
 
 ## Phase 2: Snowflake / Cortex接続
 
 - Snowflake trial account を使う
 - small warehouse
-- staged CSV load
-- dbtまたはSQLでmart作成
+- `SNOWFLAKE_SAMPLE_DATA.TPCH_SF1` からSQLまたはdbtでmart作成
+- Tasty Bytesが利用できる場合は同じmart契約に差し替える
 - Cortex Analyst semantic model
 - verified query候補
 - StreamlitからCortex Analystを呼ぶ
@@ -68,7 +69,7 @@ Snowflake接続前に、ローカルでAgent設計を検証する。
 ## Phase 4: Cortex Search small slice
 
 - KPI定義、週報メモ、販促メモを少量登録
-- Cortex Search またはローカルstubで検索
+- Cortex Search または明示的なlocal_explicit_test検索で検証
 - mixed question の route を試す
 
 完了条件:
