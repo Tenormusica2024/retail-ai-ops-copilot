@@ -234,6 +234,19 @@ Required behavior:
   progress/status/note metadata count, then visually inspect at least one
   hovered node screenshot
 
+### Repo Responsibility Boundary Gate
+
+This repo's primary responsibility is high-fidelity architecture HTML
+reproduction, public preview, diagram assets, progress overlays, and learning
+metadata. A small reference MVP may stay here only to ground diagram progress.
+
+When work shifts from explaining or visualizing readiness into creating real
+tests, answer-quality evaluation, UI E2E, Snowflake/Cortex runtime behavior,
+CI/CD, or workflow improvements, hand the task back to the pipeline
+implementation repo. Do not raise this repo's node percentages based on planned
+implementation work; raise them only after implementation-repo evidence exists
+or after a deliberately scoped reference/smoke proof in this repo.
+
 ### No Silent Runtime Fallback Gate
 
 For Snowflake/Cortex implementation work, do not silently switch from a live

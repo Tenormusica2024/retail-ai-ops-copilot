@@ -2,7 +2,9 @@
 
 ## Project Contract
 
-This repository is a learning and implementation workspace for `retail-ai-ops-copilot`, a Snowflake-native retail KPI copilot.
+This repository is primarily the architecture-diagram reproduction and public
+learning surface for `retail-ai-ops-copilot`, a Snowflake-native retail KPI
+copilot.
 
 The main objective is to learn and demonstrate a practical AI architecture /
 LLMOps engineering scope:
@@ -15,7 +17,14 @@ LLMOps engineering scope:
 - human review and approval gates
 - lightweight governance and cost guardrails
 
-Do not let the project drift into a full data engineering, forecasting, IAM, or FinOps platform.
+Do not let this repo drift into the full pipeline implementation. It may contain
+small reference MVP code and smoke tests to ground diagram progress, but
+concrete answer-quality tests, UI E2E, workflow improvements, Snowflake/Cortex
+runtime behavior, CI/CD, and production-like integration work belong in the
+implementation repo. After that repo produces evidence, update this repo's
+diagram and progress-readiness labels.
+
+See `docs/architecture/repo-responsibility-boundary.md`.
 
 ## Documentation Sync
 
@@ -44,8 +53,10 @@ python3 tools/sync_obsidian_docs.py --direction repo-to-obsidian
 
 ## Scope Boundaries
 
-Must include:
+Must include in this repo as diagram, docs, rubric, or evidence references:
 
+- high-fidelity architecture HTML reproduction
+- diagram assets, progress overlays, readiness rubric, and public Pages preview
 - data contracts and KPI definitions
 - semantic model and verified query strategy
 - golden evaluation cases
@@ -65,6 +76,7 @@ Light touch only:
 
 Defer:
 
+- full pipeline implementation beyond reference MVP/smoke evidence
 - production deployment
 - real autonomous write actions
 - multi-model routing

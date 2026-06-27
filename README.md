@@ -1,9 +1,16 @@
 # retail-ai-ops-copilot
 
-Snowflake-native retail KPI copilot for learning and demonstrating LLMOps and
-AI architecture patterns.
+Public architecture-diagram reproduction and learning surface for a
+Snowflake-native retail KPI copilot.
 
-The project focuses on a governed KPI copilot, not on a full data engineering platform. It assumes curated retail KPI marts from DE/DS-owned pipelines and implements the AI architecture layer around semantic metrics, tool routing, traces, evaluations, safe-stop states, human review, and small executable boundary tests.
+This repository's primary role is to reproduce the system architecture diagram
+as high-fidelity HTML, publish it with GitHub Pages, and keep the learning
+metadata around each architecture node explicit. It may contain a small
+reference MVP so the diagram's progress labels are grounded, but the full
+Snowflake/Streamlit/LLMOps pipeline implementation belongs in the implementation
+repo.
+
+See `docs/architecture/repo-responsibility-boundary.md` for the repo split.
 
 ## Current Direction
 
@@ -13,6 +20,9 @@ The project focuses on a governed KPI copilot, not on a full data engineering pl
 - Optional slice: Cortex Search for KPI definitions and weekly-report notes
 - UI: Streamlit work surface with chat, context, route/tool trace, SQL/result preview, citations, and approval queue
 - Learning focus: LLMOps, agent state, tool routing, regression evaluation, observability, and human-reviewable improvement loops
+- Repo boundary: diagram/progress visualization stays here; concrete tests,
+  workflow changes, and runtime quality improvements move back to the
+  implementation repo before this diagram claims higher readiness.
 
 ## Documentation
 
@@ -29,13 +39,17 @@ python3 tools/sync_obsidian_docs.py --direction obsidian-to-repo
 python3 tools/sync_obsidian_docs.py --direction repo-to-obsidian
 ```
 
-## First Implementation Target
+## Implementation Repo Evidence Target
 
-The first useful proof is:
+The first useful proof for the implementation repo is:
 
 > Can we safely change the semantic model, prompt, or agent routing and know whether KPI answers got better or worse?
 
-That means the first build should prioritize:
+Concrete tests, runtime workflow changes, and quality improvements for that
+proof belong in the implementation repo. This repo visualizes the target
+architecture and reflects evidence after it exists.
+
+That means the implementation repo should prioritize:
 
 - golden KPI evaluation cases
 - trace capture
@@ -55,9 +69,14 @@ The app must not silently switch to local execution when Snowflake is unavailabl
 Local mode is not a substitute for Snowflake/Cortex validation; it is a bounded
 test harness so the LLMOps loop can be developed before each paid/live run.
 
-## Run The MVP
+## Run The Reference MVP
 
-Install runtime dependencies when you want the Streamlit/Snowflake path:
+This repo contains a small reference MVP and smoke-test harness so architecture
+progress labels are not purely theoretical. Treat these commands as reference
+evidence for the diagram, not as the main pipeline implementation lane.
+
+Install runtime dependencies when you want to inspect the reference
+Streamlit/Snowflake path:
 
 ```bash
 python3 -m pip install -r requirements.txt
@@ -100,6 +119,7 @@ python3 -m retail_ai_ops.eval_runner
 - GitHub Pages: https://tenormusica2024.github.io/retail-ai-ops-copilot/
 - Architecture HTML: `docs/architecture/retail-ai-ops-copilot-architecture.html`
 - Progress readiness rubric: `docs/architecture/progress-readiness-rubric.md`
+- Repo responsibility boundary: `docs/architecture/repo-responsibility-boundary.md`
 
 ## Primary References
 

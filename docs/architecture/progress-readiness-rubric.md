@@ -48,3 +48,16 @@ tests, answer-quality checks, integration proof, and operational confidence.
 - The current golden eval checks route and metric classification only; it does
   not yet prove answer quality, SQL result correctness, grounding, UI E2E, or
   role-specific behavior.
+
+## Repo Boundary
+
+This rubric lives in the diagram reproduction repo because it controls what the
+public architecture diagram displays. However, the tests and workflow
+improvements that raise a node's score should normally be implemented in the
+pipeline implementation repo, not here.
+
+Use this repo to visualize readiness and document evidence. When a node needs
+answer-quality tests, UI E2E, role/failure-path coverage, Snowflake/Cortex
+integration tests, or workflow changes, hand that task back to the
+implementation repo. After the implementation repo produces evidence, update
+this repo's tooltip and score.
