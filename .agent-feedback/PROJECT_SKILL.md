@@ -93,6 +93,15 @@ Separate feedback reflection completion from real sub-agent firing.
 When the task objective is to verify that a sub-agent fires, the E2E cannot pass
 only because the main context updated the artifact, ledger, or skills.
 
+Also separate sub-agent firing from sub-agent verdict. `real-subagent` proves
+that a lane fired; it does not prove that the reviewer passed the artifact,
+workflow, or source fidelity. Report both fields when the user asks about
+firing status:
+
+- `last_subagent_firing=<PASS/FAIL>`
+- `last_subagent_verdict=<PASS/FAIL/proposed-only>`
+- `main_agent_action=<remediated/pending/accepted>`
+
 For `real sub-agent mode`, record:
 
 - agent id and nickname
@@ -107,6 +116,20 @@ unavailable, explicitly forbidden by the user, or documented as a deliberate
 mode for a non-sub-agent E2E. If sub-agent tooling is available and firing is
 the thing being tested, missing agent evidence is a FAIL even when the artifact
 fix and feedback reflection are otherwise complete.
+
+### Feedback Routing Child Pack Gate
+
+The installed diagram feedback skill may use child routing packs to improve
+classification accuracy, but the parent skill remains the single trigger owner.
+
+Child routing packs are references, not extra standing reflection lanes. They
+must not spawn duplicate feedback sub-agents, claim final reflection status, or
+hold separate persistent ledgers for the same trigger batch.
+
+When feedback spans several areas, load only the relevant child packs, such as
+process, layout/visual, connector/arrow, assets/text, and ledger hygiene. Final
+reporting should name which packs were used when the routing decision itself is
+part of the user question.
 
 ## Do Not Use This File As A Raw Dump
 
