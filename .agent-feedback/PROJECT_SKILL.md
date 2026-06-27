@@ -145,6 +145,11 @@ mode for a non-sub-agent E2E. If sub-agent tooling is available and firing is
 the thing being tested, missing agent evidence is a FAIL even when the artifact
 fix and feedback reflection are otherwise complete.
 
+`Feedback reflection: complete` means ledger/rule/skill reflection completed; it
+does not by itself prove real sub-agent firing. When no real-subagent E2E is in
+scope, state `sub-agent firing: not required/not tested`. When firing is in
+scope, include the status tuple and the matching invocation row.
+
 ### Feedback Routing Child Pack Gate
 
 The installed diagram feedback skill may use child routing packs to improve
