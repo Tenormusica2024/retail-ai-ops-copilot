@@ -345,34 +345,16 @@
     .service[data-progress-tier="mid"] { --progress-color: #d97706; }
     .service[data-progress-tier="high"] { --progress-color: #2f855a; }
 
-    .service[data-progress]::before {
-      content: "品質確認込み進捗 " attr(data-progress);
-      position: absolute;
-      left: 50%;
-      top: calc(100% + 17px);
-      width: 288px;
-      transform: translate(-50%, -4px);
-      padding: 0 10px;
-      color: var(--progress-color);
-      font-size: 13px;
-      font-weight: 950;
-      line-height: 1.25;
-      letter-spacing: 0;
-      white-space: nowrap;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 120ms ease, transform 120ms ease;
-      z-index: 37;
-    }
-
-    .service[data-progress]::after {
-      content: "実装状況: " attr(data-status) "\A備考: " attr(data-note);
+    .progress-tooltip {
       position: absolute;
       left: 50%;
       top: calc(100% + 8px);
-      width: 288px;
       transform: translate(-50%, -4px);
-      padding: 34px 10px 10px;
+      box-sizing: border-box;
+      width: max-content;
+      min-width: 320px;
+      max-width: 560px;
+      padding: 10px 12px 11px;
       border: 1px solid #9aa8ba;
       border-left: 5px solid var(--progress-color);
       border-radius: 5px;
@@ -380,35 +362,48 @@
       box-shadow: 0 12px 24px rgba(15, 23, 42, 0.18);
       color: #1f2933;
       font-size: 12px;
-      font-weight: 720;
+      font-weight: 400;
       line-height: 1.45;
       letter-spacing: 0;
-      white-space: pre-line;
-      word-break: keep-all;
-      overflow-wrap: normal;
+      white-space: normal;
+      word-break: normal;
+      overflow-wrap: anywhere;
       opacity: 0;
       pointer-events: none;
       transition: opacity 120ms ease, transform 120ms ease;
       z-index: 36;
     }
 
-    .service[data-tip="right"]::after {
+    .tooltip-progress {
+      margin-bottom: 4px;
+      color: var(--progress-color);
+      font-weight: 400;
+    }
+
+    .tooltip-progress strong {
+      font-weight: 950;
+    }
+
+    .tooltip-row + .tooltip-row {
+      margin-top: 2px;
+    }
+
+    .tooltip-label {
+      font-weight: 400;
+      color: #334155;
+    }
+
+    .tooltip-text {
+      font-weight: 400;
+      color: #1f2933;
+    }
+
+    .service[data-tip="right"] .progress-tooltip {
       left: 0;
       transform: translate(0, -4px);
     }
 
-    .service[data-tip="right"]::before {
-      left: 0;
-      transform: translate(0, -4px);
-    }
-
-    .service[data-tip="left"]::after {
-      left: auto;
-      right: 0;
-      transform: translate(0, -4px);
-    }
-
-    .service[data-tip="left"]::before {
+    .service[data-tip="left"] .progress-tooltip {
       left: auto;
       right: 0;
       transform: translate(0, -4px);
@@ -421,22 +416,16 @@
       outline-offset: 2px;
     }
 
-    .service[data-progress]:hover::before,
-    .service[data-progress]:hover::after,
-    .service[data-progress]:focus-visible::before,
-    .service[data-progress]:focus-visible::after {
+    .service[data-progress]:hover .progress-tooltip,
+    .service[data-progress]:focus-visible .progress-tooltip {
       opacity: 1;
       transform: translate(-50%, 0);
     }
 
-    .service[data-tip="right"]:hover::after,
-    .service[data-tip="right"]:hover::before,
-    .service[data-tip="right"]:focus-visible::after,
-    .service[data-tip="right"]:focus-visible::before,
-    .service[data-tip="left"]:hover::after,
-    .service[data-tip="left"]:hover::before,
-    .service[data-tip="left"]:focus-visible::after,
-    .service[data-tip="left"]:focus-visible::before {
+    .service[data-tip="right"]:hover .progress-tooltip,
+    .service[data-tip="right"]:focus-visible .progress-tooltip,
+    .service[data-tip="left"]:hover .progress-tooltip,
+    .service[data-tip="left"]:focus-visible .progress-tooltip {
       transform: translate(0, 0);
     }
 
@@ -1060,5 +1049,54 @@
       </section>
     </div>
   </main>
+  <script>
+    (() => {
+      const normalizeTooltipText = (value) => (
+        (value || "")
+          .replace(/[。．]+/g, " ")
+          .replace(/\.(?=\s|$)/g, " ")
+          .replace(/\s+/g, " ")
+          .trim()
+      );
+
+      document.querySelectorAll(".service[data-progress]").forEach((service, index) => {
+        const tooltip = document.createElement("div");
+        const tooltipId = `progress-tooltip-${index + 1}`;
+        tooltip.className = "progress-tooltip";
+        tooltip.id = tooltipId;
+        tooltip.setAttribute("role", "tooltip");
+
+        const progress = document.createElement("div");
+        progress.className = "tooltip-progress";
+        const progressStrong = document.createElement("strong");
+        progressStrong.textContent = `進捗率 ${service.dataset.progress}`;
+        progress.append(progressStrong);
+
+        const status = document.createElement("div");
+        status.className = "tooltip-row";
+        const statusLabel = document.createElement("span");
+        statusLabel.className = "tooltip-label";
+        statusLabel.textContent = "実装状況: ";
+        const statusText = document.createElement("span");
+        statusText.className = "tooltip-text";
+        statusText.textContent = normalizeTooltipText(service.dataset.status);
+        status.append(statusLabel, statusText);
+
+        const note = document.createElement("div");
+        note.className = "tooltip-row";
+        const noteLabel = document.createElement("span");
+        noteLabel.className = "tooltip-label";
+        noteLabel.textContent = "備考: ";
+        const noteText = document.createElement("span");
+        noteText.className = "tooltip-text";
+        noteText.textContent = normalizeTooltipText(service.dataset.note);
+        note.append(noteLabel, noteText);
+
+        tooltip.append(progress, status, note);
+        service.append(tooltip);
+        service.setAttribute("aria-describedby", tooltipId);
+      });
+    })();
+  </script>
 </body>
 </html>

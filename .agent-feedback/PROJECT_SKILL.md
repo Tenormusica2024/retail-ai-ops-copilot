@@ -277,6 +277,15 @@ Required behavior:
 - after edits, run a DOM count check that service-node count equals
   progress/status/note metadata count, then visually inspect at least one
   hovered node screenshot
+- progress hover tooltips must use structured DOM, not a single generated
+  pseudo-element text blob, whenever typography needs partial emphasis. Only the
+  progress-rate line such as `進捗率 25%` should be bold and colored; status and
+  note labels/text stay normal weight. Strip sentence-ending punctuation from
+  displayed hover text, and let long notes wrap inside a tooltip that can grow
+  up to a tested maximum width without overflowing the tooltip or diagram edge.
+  Do not remove meaningful internal dots in identifiers such as Snowflake object
+  names while doing punctuation cleanup. Verify every progress node has exactly
+  one tooltip and at least one hovered screenshot after typography changes.
 
 ### Repo Responsibility Boundary Gate
 
