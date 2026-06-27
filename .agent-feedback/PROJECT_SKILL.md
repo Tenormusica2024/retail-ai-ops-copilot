@@ -173,6 +173,24 @@ status or in `.agent-feedback/SUBAGENT_INVOCATIONS.md`, together with
 trigger that spans process, layout, arrow, asset/text, or ledger hygiene, record
 the reason instead of silently relying on memory.
 
+### Diagram Progress Overlay Gate
+
+When implementation progress changes, keep the architecture diagram's node
+progress overlay current.
+
+Required behavior:
+
+- every `.diagram > .service` node must have `data-progress`, `data-note`,
+  `tabindex="0"`, and a matching `--progress` style
+- progress information should appear on hover and keyboard focus, not as
+  always-visible clutter that changes the source-faithful layout
+- progress notes must distinguish live-verified implementation from conceptual
+  design, local explicit test harnesses, and future/deferred work
+- node coordinates, card dimensions, connector endpoints, and source-faithful
+  layout must not be changed merely to add progress annotations
+- after edits, run a DOM count check that service-node count equals progress
+  metadata count, then visually inspect at least one hovered node screenshot
+
 ### No Silent Runtime Fallback Gate
 
 For Snowflake/Cortex implementation work, do not silently switch from a live

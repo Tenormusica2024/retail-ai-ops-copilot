@@ -27,6 +27,7 @@ blocked.
 | REQ-008 | 2026-06-28 | user | Allow splitting the feedback-routing skill into child packs/subskills when it improves routing accuracy. | Current installed diagram feedback skill mixes trigger ownership, routing taxonomy, ledger traceability, and invocation evidence. | installed diagram feedback skill / project feedback rules | reflected |
 | REQ-009 | 2026-06-28 | user | Actively improve the remaining prompt-quality issues instead of leaving them as review findings. | Prior review found weak child-pack evidence, ambiguous sub-agent status vocabulary, insufficient source-hierarchy evidence, and brittle endpoint measurement wording. | project feedback rules / installed diagram feedback skills | reflected |
 | REQ-010 | 2026-06-28 | user | Do not silently fall back when Snowflake is unavailable. | Silent fallback would hide the exact live integration failure the user needs to learn from. | runtime mode / project feedback rules | reflected |
+| REQ-011 | 2026-06-28 | user | Show implementation progress percentages and important notes on hover for every system-diagram node. | The architecture diagram should double as a learning map showing which parts are implemented, live-verified, conceptual, or deferred. | architecture HTML / project diagram rule | reflected |
 
 ## 指摘
 
@@ -62,6 +63,7 @@ blocked.
 | IMP-008 | 2026-06-28 | implementation / sub-agent review | Tighten the feedback-routing prompt contract with concrete child-pack paths and evidence fields, a five-part sub-agent status tuple, source hierarchy matrix requirements, and rendered SVG endpoint coordinate conversion. | Bacon confirmed the four weak spots; project and installed skills were updated in organized sections rather than raw append-only notes. | project feedback rules / installed diagram feedback skills | reflected |
 | IMP-009 | 2026-06-28 | implementation | Replace implicit fallback with explicit `snowflake` vs `local_explicit_test` runtime modes, and make Snowflake live failures visible. | Streamlit now defaults to Snowflake mode and errors on missing credentials; local test execution is only available through an explicit UI mode. | runtime mode / README / docs / project skill | reflected |
 | IMP-010 | 2026-06-28 | implementation | Rename internal route-blocking metadata from `fallback_reason` to `safe_stop_reason`. | This prevents Snowflake runtime fallback from being conflated with agent-level clarification, refusal, or handoff states. | model / trace / UI / tests / docs | reflected |
+| IMP-011 | 2026-06-28 | implementation | Add hover/focus progress metadata to every `.service` node and verify node count equals progress metadata count. | Chrome DOM check found 31 service nodes and 31 progress/note/tabindex annotations; hover screenshot confirmed tooltip rendering. | architecture HTML / project skill | reflected |
 
 ## Pending Reflection
 
