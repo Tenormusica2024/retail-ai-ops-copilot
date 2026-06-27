@@ -119,6 +119,7 @@ python3 -m retail_ai_ops.eval_runner
 - GitHub Pages: https://tenormusica2024.github.io/retail-ai-ops-copilot/
 - Architecture HTML: `docs/architecture/retail-ai-ops-copilot-architecture.html`
 - Progress readiness rubric: `docs/architecture/progress-readiness-rubric.md`
+- Sample data coverage matrix: `docs/architecture/sample-data-coverage-matrix.md`
 - Repo responsibility boundary: `docs/architecture/repo-responsibility-boundary.md`
 
 ## Primary References

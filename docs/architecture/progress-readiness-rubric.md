@@ -41,6 +41,11 @@ tests, answer-quality checks, integration proof, and operational confidence.
   pipeline nodes are 0%, name the actual read path in the tooltip. Do not let a
   working chat UI imply that dbt, STAGE / RAW, Cortex Analyst, or Cortex Search
   is being used.
+- Before raising any external-data-source or KPI node based on a sample dataset,
+  update `docs/architecture/sample-data-coverage-matrix.md` and verify that the
+  sample actually contains the needed grain, entities, and labels. Similar
+  names are not enough; discount is not a promotion calendar, and supply
+  availability is not store inventory.
 - For sequential pipeline nodes, do not score a downstream node above an
   upstream prerequisite when the downstream readiness depends on that upstream
   flow. For example, `dbt marts` should not be above `dbt staging` when the dbt

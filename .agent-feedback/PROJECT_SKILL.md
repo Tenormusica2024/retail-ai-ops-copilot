@@ -233,6 +233,11 @@ Required behavior:
   honest node, logo, and label. Do not hide the real source, such as
   `SNOWFLAKE_SAMPLE_DATA.TPCH_SF1`, inside another dataset's tooltip or under a
   mismatched vendor icon like Kaggle.
+- sample datasets must be compared against the diagram/data-contract categories
+  before progress is raised. Keep `docs/architecture/sample-data-coverage-matrix.md`
+  current, and distinguish true matches from proxies. A discount column does not
+  prove promotion-calendar coverage, and supply availability or cost does not
+  prove inventory operations coverage.
 - sequential pipeline nodes must respect prerequisite readiness; do not score a
   downstream node, such as `dbt marts`, above an unimplemented upstream node,
   such as `dbt staging`, when the flow depends on that upstream layer
