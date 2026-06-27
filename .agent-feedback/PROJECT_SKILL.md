@@ -41,6 +41,22 @@ complete an E2E pass in this project proving that:
   project-local rule
 - final answers include exactly one reflection status
 
+### Diagram Connector Endpoint Gate
+
+For architecture diagram edits, verify node-anchored connectors against rendered
+node rectangles before accepting HITL or final review.
+
+Use rendered geometry for SVG endpoints:
+
+- measure target/source cards with `offsetLeft`, `offsetTop`, `offsetWidth`,
+  and `offsetHeight`
+- measure SVG path start/end with `getPointAtLength(0)` and
+  `getPointAtLength(getTotalLength())`
+- fail if a connector intended to attach to a node edge enters the node body,
+  even by a small amount
+- treat `H`/`V` shorthand paths as requiring rendered endpoint measurement,
+  because numeric token parsing can misread the effective final point
+
 ## Do Not Use This File As A Raw Dump
 
 Raw history belongs in `.agent-feedback/FEEDBACK_LEDGER.md`. This skill should
