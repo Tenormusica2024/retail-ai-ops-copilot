@@ -38,11 +38,24 @@
 | `gross_margin_rate` | 粗利 / 売上 |
 | `avg_discount` | 明細割引率の平均 |
 
-## 構成図カテゴリとの比較
+## 現在の主図データノードとの比較
 
-| 構成図のデータカテゴリ | 現在のTPCH_SF1での対応 | 一致度 | メモ |
+主図は、現在の実装証跡に合わせてTPCH/Snowflake sample中心に寄せる。
+
+| 主図のデータノード | 現在のTPCH_SF1での対応 | 一致度 | メモ |
 | --- | --- | --- | --- |
-| Snowflakeサンプル | あり | 直接一致 | 現在の学習用データ源は `SNOWFLAKE_SAMPLE_DATA.TPCH_SF1`。 |
+| `TPCH_SF1` | あり | 直接一致 | 現在の学習用データ源は `SNOWFLAKE_SAMPLE_DATA.TPCH_SF1`。 |
+| `ORDERS / LINEITEM` | あり | 直接一致 | 注文数、数量、割引後売上、平均割引、月次集計の入力。POS売上そのものではなく注文/明細proxy。 |
+| `CUSTOMER / GEO` | あり | 部分一致 | `customer`、`nation`、`region` を使い、国/地域フィルタを作る。店舗や担当エリアではない。 |
+| `PART / PARTSUPP` | あり | 部分一致 | `part` で商品カテゴリproxy、`partsupp` で供給原価proxyを作る。SKU階層や在庫推移ではない。 |
+| `KPI定義 seed table` | 手動seed | 部分一致 | setup SQLの `VALUES` で `KPI_DEFINITIONS` を作成。Snowflake sample由来の週報/文書データではない。 |
+
+## 小売ターゲットカテゴリとの差分
+
+以下は、当初の小売targetとして考えていたカテゴリとTPCH_SF1の差分。主図では誤読を避けるため、これらをそのまま外部データソースとしては表示しない。
+
+| 小売targetカテゴリ | 現在のTPCH_SF1での対応 | 一致度 | メモ |
+| --- | --- | --- | --- |
 | POS売上 | 一部proxy | 部分一致 | `orders` + `lineitem` で売上、注文数、数量、割引、粗利proxyは作れる。ただし実POSではない。店舗、レジ、レシート、チャネル、返品、税、実SKUマスターはない。 |
 | 在庫 | 弱いproxyのみ | ほぼ未一致 | TPCH全体には `partsupp` の供給可能数量があるが、現在のmartでは原価だけ使用している。時点別在庫、入荷、出荷、欠品、店舗在庫、発注フローはない。 |
 | 販促カレンダー | 割引率proxyのみ | ほぼ未一致 | `lineitem.l_discount` で平均割引は作れるが、キャンペーンID、販促期間、クーポン、予算、媒体、販促リフトの正解データはない。 |

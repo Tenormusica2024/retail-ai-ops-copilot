@@ -238,6 +238,10 @@ Required behavior:
   current, and distinguish true matches from proxies. A discount column does not
   prove promotion-calendar coverage, and supply availability or cost does not
   prove inventory operations coverage.
+- when the chosen sample dataset materially differs from the original business
+  target, revise the visible diagram labels toward the real sample entities
+  rather than keeping business-friendly placeholders. Preserve the business
+  target and gaps in supporting docs, not as misleading primary nodes.
 - sequential pipeline nodes must respect prerequisite readiness; do not score a
   downstream node, such as `dbt marts`, above an unimplemented upstream node,
   such as `dbt staging`, when the flow depends on that upstream layer

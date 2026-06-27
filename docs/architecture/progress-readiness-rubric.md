@@ -46,6 +46,10 @@ tests, answer-quality checks, integration proof, and operational confidence.
   sample actually contains the needed grain, entities, and labels. Similar
   names are not enough; discount is not a promotion calendar, and supply
   availability is not store inventory.
+- If the sample dataset differs materially from the original business target,
+  the visible system diagram should use the real sample entities as primary
+  nodes. Keep the business target and gaps in the coverage matrix instead of
+  making the main diagram look more retail-complete than it is.
 - For sequential pipeline nodes, do not score a downstream node above an
   upstream prerequisite when the downstream readiness depends on that upstream
   flow. For example, `dbt marts` should not be above `dbt staging` when the dbt
