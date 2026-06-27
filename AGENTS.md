@@ -78,3 +78,18 @@ Defer:
 - Treat all external source claims as source-backed or explicitly marked as inference.
 - Keep public-facing wording vendor-neutral and avoid private employment,
   customer, or confidential framing.
+
+<!-- agent-feedback-ledger-project:start -->
+## Agent Feedback Ledger
+
+This project uses trigger-first feedback reflection. For details, read
+`.agent-feedback/AGENTS_SNIPPET.md`.
+
+During project work, user/HITL feedback, reviewer findings, and validated
+improvement methods are mandatory triggers. Capture first, then classify as
+`要望`, `指摘`, and/or `改善`.
+
+Run one feedback reflection lane per trigger batch. If a domain-specific
+feedback skill also applies, use it as context or as the update target for the
+single lane instead of spawning duplicate ledger sub-agents.
+<!-- agent-feedback-ledger-project:end -->
