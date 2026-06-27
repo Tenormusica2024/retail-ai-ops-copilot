@@ -92,4 +92,9 @@ improvement methods are mandatory triggers. Capture first, then classify as
 Run one feedback reflection lane per trigger batch. If a domain-specific
 feedback skill also applies, use it as context or as the update target for the
 single lane instead of spawning duplicate ledger sub-agents.
+
+When the objective is to verify real sub-agent firing, record agent id,
+nickname, prompt summary, verdict, and main-agent action in
+`.agent-feedback/SUBAGENT_INVOCATIONS.md`. Main-context-only completion is not a
+PASS for real-subagent E2E while sub-agent tooling is available.
 <!-- agent-feedback-ledger-project:end -->

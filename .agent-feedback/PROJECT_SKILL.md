@@ -40,6 +40,9 @@ complete an E2E pass in this project proving that:
 - domain-specific lessons can still route to the diagram skill or a replacement
   project-local rule
 - final answers include exactly one reflection status
+- real-subagent E2E evidence is recorded in
+  `.agent-feedback/SUBAGENT_INVOCATIONS.md` when sub-agent firing is the thing
+  being tested
 
 ### Diagram Connector Endpoint Gate
 
@@ -56,6 +59,28 @@ Use rendered geometry for SVG endpoints:
   even by a small amount
 - treat `H`/`V` shorthand paths as requiring rendered endpoint measurement,
   because numeric token parsing can misread the effective final point
+
+### Sub-Agent Firing E2E Gate
+
+Separate feedback reflection completion from real sub-agent firing.
+
+When the task objective is to verify that a sub-agent fires, the E2E cannot pass
+only because the main context updated the artifact, ledger, or skills.
+
+For `real sub-agent mode`, record:
+
+- agent id and nickname
+- delegated prompt or prompt summary
+- blocking vs non-blocking lane classification
+- final verdict from the sub-agent
+- how the main agent acted on the verdict
+- the matching run id from `.agent-feedback/SUBAGENT_INVOCATIONS.md`
+
+`main-context substituted` is acceptable only when sub-agent tooling is
+unavailable, explicitly forbidden by the user, or documented as a deliberate
+mode for a non-sub-agent E2E. If sub-agent tooling is available and firing is
+the thing being tested, missing agent evidence is a FAIL even when the artifact
+fix and feedback reflection are otherwise complete.
 
 ## Do Not Use This File As A Raw Dump
 
