@@ -252,6 +252,13 @@ Required behavior:
   intentionally documented label. Decorative helper headings can be mistaken for
   mystery architecture nodes and should be removed or restyled as plain frame
   labels.
+- after adding, removing, or restyling any helper/header element inside a
+  category or subcategory frame, re-center the child node stack against the
+  nested frame or usable parent-frame content area. Measure the child bounding
+  box center against the frame center, not just each individual node, and update
+  all attached connector endpoints after node movement. A helper/header removal
+  can leave nodes visually pushed to the lower-right even when no overlap is
+  detected.
 - sequential pipeline nodes must respect prerequisite readiness; do not score a
   downstream node, such as `dbt marts`, above an unimplemented upstream node,
   such as `dbt staging`, when the flow depends on that upstream layer
