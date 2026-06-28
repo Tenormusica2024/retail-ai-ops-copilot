@@ -10,6 +10,14 @@ reference MVP so the diagram's progress labels are grounded, but the full
 Snowflake/Streamlit/LLMOps pipeline implementation belongs in the implementation
 repo.
 
+This repository is also a practice ground for controlling complex architecture
+work with AI. The goal is not only to learn Snowflake, dbt, Cortex, or LLMOps in
+isolation, but to learn how AI agents, feedback ledgers, diagram linting, CI
+gates, readiness rubrics, and source-backed documentation can keep a complex
+design inspectable, steerable, and closer to professional delivery quality.
+Architecture expansion should therefore include control mechanisms, evidence,
+and review loops, not just more components.
+
 The project premise is target-company realistic architecture learning: use this
 repo to study and validate practical AI/LLMOps technology choices under
 conditions close to real delivery before moving implementation work forward.
@@ -21,6 +29,15 @@ This repo started as the beginner-stage learning surface, but the learning
 window is short, so do not optimize for the smallest safe demo. Prefer learning
 density: once the core Cortex/dbt/Streamlit/LLMOps relationships are clear, it
 is acceptable to evolve this same project toward intermediate architecture.
+In this project, the assistant should actively counter the usual engineering
+habit of defaulting to the smallest conservative implementation. Use minimum
+scope to gain control and evidence, then look for the next realistic learning
+step.
+When a minimal slice becomes stable enough to localize failures, the expected
+next move is to propose a concrete expansion path rather than remain at the
+smallest working scope. Candidate expansions include deeper dbt modeling/tests,
+semantic/eval hardening, Snowpark execution, trace analysis, or richer human
+review loops.
 Snowpark and Snowpark Container Services are active intermediate/advanced
 learning candidates. Do not assume they are used in every workflow, but also do
 not treat them as distant or low-priority topics; intentionally evaluate them
@@ -39,13 +56,18 @@ scope decisions.
 - Optional slice: Cortex Search for KPI definitions and weekly-report notes
 - UI: Streamlit work surface with chat, context, route/tool trace, SQL/result preview, citations, and approval queue
 - Learning focus: LLMOps, agent state, tool routing, regression evaluation, observability, and human-reviewable improvement loops
+- Quality-control focus: use AI agents, feedback routing, lint/CI gates,
+  readiness evidence, and review loops to manage complex architecture without
+  losing traceability or professional-quality discipline.
 - Repo boundary: diagram/progress visualization stays here; concrete tests,
   workflow changes, and runtime quality improvements move back to the
   implementation repo before this diagram claims higher readiness.
 - Learning stage: beginner scope should finish quickly; intermediate work may
   add Snowpark/SPCS as an active learning target in this same project when it
-  improves learning density. Split out only when runtime cost, implementation
-  weight, or answer-quality attribution becomes hard to control.
+  improves learning density. After a baseline is stable, proactively propose
+  the next high-learning expansion instead of leaving the project at minimum
+  scope. Split out only when runtime cost, implementation weight, or
+  answer-quality attribution becomes hard to control.
 
 ## Documentation
 

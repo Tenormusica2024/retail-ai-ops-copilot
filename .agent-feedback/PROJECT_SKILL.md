@@ -278,6 +278,14 @@ dataset, or sample path conflicts with the intended learning architecture,
 preserve the intended architecture in the primary node/frame identity and put
 the shortcut reality into readiness/status/notes/evidence.
 
+Project-launch intent also includes practicing how AI controls complex
+architecture and moves it toward professional delivery quality. When complexity
+is added, add or verify the corresponding control surface: feedback ledger
+capture, skill/rule updates, source-backed design notes, diagram lint, CI
+gates, readiness rubrics, eval evidence, and reviewer loops. Do not treat a
+larger architecture as inherently better; the durable learning value is whether
+AI-assisted design remains inspectable, testable, and correctable.
+
 Layer names must be evidence-honest. Do not call a Snowflake source/source-like
 area `data lake`, `STAGE`, `RAW`, `ingestion`, or `lakehouse` merely because
 those are common Snowflake architecture concepts. Use those labels only when
@@ -299,6 +307,20 @@ data, dbt/modeling, semantic contract, search, agent routing, prompt/tool
 behavior, eval logic, trace, UI, or governance. If the team can no longer tell
 where quality breaks, pause expansion and consider simplifying the feature,
 splitting the experiment, or moving runtime-heavy work into a separate project.
+
+Minimal scope is useful for stabilizing the baseline, but it is not the default
+end state for this learning project. Once a slice is stable enough to localize
+failures, proactively propose the next high-learning expansion instead of only
+preserving the smallest working path. Good candidates include deeper dbt
+staging/marts/tests, semantic coverage, Golden Eval tied to model contracts,
+Snowpark execution, Cortex Search citation quality, trace analysis, and human
+review loops. Each proposal should name the expected learning value and the
+quality-attribution risk.
+
+Actively counter the default assistant/operator tendency to over-prefer minimal
+conservative implementations. In this project, minimalism is allowed as a
+temporary control mechanism, but it should be questioned once baseline evidence
+exists because the user's main objective is high-density architecture learning.
 
 Snowpark and Snowpark Container Services are active intermediate/advanced
 options. Do not assume they are used in every workflow, but also do not steer

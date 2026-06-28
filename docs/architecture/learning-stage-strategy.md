@@ -6,6 +6,14 @@ project should not optimize for the smallest safe demo. It should establish the
 core AI architecture and LLMOps mental model quickly, then deliberately absorb
 harder intermediate architecture topics when they increase learning density.
 
+The other primary objective is to practice controlling complex architecture with
+AI. Expansion should therefore be paired with professional-quality control
+mechanisms: explicit ownership boundaries, feedback capture, source-backed
+design notes, diagram lint, CI gates, readiness scoring, eval evidence, and
+review loops. The learning target is not just a bigger diagram; it is a complex
+system that remains inspectable and correctable as AI agents help design and
+maintain it.
+
 ## Beginner Stage
 
 The current project should stay focused on:
@@ -18,6 +26,8 @@ The current project should stay focused on:
 - trace, golden eval, error taxonomy, version registry, and human review
 - progress/readiness metadata that says what is implemented, unimplemented, or
   unvalidated
+- control evidence showing how AI-assisted changes are checked, routed, and
+  corrected before the diagram or implementation claims higher readiness
 
 Snowpark and Snowpark Container Services do not need to block beginner-stage
 completion, but they should be carried forward as active next-stage learning
@@ -29,6 +39,16 @@ avoiding or de-prioritizing them.
 The default bias is learning efficiency over minimalism. It is acceptable for
 this project to become more complex than a normal beginner demo when the added
 component teaches a realistic architecture decision.
+
+This project intentionally counterbalances the assistant's usual conservative
+engineering bias toward the smallest stable implementation. The conservative
+slice is valuable for control, but it should not silently become the long-term
+plan when the user's goal is dense architecture learning.
+
+A minimal slice is useful as a control point, not as a default resting place.
+After the baseline can run repeatably and failures can be localized to a layer,
+the assistant should proactively propose the next expansion candidate instead
+of only preserving the smallest stable scope.
 
 Complexity is acceptable while the project can still answer:
 
@@ -43,6 +63,27 @@ If quality degradation becomes hard to localize, pause the expansion and
 consider simplifying the feature, splitting the experiment, or moving the
 runtime-heavy part into a separate project. Simplification is a debugging and
 learning-control tool, not the default architecture goal.
+
+## Expansion Trigger
+
+When the current slice reaches a stable enough evidence baseline, review and
+propose the next high-learning expansion. Stability does not require production
+readiness; it means the project has enough tests, traces, docs, or diagram
+evidence to tell where a new failure is likely introduced.
+
+Good expansion candidates include:
+
+- deeper dbt staging/marts/tests and lineage
+- semantic model coverage and Cortex Analyst question coverage
+- Golden Eval cases tied to dbt and semantic contracts
+- Snowpark Python/UDF/SP execution for dbt Python, eval, trace enrichment, or
+  agent custom tools
+- Cortex Search corpus and citation quality
+- richer trace analysis, error taxonomy, and human-review feedback loops
+
+If the baseline is stable and the next action is only "keep it minimal", call
+out the learning tradeoff and offer one or two concrete expansion options with
+their expected learning value and attribution risk.
 
 ## Intermediate And Later Stages
 

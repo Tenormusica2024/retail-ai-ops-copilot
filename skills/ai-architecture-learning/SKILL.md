@@ -23,6 +23,12 @@ This repo is a target-company realistic architecture learning and validation
 surface. Its purpose is to study practical AI/LLMOps technology choices under
 conditions close to real delivery before implementation work advances.
 
+This repo is also a practice surface for controlling complex architecture with
+AI and moving toward professional delivery quality. Architecture changes should
+include the control mechanisms that make the complexity governable: feedback
+ledger capture, skill/rule updates, source-backed design notes, diagram lint,
+CI gates, readiness rubrics, eval evidence, and reviewer loops.
+
 Do not let a narrow reference MVP, proxy dataset, or implementation shortcut
 erase technologies that belong to the intended realistic architecture. Preserve
 architecture identities such as dbt, Cortex, semantic modeling, evaluation,
@@ -44,6 +50,15 @@ relationships are understood.
 Prefer learning efficiency over minimum scope. This project may absorb
 intermediate architecture topics when the added component teaches a realistic
 decision and the result still preserves quality attribution.
+
+Actively counter the default assistant tendency to choose the smallest
+conservative implementation. In this project, minimum scope is a control tactic,
+not the preferred long-term architecture direction.
+
+A minimal stable slice is an interim control point, not a default finish line.
+When baseline behavior is stable enough to localize failures, proactively
+propose the next high-learning expansion instead of only recommending that the
+project stay small. Name the expected learning value and the attribution risk.
 
 Quality attribution means the project can still explain whether an answer or
 workflow degraded because of source data, dbt/modeling, semantic contract,

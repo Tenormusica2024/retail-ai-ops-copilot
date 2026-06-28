@@ -13,12 +13,24 @@ dbt transformation flow with direct SQL labels just because the current sample
 path has not implemented dbt yet. Put that implementation gap in readiness,
 status, notes, or evidence docs.
 
+This project is also explicitly about controlling complex architecture with AI
+and moving the work toward professional quality. When adding complexity, add the
+control surface too: feedback ledger entries, skill/rule updates, source-backed
+docs, diagram lint, CI gates, readiness rubrics, and review loops. Do not treat
+component count as learning value by itself; the value is learning how to keep a
+realistic AI architecture inspectable, testable, and steerable as it grows.
+
 Treat the current repository as a learning-density surface, not a permanently
 minimal beginner demo. The learning window is intentionally short, so do not let
 beginner-scope diagram polish or reference MVP work crowd out harder
 intermediate architecture learning. It is acceptable to evolve this same project
 toward intermediate architecture when the added complexity teaches a realistic
-decision and quality degradation remains attributable. Snowpark and Snowpark
+decision and quality degradation remains attributable. A minimal stable slice is
+an interim control point, not the end state. In this project, actively suppress
+the default assistant/operator tendency to over-prefer the smallest conservative
+implementation. Use minimum scope to establish control, then once baseline
+behavior is stable enough to localize failures, proactively propose the next
+high-learning expansion instead of waiting for the user to ask. Snowpark and Snowpark
 Container Services are valid intermediate or advanced candidates and should be
 actively considered for the next learning stage. Do not assume they appear in
 every workflow, but also do not steer away from them by default. When
