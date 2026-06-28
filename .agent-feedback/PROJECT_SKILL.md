@@ -177,6 +177,10 @@ Required behavior:
 
 - classify whether the selected-source edge is one-way, two-way on one path, or
   two separate opposing paths before judging the HTML
+- when two opposing same-style paths connect the same nearby components and the
+  relationship is semantically bidirectional, prefer one path with
+  `marker-start` and `marker-end` to reduce route congestion. Keep separate
+  paths only when labels, styles, anchors, or timing semantics differ.
 - verify `marker-start` and `marker-end`, or equivalent separate paths, against
   the visible screenshot for both endpoint arrowheads
 - fail when a selected-source two-way relationship becomes a one-way-looking
@@ -192,6 +196,7 @@ Common high-risk relationships in this project include:
 - `改善適用（バージョン更新）`
 - `修正依頼`
 - `Semantic KPI Model <-> Golden Eval`
+- `Semantic KPI Model <-> Cortex Search Service`
 - `Golden Eval <-> Trace Store`
 - `CI / CD <-> dbt frame`
 - `Trace Store <-> Version Registry`

@@ -21,6 +21,7 @@ const DEFAULT_SCREENSHOT = "outputs/diagram-connector-geometry-check.png";
 
 const EXPECTED_BIDIRECTIONAL_EDGES = new Set([
   "ci-cd-to-dbt-modeling-frame",
+  "semantic-cortex-search-bidirectional",
   "golden-eval-to-semantic-improvement",
   "app-runtime-improvement-to-trace-store",
   "error-taxonomy-review-request-to-human-review",
