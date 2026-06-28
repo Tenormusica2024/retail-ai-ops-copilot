@@ -27,6 +27,10 @@ feasibility, and governance.
 - AI engineer owns LLM/Cortex/agent behavior: grounding, retrieval design,
   semantic-model usage, prompt/tool routing, eval hooks, trace design, error
   taxonomy, safe-stop behavior, and human-review handoff.
+- AI architect is a viewpoint that may be represented inside the AI engineer
+  role when the public diagram should not imply a separate staffing model. In
+  that case, keep one combined role chip such as `AIエンジニア / AIアーキテクト`
+  and split the nested detail into `アーキテクト観点` and `実装・検証観点`.
 - PG owns implementation feasibility at design time: UI/API constraints,
   runtime ergonomics, integration shape, CI practicality, and operational
   impact. Do not present PG percentages as coding allocation.
@@ -79,6 +83,14 @@ For Cortex Agents:
 - Prefer explicit responsibility boundaries over short but ambiguous labels.
 - A role-detail panel may be longer than the parent tooltip when it materially
   improves learning value.
+- When AI architecture learning value matters, separate the combined AI role
+  into:
+  - `アーキテクト観点`: technology selection, responsibility boundaries,
+    semantic/search/agent/eval/trace/HITL architecture, safety boundaries, and
+    cross-role contracts
+  - `実装・検証観点`: concrete configuration, code, semantic view/YAML,
+    verified queries, tool definitions, eval runners, trace schemas, safe-stop
+    handling, tests, and verification outputs
 - Every AI engineer detail should name at least one concrete artifact,
   configuration, or verification output, such as semantic view/YAML, verified
   query, eval case, trace field, safe-stop rule, handoff state, warning
@@ -113,10 +125,10 @@ For Cortex Agents:
 After editing tooltip text:
 
 - verify every progress node still has one tooltip, one role section, one
-  AI-engineer trigger, and one AI detail panel
+  combined AI engineer / AI architect trigger, and one AI detail panel
 - verify every progress node has explicit `roleSplits` and
-  `aiEngineerDetails`; generic fallback text should fail review or be visibly
-  marked as missing metadata
+  both architect and engineer detail maps; generic fallback text should fail
+  review or be visibly marked as missing metadata
 - move the pointer from node to tooltip and confirm the tooltip remains open
 - hover/focus the AI engineer chip and confirm the nested detail opens
 - check parent tooltip and nested detail overflow

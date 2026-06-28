@@ -471,6 +471,10 @@ Required behavior:
   and rewrite the text to name the actual neighboring owner, such as PM/業務,
   DS, DE, PG, security, or platform, plus the AI engineer's LLM/Cortex/agent
   responsibility.
+- when the learning goal needs AI architecture ownership but the public diagram
+  should not imply a separate official staffing model, keep one combined
+  `AIエンジニア / AIアーキテクト` chip and split the nested detail into
+  architecture decisions and implementation/verification tasks.
 
 ### Repo Responsibility Boundary Gate
 

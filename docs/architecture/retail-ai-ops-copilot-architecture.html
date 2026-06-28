@@ -438,7 +438,8 @@
       font-weight: 500;
       line-height: 1.25;
       text-align: center;
-      white-space: nowrap;
+      white-space: normal;
+      overflow-wrap: anywhere;
     }
 
     button.tooltip-role-chip {
@@ -497,7 +498,21 @@
     }
 
     .role-detail-text {
+      display: block;
       font-weight: 400;
+    }
+
+    .role-detail-block + .role-detail-block {
+      margin-top: 7px;
+      padding-top: 6px;
+      border-top: 1px solid #dbeafe;
+    }
+
+    .role-detail-subtitle {
+      display: block;
+      margin-bottom: 2px;
+      color: #35506d;
+      font-weight: 800;
     }
 
     .service[data-tip="right"] .progress-tooltip {
@@ -1215,8 +1230,41 @@
         "RBAC": [20, 15, 15, 25, 25],
         "Cost Guardrails": [25, 10, 15, 35, 15]
       };
-      const roleLabels = ["DE", "DS", "AIエンジニア", "PM", "PG"];
+      const aiCombinedRoleLabel = "AIエンジニア / AIアーキテクト";
+      const roleLabels = ["DE", "DS", aiCombinedRoleLabel, "PM", "PG"];
       const fallbackRoleSplit = [20, 20, 20, 20, 20];
+      const aiArchitectDetails = {
+        "Snowflake公式サンプルDB": "サンプルDBを本番ドメインの代替として使う範囲、KPI学習に使う/使わない境界、将来データ差し替え時の評価観点を決める",
+        "注文・明細": "明細粒度、集計粒度、KPI回答で使う主経路、AIが明細へ戻ってよい条件を設計し、誤った粒度で答えない境界を決める",
+        "顧客・地域": "地域/顧客の粒度、ロール別に比較してよい範囲、店舗粒度が足りない時の説明・停止方針を設計する",
+        "商品・原価": "商品/原価proxyと本来必要なSKU・在庫・仕入れの境界を整理し、AIが補完してよい範囲と注記・停止条件を決める",
+        "KPI定義": "PM/DS定義をSemantic/Search/Evalへどう分解するか、KPIが回答可能になる条件と定義不足時の止め方を設計する",
+        "元テーブル": "source、stage、martの責務境界とAIが参照してよい層を決め、未整備層を回答・traceでどう見せるかを設計する",
+        "SQL結合": "join、grain、semantic層の責務分解、生成SQLを許可する範囲、検証ゲートと人手確認への渡し方を決める",
+        "KPI集計ビュー": "AI回答の信頼境界をmart view中心に置くか、明細へ戻る経路を許すか、根拠表示と品質評価の単位を設計する",
+        "dbt tests": "DEの品質ゲートとAI回帰テストをどう接続するか、どの失敗でAI回答を止めるかを設計する",
+        "Semantic KPI Model": "Cortex Analystに渡すsemantic契約、verified query、禁止解釈、曖昧質問時のsuggestion/safe-stop、回帰評価の全体設計を持つ",
+        "Cortex Analyst API": "自然言語からSQLまでの信頼境界、SQLをそのまま確定しない確認導線、warnings/suggestions、人手確認条件を設計する",
+        "Cortex Search": "Searchを知識境界として使う範囲、Semanticとの使い分け、文脈混入、権限、引用、safe-stop方針を設計する",
+        "Cortex Agents": "Cortex managed agentと独自Router/Plannerの責務を分け、tool境界、承認分岐、予算上限、観測・評価方針を設計する",
+        "店舗マネージャー": "店舗ユーザーに見せるKPI、聞き返し条件、権限外質問の止め方、人手確認へ回す判断境界を設計する",
+        "エリアマネージャー": "地域比較の粒度、ランキング表現のリスク、権限境界、比較条件の固定/聞き返し方針を設計する",
+        "データアナリスト": "分析者向けにSQL preview、引用、再現可能なクエリ、trace、評価ログをどの深さまで出すかを設計する",
+        "Streamlit": "学習UIで何を検証させるか、回答品質に必要な根拠、警告、handoff状態、trace表示の全体方針を設計する",
+        "Agent Router": "routingをCortex Agentsへ寄せる部分と独自MVPで持つ部分を分け、曖昧質問、権限外、誤routingの評価設計を持つ",
+        "Planner": "計画生成が触れてよいsemantic/SQL/tool範囲、follow-up方針、人手確認へ渡す条件を設計する",
+        "Tool Adapter": "Cortex、Snowflake、明示テストハーネスの境界、silent fallback禁止、失敗分類と復旧導線を設計する",
+        "Trace Logger": "Snowflake native observabilityとアプリ側traceの分担、改善ループで使うイベント粒度と保存方針を設計する",
+        "GitHub": "prompt、semantic、eval、diagram evidenceの版管理とレビュー単位を決め、AI変更の説明責任を追える形にする",
+        "CI/CD": "AI変更で何を品質ゲートにするか、どの失敗をblockするか、implementation repoとの責務境界を設計する",
+        "Golden Eval": "PM/DS/DE/AIの評価責務を分け、代表質問、期待回答、許容SQL、引用、失敗分類、合格基準の全体設計を持つ",
+        "Trace Store": "運用ログ、評価ログ、承認状態、失敗分類を後から分析できるデータモデルと保持方針を設計する",
+        "Version Registry": "prompt、semantic YAML/view、router rule、eval set、Cortex設定を比較可能な単位で版管理する方針を決める",
+        "Error Taxonomy": "誤SQL、KPI解釈違い、データ不足、権限不足、曖昧質問をretry、safe-stop、人手レビュー、改善queueへ接続する設計を持つ",
+        "人手レビュー": "AIが確定してはいけない判断、承認/修正/コメント/再評価の状態遷移、PM承認との責務境界を設計する",
+        "RBAC": "ロール、サービス権限、データアクセス、AI文脈制御、拒否応答、trace監査の全体境界をセキュリティ/DE/PMと設計する",
+        "Cost Guardrails": "予算、上限、アラート方針をPlatform/FinOps/PMと合わせ、AI実行時の停止条件、評価実行回数、trace項目を設計する"
+      };
       const aiEngineerDetails = {
         "Snowflake公式サンプルDB": "PM/DSが期待する業務KPIとのズレを前提に、AI回答で使える粒度、欠損、proxy限界、Cortex接続時の説明責任をレビュー",
         "注文・明細": "DE/DSが定義する売上・数量・割引の意味を、自然言語質問から誤参照しないように粒度、集計前後、評価ケースへ落とす",
@@ -1249,8 +1297,10 @@
         "RBAC": "PM/業務・セキュリティ/Platform・DEがロール、許可/拒否ポリシー、データアクセス面を定義し、AIエンジニアは制約を検索範囲、ツール実行前チェック、拒否応答、trace記録へ反映",
         "Cost Guardrails": "PM/業務・Platform/FinOpsが予算、上限、アラート方針を定義し、AIエンジニアは方針に従ってCortex/Snowflake呼び出し、再試行、長時間query、eval実行の停止条件とtrace項目を設計"
       };
-      const fallbackAiEngineerDetail = "AIエンジニア担当詳細が未定義。PM/DS/DE/PG/セキュリティなど隣接オーナーと、AI機能側の具体的な成果物を明示してから公開する";
+      const fallbackAiArchitectDetail = "AIアーキテクト観点が未定義。技術選定、責務境界、評価、trace、HITL、safe-stopなどの設計判断を明示してから公開する";
+      const fallbackAiEngineerDetail = "AIエンジニア観点が未定義。設定、実装、検証、評価、traceなどAI機能側の具体的な成果物を明示してから公開する";
       const missingRoleSplitLabels = new Set();
+      const missingAiArchitectLabels = new Set();
       const missingAiDetailLabels = new Set();
 
       const getServiceLabel = (service) => (
@@ -1275,39 +1325,62 @@
         if (!roleSplits[serviceLabel]) {
           missingRoleSplitLabels.add(serviceLabel || `service-${serviceIndex + 1}`);
         }
+        const aiArchitectText = aiArchitectDetails[serviceLabel];
         const aiDetailText = aiEngineerDetails[serviceLabel];
+        if (!aiArchitectText) {
+          missingAiArchitectLabels.add(serviceLabel || `service-${serviceIndex + 1}`);
+        }
         if (!aiDetailText) {
           missingAiDetailLabels.add(serviceLabel || `service-${serviceIndex + 1}`);
         }
         let aiDetail = null;
         roleLabels.forEach((label, roleIndex) => {
-          const isAiEngineer = label === "AIエンジニア";
+          const isAiEngineer = label === aiCombinedRoleLabel;
           const chip = document.createElement(isAiEngineer ? "button" : "span");
           chip.className = "tooltip-role-chip";
-          chip.textContent = `${label} ${split[roleIndex]}%`;
+          if (isAiEngineer) {
+            chip.append("AIエンジニア /", document.createElement("br"), `AIアーキテクト ${split[roleIndex]}%`);
+          } else {
+            chip.textContent = `${label} ${split[roleIndex]}%`;
+          }
           if (isAiEngineer) {
             const detailId = `ai-role-detail-${serviceIndex + 1}`;
             chip.type = "button";
             chip.classList.add("is-detail-trigger");
             chip.setAttribute("aria-describedby", detailId);
-            chip.setAttribute("aria-label", `${serviceLabel} のAIエンジニア担当内容`);
+            chip.setAttribute("aria-label", `${serviceLabel} のAIエンジニア / AIアーキテクト担当内容`);
             chip.addEventListener("mouseenter", () => roleGrid.classList.add("is-ai-detail-open"));
             chip.addEventListener("focus", () => roleGrid.classList.add("is-ai-detail-open"));
           }
           roleGrid.append(chip);
           if (isAiEngineer) {
-            const detail = document.createElement("span");
+            const detail = document.createElement("div");
             detail.id = `ai-role-detail-${serviceIndex + 1}`;
             detail.className = "tooltip-role-detail";
             detail.setAttribute("role", "note");
             detail.addEventListener("mouseenter", () => roleGrid.classList.add("is-ai-detail-open"));
             const detailTitle = document.createElement("span");
             detailTitle.className = "role-detail-title";
-            detailTitle.textContent = "AIエンジニアの担当内容";
-            const detailText = document.createElement("span");
-            detailText.className = "role-detail-text";
-            detailText.textContent = normalizeTooltipText(aiDetailText || fallbackAiEngineerDetail);
-            detail.append(detailTitle, detailText);
+            detailTitle.textContent = "AIエンジニア / AIアーキテクトの担当内容";
+            const architectBlock = document.createElement("span");
+            architectBlock.className = "role-detail-block";
+            const architectTitle = document.createElement("span");
+            architectTitle.className = "role-detail-subtitle";
+            architectTitle.textContent = "アーキテクト観点";
+            const architectText = document.createElement("span");
+            architectText.className = "role-detail-text";
+            architectText.textContent = normalizeTooltipText(aiArchitectText || fallbackAiArchitectDetail);
+            architectBlock.append(architectTitle, architectText);
+            const engineerBlock = document.createElement("span");
+            engineerBlock.className = "role-detail-block";
+            const engineerTitle = document.createElement("span");
+            engineerTitle.className = "role-detail-subtitle";
+            engineerTitle.textContent = "実装・検証観点";
+            const engineerText = document.createElement("span");
+            engineerText.className = "role-detail-text";
+            engineerText.textContent = normalizeTooltipText(aiDetailText || fallbackAiEngineerDetail);
+            engineerBlock.append(engineerTitle, engineerText);
+            detail.append(detailTitle, architectBlock, engineerBlock);
             aiDetail = detail;
           }
         });
@@ -1363,9 +1436,10 @@
         service.append(tooltip);
         service.setAttribute("aria-describedby", tooltipId);
       });
-      if (missingRoleSplitLabels.size || missingAiDetailLabels.size) {
+      if (missingRoleSplitLabels.size || missingAiArchitectLabels.size || missingAiDetailLabels.size) {
         console.warn("[architecture-tooltip] Missing role metadata", {
           roleSplits: [...missingRoleSplitLabels],
+          aiArchitectDetails: [...missingAiArchitectLabels],
           aiEngineerDetails: [...missingAiDetailLabels],
         });
       }
