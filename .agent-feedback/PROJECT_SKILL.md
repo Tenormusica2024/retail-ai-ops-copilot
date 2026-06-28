@@ -153,6 +153,12 @@ failures. After moving labels to clear text overlap, rerun the connector
 geometry lint too, because a text-safe label can still create a connector-label
 crossing or source/destination ambiguity.
 
+For correlation-arrow and arrow-fidelity review, this lint is a required
+companion gate rather than a separate optional layout check. A relationship
+label hidden by another text label changes the apparent source edge, so
+`tools/check_diagram_text_layout.mjs` must pass before an arrow-fidelity
+reviewer can mark relationship coverage as PASS.
+
 ### Diagram Edge Contract Generation Gate
 
 For new 0-to-1 imagegen architecture diagrams, system configuration diagrams,
