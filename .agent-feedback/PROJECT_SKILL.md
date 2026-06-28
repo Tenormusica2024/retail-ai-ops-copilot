@@ -308,6 +308,14 @@ Required behavior:
   Do not remove meaningful internal dots in identifiers such as Snowflake object
   names while doing punctuation cleanup. Verify every progress node has exactly
   one tooltip and at least one hovered screenshot after typography changes.
+- role/responsibility percentages may appear in the hover tooltip when they help
+  the learning objective. Keep them as compact text chips, not progress bars,
+  and make every displayed split sum to 100% across the agreed roles. Because
+  the public diagram should not imply an official staffing model, label these
+  values as assumed responsibility ranges and do not put company-internal
+  preparation wording into the public HTML. After adding role chips, run a
+  browser check for tooltip overflow, edge overflow, one tooltip per progress
+  node, and one role section per tooltip.
 
 ### Repo Responsibility Boundary Gate
 

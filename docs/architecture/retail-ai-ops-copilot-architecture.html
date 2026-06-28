@@ -388,6 +388,12 @@
       margin-top: 2px;
     }
 
+    .tooltip-roles {
+      margin-top: 7px;
+      padding-top: 6px;
+      border-top: 1px solid #e2e8f0;
+    }
+
     .tooltip-label {
       font-weight: 400;
       color: #334155;
@@ -396,6 +402,28 @@
     .tooltip-text {
       font-weight: 400;
       color: #1f2933;
+    }
+
+    .tooltip-role-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 4px;
+      margin-top: 4px;
+    }
+
+    .tooltip-role-chip {
+      box-sizing: border-box;
+      min-width: 0;
+      padding: 3px 5px;
+      border: 1px solid #d8e2ee;
+      border-radius: 4px;
+      background: #f8fafc;
+      color: #27364a;
+      font-size: 11px;
+      font-weight: 500;
+      line-height: 1.25;
+      text-align: center;
+      white-space: nowrap;
     }
 
     .service[data-tip="right"] .progress-tooltip {
@@ -1059,6 +1087,70 @@
           .trim()
       );
 
+      const roleSplits = {
+        "Snowflake公式サンプルDB": [55, 15, 5, 15, 10],
+        "注文・明細": [55, 20, 5, 10, 10],
+        "顧客・地域": [50, 25, 5, 10, 10],
+        "商品・原価": [50, 25, 5, 10, 10],
+        "KPI定義": [30, 35, 10, 15, 10],
+        "元テーブル": [70, 10, 5, 10, 5],
+        "SQL結合": [55, 20, 5, 10, 10],
+        "KPI集計ビュー": [45, 35, 5, 10, 5],
+        "dbt tests": [45, 25, 5, 10, 15],
+        "Semantic KPI Model": [20, 40, 25, 10, 5],
+        "Cortex Analyst API": [15, 25, 45, 10, 5],
+        "Cortex Search": [25, 20, 40, 10, 5],
+        "Cortex Agents": [10, 15, 55, 10, 10],
+        "店舗マネージャー": [10, 20, 10, 45, 15],
+        "エリアマネージャー": [10, 20, 10, 45, 15],
+        "データアナリスト": [15, 45, 15, 15, 10],
+        "Streamlit": [5, 15, 25, 10, 45],
+        "Agent Router": [10, 10, 45, 5, 30],
+        "Planner": [10, 15, 45, 5, 25],
+        "Tool Adapter": [25, 10, 35, 5, 25],
+        "Trace Logger": [35, 5, 30, 10, 20],
+        "GitHub": [15, 10, 10, 20, 45],
+        "CI/CD": [25, 10, 10, 15, 40],
+        "Golden Eval": [5, 35, 35, 15, 10],
+        "Trace Store": [40, 10, 20, 10, 20],
+        "Version Registry": [20, 10, 30, 10, 30],
+        "Error Taxonomy": [5, 30, 35, 20, 10],
+        "人手レビュー": [5, 20, 25, 40, 10],
+        "RBAC": [20, 15, 15, 25, 25],
+        "Cost Guardrails": [25, 10, 15, 35, 15]
+      };
+      const roleLabels = ["DE", "DS", "AIエンジニア", "PM", "PG"];
+      const fallbackRoleSplit = [20, 20, 20, 20, 20];
+
+      const getServiceLabel = (service) => (
+        service.querySelector(".icon")?.getAttribute("aria-label")
+        || service.querySelector(".service-title")?.textContent?.trim()
+        || ""
+      );
+
+      const createRoleSection = (service) => {
+        const roleSection = document.createElement("div");
+        roleSection.className = "tooltip-roles";
+
+        const roleLabel = document.createElement("span");
+        roleLabel.className = "tooltip-label";
+        roleLabel.textContent = "担当工程（想定）: ";
+
+        const roleGrid = document.createElement("div");
+        roleGrid.className = "tooltip-role-grid";
+
+        const split = roleSplits[getServiceLabel(service)] || fallbackRoleSplit;
+        roleLabels.forEach((label, roleIndex) => {
+          const chip = document.createElement("span");
+          chip.className = "tooltip-role-chip";
+          chip.textContent = `${label} ${split[roleIndex]}%`;
+          roleGrid.append(chip);
+        });
+
+        roleSection.append(roleLabel, roleGrid);
+        return roleSection;
+      };
+
       document.querySelectorAll(".service[data-progress]").forEach((service, index) => {
         const tooltip = document.createElement("div");
         const tooltipId = `progress-tooltip-${index + 1}`;
@@ -1092,7 +1184,7 @@
         noteText.textContent = normalizeTooltipText(service.dataset.note);
         note.append(noteLabel, noteText);
 
-        tooltip.append(progress, status, note);
+        tooltip.append(progress, status, note, createRoleSection(service));
         service.append(tooltip);
         service.setAttribute("aria-describedby", tooltipId);
       });
