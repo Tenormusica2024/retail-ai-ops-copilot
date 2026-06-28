@@ -80,6 +80,13 @@ services such as Airflow, JupyterLab, MLflow, custom APIs, long-running jobs, or
 explicit Compute Pool / Service / Job Service concepts. Record SPCS as an
 active next-stage candidate rather than a rejected option.
 
+When this Snowpark promotion is shown in a shared diagram rather than a
+separate new Snowpark-first diagram, preserve readability by rebalancing nearby
+subcategory frames. The Semantic layer should not remain low or oversized if it
+forces the Snowpark execution layer to touch the parent boundary. Move and
+resize the sibling frames as a small layout stack, then update connector
+endpoints and labels as one geometry change.
+
 Before intermediate-stage work starts, review whether to extend this repository
 or create a separate project. Keep this repository for diagram learning,
 decision rationale, and public Pages review. Prefer a separate project when the

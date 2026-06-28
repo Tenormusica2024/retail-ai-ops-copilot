@@ -251,6 +251,16 @@ tools, and eval/trace enrichment into Trace Store. Keep SPCS as a visible design
 candidate in docs until containerized services or compute-pool concepts are
 actually part of the architecture.
 
+When adding a new layer or execution band inside an already crowded parent
+zone, rebalance the sibling subcategory frames before accepting the layout. Do
+not leave the old upper frame too low or too tall and then squeeze the new frame
+against the parent boundary. Align comparable sibling frames to the same top
+baseline when that improves readability, reduce unnecessary vertical height in
+the older frame, leave visible whitespace between sibling frames, and leave
+clear bottom margin between the new frame and the parent zone. After this
+rebalancing, reroute all affected connectors and rerun the connector geometry
+lint plus screenshot review.
+
 CI/CD edges must distinguish read-only sources from deployable/validatable
 seeds. CI/CD should not appear to deploy `SNOWFLAKE_SAMPLE_DATA` or another
 read-only external source unless ingestion/provisioning exists. It should
