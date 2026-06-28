@@ -178,6 +178,8 @@ rule changes. Use CI as the post-fix enforcement gate so a local repair cannot
 be merged or published without rerunning the same correlation-arrow lint bundle.
 Local wrapper evidence remains required before HITL/final review when
 screenshots, JSON reports, or quick debugging feedback matter.
+Keep the workflow on maintained GitHub Action majors and a current Node runtime
+so the CI gate itself does not pass with platform deprecation warnings.
 
 If a new diagram lint becomes part of arrow-fidelity, connector routing, text
 layout, or source hierarchy acceptance, add it to `tools/check_diagram_quality.mjs`
