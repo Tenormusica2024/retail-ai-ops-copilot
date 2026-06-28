@@ -940,6 +940,7 @@
           <path class="data" data-edge="analyst-to-streamlit-context" d="M 896 189 H 950" marker-end="url(#arrow-data)"></path>
           <path class="data" data-edge="streamlit-to-snowflake-question" d="M 1005 216 V 250" marker-end="url(#arrow-data)"></path>
           <path class="data" data-edge="snowflake-to-streamlit-answer" d="M 1115 250 V 216" marker-end="url(#arrow-data)"></path>
+          <path class="tool" data-edge="app-runtime-to-streamlit-ui" d="M 1320 292 V 174 H 1180" marker-start="url(#arrow-tool)" marker-end="url(#arrow-tool)"></path>
 
           <!-- Snowflake Cortex -> App Runtime -->
           <path class="tool" data-edge="cortex-analyst-to-agent-router" d="M 1280 373 H 1328 V 333 H 1370" marker-end="url(#arrow-tool)"></path>
@@ -1091,7 +1092,7 @@
           <div class="service-sub">深掘り分析・レポート作成<br>データ探索</div>
         </div>
 
-        <div class="service wide red" tabindex="0" data-progress="30%" data-progress-tier="low" data-status="Reference MVPのチャットUIあり。dbt/Cortexは未経由" data-note="Snowflake modeはMART_RETAIL_MONTHLY_KPIへ直接SQL実行。local_explicit_testは固定メモリrows。UI E2Eと回答品質テストは未実装。" style="left: 950px; top: 132px;">
+        <div class="service wide red" tabindex="0" data-progress="30%" data-progress-tier="low" data-status="Reference MVPのチャットUIあり。dbt/Cortexは未経由" data-note="UIは利用者入力、SQL/回答表示、警告/承認導線を担当。実行経路はApp RuntimeまたはCortex Analystへ委譲する想定だが、現MVPはMART_RETAIL_MONTHLY_KPIへの直接SQL実行。" style="left: 950px; top: 132px;">
           <div class="icon sprite sp-streamlit" role="img" aria-label="Streamlit"></div>
           <div class="service-title">Streamlit UI</div>
           <div class="service-sub">サンプルKPI UI<br>チャット・QA・SQL確認</div>
@@ -1167,6 +1168,7 @@
         <div class="flow-label" style="left: 286px; top: 694px;">dbt build / test<br>モデル・指標デプロイ</div>
         <div class="flow-label" style="left: 948px; top: 232px;">質問・文脈</div>
         <div class="flow-label" style="left: 1042px; top: 232px;">回答・可視化</div>
+        <div class="flow-label" style="left: 1210px; top: 144px;">UI / 実行連携</div>
         <div class="flow-label" style="left: 970px; top: 512px;">文書・参照</div>
         <div class="flow-label" style="left: 1260px; top: 546px;">ツール呼び出し</div>
         <div class="flow-label" style="left: 1288px; top: 474px;">実行・制御</div>

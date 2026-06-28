@@ -52,6 +52,22 @@ and implementation.
   status/notes, instead of making current sample-table references look like
   ingestion readiness.
 
+## UI And Runtime Relationship Clarity
+
+When a UI node represents a user-facing facade for a broader runtime category,
+make that category relationship visible.
+
+- Do not draw separate lines from the UI to every internal runtime node when
+  that would create route clutter or imply that the UI owns each internal
+  execution step.
+- Add a category-level connector from the runtime frame or boundary to the UI
+  node when the UI delegates execution to the runtime as a whole.
+- Use tooltip notes to state the responsibility split: the UI owns input,
+  answer display, warning/approval surfaces, and user workflow; the runtime
+  owns routing, planning, tool calls, execution, and trace emission.
+- If the current MVP bypasses the intended runtime path, keep the intended
+  relationship visible but state the bypass in `data-status` or `data-note`.
+
 ## Child Skills
 
 - `child-skills/role-responsibility-tooltips/SKILL.md`

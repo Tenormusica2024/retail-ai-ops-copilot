@@ -220,6 +220,15 @@ an explicit ingestion flow. If the current path is
 Snowflake reference / seed layer and put future ingestion/lake intent in
 status/notes or a separate planned node.
 
+For UI/facade nodes such as Streamlit, preserve category-level runtime
+relationships when individual node-to-node connectors would clutter the diagram
+or imply false ownership. A UI node can connect to a runtime frame/boundary to
+show that it delegates execution to the runtime category, while tooltips
+explain the split between input/display/approval UX and runtime routing,
+planning, tools, execution, and trace. If the current MVP bypasses that intended
+runtime route, keep the architecture relationship visible and document the
+bypass in readiness/status/notes.
+
 If the selected source shows components such as `dbt staging`, `dbt marts`,
 `dbt tests`, `STAGE / RAW`, or `Snowpipe取込` inside a smaller category or
 inner frame, preserve that nested structure in HTML. Do not flatten those items
