@@ -87,6 +87,27 @@ make that category relationship visible.
 - If the current MVP bypasses the intended runtime path, keep the intended
   relationship visible but state the bypass in `data-status` or `data-note`.
 
+## Evaluation And Error Classification Semantics
+
+Keep answer-quality evaluation, trace storage, and error-cause classification
+separate in the learning diagram.
+
+- `Golden Eval` represents answer, SQL, grounding, and regression-quality
+  evaluation. Its connector labels should describe evaluation inputs, results,
+  or regression-candidate flow.
+- `Trace Store` represents saved runtime/evaluation evidence. It can receive
+  Golden Eval results and feed failed traces or regression candidates back into
+  Golden Eval.
+- `Error Taxonomy` represents error-cause classification and improvement
+  routing, such as wrong SQL, KPI interpretation errors, data gaps, access
+  denial, ambiguous questions, safe-stop, and human-review handoff.
+- Do not draw a direct Golden Eval / Error Taxonomy arrow just because both are
+  LLMOps concepts. Add that connector only when the workflow explicitly moves a
+  classified evaluation artifact between them or uses taxonomy labels as an eval
+  dimension.
+- When the relation is useful but weak, explain it in hover notes or supporting
+  docs instead of turning it into an architecture connector.
+
 ## Child Skills
 
 - `child-skills/role-responsibility-tooltips/SKILL.md`

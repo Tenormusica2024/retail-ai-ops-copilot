@@ -959,7 +959,8 @@
           <path class="tool" data-edge="trace-logger-to-trace-metrics" d="M 1520 704 V 780" marker-end="url(#arrow-tool)"></path>
           <path class="data" data-edge="github-repo-to-ci-cd" d="M 214 820 H 300" marker-end="url(#arrow-data)"></path>
           <path class="data" data-edge="ci-cd-to-golden-eval" d="M 476 820 H 535" marker-end="url(#arrow-data)"></path>
-          <path class="data" data-edge="trace-store-to-golden-eval" d="M 785 820 H 711" marker-end="url(#arrow-data)"></path>
+          <path class="data" data-edge="golden-eval-to-trace-store-results" d="M 711 802 H 785" marker-end="url(#arrow-data)"></path>
+          <path class="data" data-edge="trace-store-to-golden-eval-candidates" d="M 785 840 H 711" marker-end="url(#arrow-data)"></path>
           <path class="data" data-edge="trace-store-to-version-registry" d="M 961 812 H 1010" marker-end="url(#arrow-data)"></path>
           <path class="data" data-edge="version-registry-to-trace-store" d="M 1010 832 H 961" marker-end="url(#arrow-data)"></path>
           <path class="data" data-edge="version-registry-to-error-taxonomy" d="M 1186 812 H 1235" marker-end="url(#arrow-data)"></path>
@@ -1129,12 +1130,12 @@
           <div class="service-title">CI / CD</div>
           <div class="service-sub">GitHub Actions<br>dbt build / test<br>pytest / eval<br>semantic検証</div>
         </div>
-        <div class="service compact orange" tabindex="0" data-progress="40%" data-progress-tier="mid" data-status="10件のrouting eval runnerが10/10通過" data-note="回答品質、SQL正当性、grounding、UI E2Eを含むGolden Evalには未到達。" style="left: 535px; top: 780px;">
+        <div class="service compact orange" tabindex="0" data-progress="40%" data-progress-tier="mid" data-status="10件のrouting eval runnerが10/10通過" data-note="回答品質、SQL正当性、grounding、UI E2Eを含むGolden Evalには未到達。評価結果はTrace Storeへ保存し、失敗traceは回帰候補として戻す想定。Error Taxonomyは原因分類軸で、薄い相関は線にしない" style="left: 535px; top: 780px;">
           <div class="icon sprite sp-golden-eval" role="img" aria-label="Golden Eval"></div>
           <div class="service-title">Golden Eval</div>
           <div class="service-sub">(回帰評価セット)<br>質問セット・期待値<br>正解SQL・結果<br>評価基準・閾値</div>
         </div>
-        <div class="service compact slate" tabindex="0" data-progress="40%" data-progress-tier="mid" data-status="local JSONL trace testとSnowflake table schemaあり" data-note="Snowflake trace書き込み、集計UI、品質dashboard、監視テストは未実装。" style="left: 785px; top: 780px;">
+        <div class="service compact slate" tabindex="0" data-progress="40%" data-progress-tier="mid" data-status="local JSONL trace testとSnowflake table schemaあり" data-note="Snowflake trace書き込み、集計UI、品質dashboard、監視テストは未実装。Golden Evalの評価結果保存と、失敗traceの回帰候補化を受ける設計" style="left: 785px; top: 780px;">
           <div class="icon sprite sp-trace-store" role="img" aria-label="Trace Store"></div>
           <div class="service-title">Trace Store</div>
           <div class="service-sub">トレース保存<br>クエリ・レスポンス<br>メトリクス・コスト</div>
@@ -1175,7 +1176,8 @@
         <div class="flow-label" style="left: 1288px; top: 474px;">実行・制御</div>
         <div class="flow-label" style="left: 980px; top: 704px;">改善適用（バージョン更新）</div>
         <div class="flow-label" style="left: 610px; top: 708px;">指標定義 / Prompt改善</div>
-        <div class="flow-label" style="left: 690px; top: 742px;">評価結果</div>
+        <div class="flow-label" style="left: 690px; top: 742px;">評価結果保存</div>
+        <div class="flow-label" style="left: 674px; top: 866px;">失敗trace / 回帰候補</div>
         <div class="flow-label" style="left: 1440px; top: 718px;">トレース /<br>メトリクス</div>
         <div class="flow-label" style="left: 1548px; top: 716px;">承認結果 /<br>フィードバック</div>
         <div class="flow-label" style="left: 1398px; top: 1020px;">修正依頼</div>
@@ -1260,8 +1262,8 @@
         "Trace Logger": "Snowflake native observabilityとアプリ側traceの分担、改善ループで使うイベント粒度と保存方針を設計する",
         "GitHub": "prompt、semantic、eval、diagram evidenceの版管理とレビュー単位を決め、AI変更の説明責任を追える形にする",
         "CI/CD": "AI変更で何を品質ゲートにするか、どの失敗をblockするか、implementation repoとの責務境界を設計する",
-        "Golden Eval": "PM/DS/DE/AIの評価責務を分け、代表質問、期待回答、許容SQL、引用、失敗分類、合格基準の全体設計を持つ",
-        "Trace Store": "運用ログ、評価ログ、承認状態、失敗分類を後から分析できるデータモデルと保持方針を設計する",
+        "Golden Eval": "PM/DS/DE/AIの評価責務を分け、代表質問、期待回答、許容SQL、引用、評価観点、合格基準の全体設計を持つ",
+        "Trace Store": "運用ログ、評価ログ、承認状態、原因分類参照を後から分析できるデータモデルと保持方針を設計する",
         "Version Registry": "prompt、semantic YAML/view、router rule、eval set、Cortex設定を比較可能な単位で版管理する方針を決める",
         "Error Taxonomy": "誤SQL、KPI解釈違い、データ不足、権限不足、曖昧質問をretry、safe-stop、人手レビュー、改善queueへ接続する設計を持つ",
         "人手レビュー": "AIが確定してはいけない判断、承認/修正/コメント/再評価の状態遷移、PM承認との責務境界を設計する",
@@ -1292,8 +1294,8 @@
         "Trace Logger": "Snowflake側のCortex/AI Observabilityで取れる項目と、アプリ側で補うroute、planner_output、human_review_reason、cost-relevant metadataを分けてtrace schemaを設計",
         "GitHub": "PG/PlatformがGitHub運用・CI基盤を管理する前提で、AIエンジニアはprompt、semantic model、eval case、diagram evidenceなどAI関連差分のレビュー観点と証跡粒度を明確化",
         "CI/CD": "PG/Platform/DEがCI基盤・branch protection・デプロイ手順を管理する前提で、AIエンジニアはAI変更時に必要なrouting eval、semantic差分、golden evalと、人へ返す判定材料を定義",
-        "Golden Eval": "PM/DSが代表質問・期待回答・業務妥当性を定義し、DS/DEが許容SQL・結果妥当性を確認した前提で、AIエンジニアは引用要否、失敗分類、改善判定を回帰テストへ接続",
-        "Trace Store": "DEが管理する保存基盤を前提に、AI評価で必要な質問、SQL、tool結果、引用、承認状態、失敗分類を後から抽出できるschemaをレビュー",
+        "Golden Eval": "PM/DSが代表質問・期待回答・業務妥当性を定義し、DS/DEが許容SQL・結果妥当性を確認した前提で、AIエンジニアは引用要否、評価観点、合否判定、回帰候補化をテストへ接続",
+        "Trace Store": "DEが管理する保存基盤を前提に、AI評価で必要な質問、SQL、tool結果、引用、承認状態、原因分類参照を後から抽出できるschemaをレビュー",
         "Version Registry": "prompt、semantic YAML、router rule、eval set、Cortex設定の版管理を設計し、変更前後で回答品質が良くなったか比較できる粒度を決める",
         "Error Taxonomy": "PM/DS/DEと誤り分類をすり合わせ、AIエンジニアは誤SQL、KPI解釈違い、データ不足、権限不足、曖昧質問を改善ループへ接続",
         "人手レビュー": "承認ポリシーはPM/業務が主定義し、AIエンジニアはAIが確定してはいけない判断、handoff状態、修正依頼、コメント保存、再評価へ戻すtrace項目を設計",

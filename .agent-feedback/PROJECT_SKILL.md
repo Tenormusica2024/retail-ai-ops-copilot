@@ -192,6 +192,7 @@ Common high-risk relationships in this project include:
 - `改善適用（バージョン更新）`
 - `修正依頼`
 - `Semantic KPI Model <-> Golden Eval`
+- `Golden Eval <-> Trace Store`
 - `CI / CD <-> dbt frame`
 - `Trace Store <-> Version Registry`
 - `Version Registry <-> Error Taxonomy`
@@ -241,6 +242,27 @@ arrowhead meets the boundary perpendicularly. Avoid endpoints whose final or
 initial segment runs parallel along the box edge, especially on category labels
 or dashed parent frames, because the reader cannot quickly tell which frame the
 relationship targets.
+
+Evaluation connectors must represent operational artifact flow, not only
+conceptual affinity. When two nodes are related but operate on different axes,
+prefer tooltip notes, documentation, or role-detail wording instead of adding a
+connector that overstates coupling.
+
+For the LLMOps lower band in this project:
+
+- `Golden Eval` evaluates answer quality, SQL validity, grounding, and
+  regression behavior.
+- `Trace Store` stores evaluation results, traces, approvals, and runtime
+  evidence for later analysis.
+- `Trace Store -> Golden Eval` is valid when failed traces or regression
+  candidates are fed back into the eval set.
+- `Golden Eval -> Trace Store` is valid when evaluation results are saved as
+  trace/evidence records.
+- `Error Taxonomy` classifies error causes and improvement routing. Do not draw
+  a direct Golden Eval / Error Taxonomy connector unless the workflow explicitly
+  transfers classified evaluation failures, uses taxonomy labels as eval
+  dimensions, or has another concrete artifact exchange. A thin conceptual
+  relationship is a note, not an arrow.
 
 If the selected source shows components such as `dbt staging`, `dbt marts`,
 `dbt tests`, `STAGE / RAW`, or `Snowpipe取込` inside a smaller category or

@@ -78,6 +78,24 @@ For Cortex Agents:
   app-side complement, not as the same responsibility as operating Cortex
   Agents internals.
 
+## Eval And Error Taxonomy Wording
+
+Do not let role-detail text imply that Golden Eval and Error Taxonomy are the
+same responsibility or the same artifact.
+
+- For `Golden Eval`, describe answer-quality, SQL-validity, grounding,
+  expected-answer, regression, and pass/fail judgment responsibilities.
+- For `Trace Store`, describe saved traces, eval results, approvals, and
+  evidence records that can later be analyzed.
+- For `Error Taxonomy`, describe error-cause labels, safe-stop/retry/human
+  review routing, and improvement queue classification.
+- Avoid saying that Golden Eval "owns error taxonomy" or that taxonomy is a
+  mandatory direct dependency unless the workflow explicitly uses taxonomy
+  labels as eval dimensions.
+- When useful, say that evaluation results are stored in Trace Store and failed
+  traces can become regression candidates; keep weak conceptual links to Error
+  Taxonomy as notes rather than connectors.
+
 ## Tooltip Detail Rules
 
 - Prefer explicit responsibility boundaries over short but ambiguous labels.
