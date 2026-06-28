@@ -208,6 +208,15 @@ If the selected source shows components such as `dbt staging`, `dbt marts`,
 inner frame, preserve that nested structure in HTML. Do not flatten those items
 into peer service cards unless the difference is explicitly documented.
 
+Do not replace source/planned component identities with current implementation
+shortcuts solely because the reference MVP uses a proxy path. For example,
+TPCH/direct SQL readiness can be shown in progress values, status text, notes,
+or a small implementation overlay, but it should not by itself rename
+`dbt staging` into `SQL結合` or `dbt marts` into `KPI集計ビュー` when the
+source/planned architecture is still a dbt transformation flow. If the diagram
+is intentionally switched to current-implementation-only mode, document that
+mode explicitly in the title/subtitle and ledger.
+
 When arrows appear near nested frames, classify the source relationship before
 drawing:
 
