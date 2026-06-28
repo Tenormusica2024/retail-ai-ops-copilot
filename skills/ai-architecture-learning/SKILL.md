@@ -62,6 +62,9 @@ make that category relationship visible.
   execution step.
 - Add a category-level connector from the runtime frame or boundary to the UI
   node when the UI delegates execution to the runtime as a whole.
+- When an arrow connects to a category/frame boundary, make the arrowhead meet
+  the boundary perpendicularly. Avoid placing an arrowhead on a segment that
+  runs parallel to the box edge, because it makes the endpoint look ambiguous.
 - Use tooltip notes to state the responsibility split: the UI owns input,
   answer display, warning/approval surfaces, and user workflow; the runtime
   owns routing, planning, tool calls, execution, and trace emission.

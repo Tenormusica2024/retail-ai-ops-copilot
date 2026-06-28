@@ -229,6 +229,12 @@ planning, tools, execution, and trace. If the current MVP bypasses that intended
 runtime route, keep the architecture relationship visible and document the
 bypass in readiness/status/notes.
 
+When connecting to a category or frame boundary, route the endpoint so the
+arrowhead meets the boundary perpendicularly. Avoid endpoints whose final or
+initial segment runs parallel along the box edge, especially on category labels
+or dashed parent frames, because the reader cannot quickly tell which frame the
+relationship targets.
+
 If the selected source shows components such as `dbt staging`, `dbt marts`,
 `dbt tests`, `STAGE / RAW`, or `Snowpipe取込` inside a smaller category or
 inner frame, preserve that nested structure in HTML. Do not flatten those items
