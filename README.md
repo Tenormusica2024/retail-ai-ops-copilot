@@ -10,6 +10,13 @@ reference MVP so the diagram's progress labels are grounded, but the full
 Snowflake/Streamlit/LLMOps pipeline implementation belongs in the implementation
 repo.
 
+The project premise is target-company realistic architecture learning: use this
+repo to study and validate practical AI/LLMOps technology choices under
+conditions close to real delivery before moving implementation work forward.
+Reference MVP shortcuts must not erase intended architecture identities such as
+dbt, Cortex, semantic modeling, evaluation, traceability, or human review.
+Represent gaps as readiness/status/notes instead.
+
 See `docs/architecture/repo-responsibility-boundary.md` for the repo split.
 
 ## Current Direction

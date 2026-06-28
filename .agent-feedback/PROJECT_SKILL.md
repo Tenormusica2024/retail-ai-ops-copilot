@@ -203,6 +203,13 @@ Before implementing or reviewing architecture HTML, inventory parent zones,
 child nodes, and any nested mini-frames, subcategory boxes, inner stack frames,
 or grouped frames inside a parent category.
 
+Project-launch intent is part of the review lens. This repo's architecture
+diagram is a target-company realistic technology-selection learning surface,
+not only a current MVP implementation snapshot. When a current shortcut, proxy
+dataset, or sample path conflicts with the intended learning architecture,
+preserve the intended architecture in the primary node/frame identity and put
+the shortcut reality into readiness/status/notes/evidence.
+
 If the selected source shows components such as `dbt staging`, `dbt marts`,
 `dbt tests`, `STAGE / RAW`, or `Snowpipe取込` inside a smaller category or
 inner frame, preserve that nested structure in HTML. Do not flatten those items

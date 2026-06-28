@@ -6,6 +6,13 @@ This repository is primarily the architecture-diagram reproduction and public
 learning surface for `retail-ai-ops-copilot`, a Snowflake-native retail KPI
 copilot.
 
+The project premise is target-company realistic architecture learning. Preserve
+the intended architecture and technology-selection surface even when the
+reference MVP uses a narrower shortcut. For example, do not replace a planned
+dbt transformation flow with direct SQL labels just because the current sample
+path has not implemented dbt yet. Put that implementation gap in readiness,
+status, notes, or evidence docs.
+
 The main objective is to learn and demonstrate a practical AI architecture /
 LLMOps engineering scope:
 

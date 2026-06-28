@@ -17,6 +17,23 @@ This skill is for the AI architecture learning surface in this repo. It is not
 the generic imagegen-to-HTML reproduction skill and should not be used to relax
 visual fidelity gates.
 
+## Project Premise
+
+This repo is a target-company realistic architecture learning and validation
+surface. Its purpose is to study practical AI/LLMOps technology choices under
+conditions close to real delivery before implementation work advances.
+
+Do not let a narrow reference MVP, proxy dataset, or implementation shortcut
+erase technologies that belong to the intended realistic architecture. Preserve
+architecture identities such as dbt, Cortex, semantic modeling, evaluation,
+traceability, and human review when they are part of the learning target. Show
+current gaps through progress/readiness values, `data-status`, `data-note`,
+docs, or evidence links instead of renaming the primary nodes to shortcuts.
+
+When reviewing diagram metadata, consider the user's project-launch intent:
+the diagram is a learning and technology-selection map first, not only a
+snapshot of the current MVP.
+
 ## Child Skills
 
 - `child-skills/role-responsibility-tooltips/SKILL.md`
