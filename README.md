@@ -118,6 +118,7 @@ python3 -m retail_ai_ops.eval_runner
 
 - GitHub Pages: https://tenormusica2024.github.io/retail-ai-ops-copilot/
 - Architecture HTML: `docs/architecture/retail-ai-ops-copilot-architecture.html`
+- Future edge-contract path generation: `docs/architecture/edge-contract-path-generation.md`
 - Progress readiness rubric: `docs/architecture/progress-readiness-rubric.md`
 - Sample data coverage matrix: `docs/architecture/sample-data-coverage-matrix.md`
 - Repo responsibility boundary: `docs/architecture/repo-responsibility-boundary.md`
@@ -147,6 +148,45 @@ NODE_PATH=/Users/urayahadays/.cache/codex-runtimes/codex-primary-runtime/depende
   /Users/urayahadays/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node \
   tools/check_diagram_connectors.mjs
 ```
+
+## Future Edge Contract Generation
+
+For new 0-to-1 imagegen architecture or system-diagram reproductions, prefer an
+edge-contract workflow instead of hand-writing fixed SVG path coordinates first.
+This belongs to this visualization repository's diagram tooling; it does not
+change the implementation pipeline or the current source-faithful architecture
+HTML.
+
+The intended workflow is:
+
+- add stable `data-node-id` values to diagram nodes when the HTML is first built
+- define edges with `from.node`, `from.anchor`, `to.node`, and `to.anchor`
+- generate SVG `path d` values from rendered node rectangles
+- run the connector geometry lint after generation or layout changes
+
+Demo:
+
+```bash
+node tools/generate_diagram_edges_from_contract.mjs \
+  --html tools/fixtures/edge-contract-demo.html \
+  --contract tools/fixtures/edge-contract-demo.json \
+  --out outputs/edge-contract-demo-generated.json \
+  --snippet outputs/edge-contract-demo-generated.svg.txt
+```
+
+Codex runtime Playwright:
+
+```bash
+NODE_PATH=/Users/urayahadays/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules \
+  /Users/urayahadays/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node \
+  tools/generate_diagram_edges_from_contract.mjs \
+  --html tools/fixtures/edge-contract-demo.html \
+  --contract tools/fixtures/edge-contract-demo.json \
+  --out outputs/edge-contract-demo-generated.json \
+  --snippet outputs/edge-contract-demo-generated.svg.txt
+```
+
+The generator writes a report and SVG snippet only. It does not mutate the HTML.
 
 ## Primary References
 

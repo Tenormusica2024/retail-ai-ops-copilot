@@ -125,6 +125,39 @@ Treat this lint as a pre-HITL gate. Visual review and sub-agent review should
 then focus on semantic source fidelity, label meaning, and intentional
 differences that pure geometry cannot decide.
 
+### Diagram Edge Contract Generation Gate
+
+For new 0-to-1 imagegen architecture diagrams, system configuration diagrams,
+and workflow diagrams in this visualization repo, prefer an edge-contract
+workflow before hand-writing SVG path coordinates.
+
+This gate is for diagram reproduction and visualization tooling. It must not be
+treated as pipeline implementation work, Snowflake/Cortex runtime work, or proof
+that the architecture nodes themselves are implemented.
+
+Required behavior for new diagrams:
+
+- add stable `data-node-id` values to every node or frame that can be an edge
+  endpoint
+- define each edge with explicit `from.node`, `from.anchor`, `to.node`, and
+  `to.anchor` values, such as `from: Semantic KPI Model / anchor: bottom`
+- include marker semantics in the contract, including whether the relationship
+  is one-way, bidirectional on one path, or two separate opposing paths
+- generate SVG `path d` values from rendered node rectangles with
+  `getBoundingClientRect()` plus SVG coordinate conversion, not from stale fixed
+  coordinates
+- keep manual fixed-coordinate routes only for documented exceptions such as
+  buses, lanes, label anchors, source-faithful visual quirks, or already-locked
+  diagrams
+- after node moves, card resizing, frame resizing, or helper/header removal,
+  regenerate affected paths and then run `tools/check_diagram_connectors.mjs`
+- keep the current source-faithful architecture HTML on its existing fixed-path
+  route unless a separate HITL-approved migration task is opened, because
+  automatic migration can change many fine visual positions at once
+
+Use `tools/generate_diagram_edges_from_contract.mjs` and
+`docs/architecture/edge-contract-path-generation.md` as the reference workflow.
+
 ### Diagram Bidirectional Marker Gate
 
 For any source relationship that is bidirectional or visually has arrowheads at

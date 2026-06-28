@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "svgSelector": "svg.connectors",
+  "nodeSelectorAttribute": "data-node-id",
+  "edges": [
+    {
+      "id": "semantic-to-cortex-analyst",
+      "from": {
+        "node": "semantic-kpi-model",
+        "anchor": "right"
+      },
+      "to": {
+        "node": "cortex-analyst-api",
+        "anchor": "left"
+      },
+      "className": "data",
+      "markerEnd": "url(#arrow-data)",
+      "route": {
+        "type": "orthogonal"
+      }
+    },
+    {
+      "id": "semantic-to-golden-eval-feedback",
+      "from": {
+        "node": "semantic-kpi-model",
+        "anchor": "bottom"
+      },
+      "to": {
+        "node": "golden-eval",
+        "anchor": "top"
+      },
+      "className": "ops",
+      "marker": "url(#arrow-ops)",
+      "bidirectional": true,
+      "route": {
+        "type": "orthogonal",
+        "orientation": "vertical-first",
+        "midY": 244
+      }
+    }
+  ]
+}
