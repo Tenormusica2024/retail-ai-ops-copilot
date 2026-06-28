@@ -243,6 +243,14 @@ runtime needs appear. Before expanding into that scope, decide whether this
 repository should evolve or a separate intermediate-stage project should own
 the runtime work.
 
+When promoting Snowpark into the current diagram, prefer a small
+`Snowpark Python / UDF / SP` node inside the Snowflake Account boundary before
+adding SPCS. Connect Snowpark only to responsibilities that are source-backed or
+implementation-plausible: dbt Python/UDF/SP execution, Cortex Agents custom
+tools, and eval/trace enrichment into Trace Store. Keep SPCS as a visible design
+candidate in docs until containerized services or compute-pool concepts are
+actually part of the architecture.
+
 CI/CD edges must distinguish read-only sources from deployable/validatable
 seeds. CI/CD should not appear to deploy `SNOWFLAKE_SAMPLE_DATA` or another
 read-only external source unless ingestion/provisioning exists. It should

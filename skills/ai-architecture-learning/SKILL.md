@@ -66,6 +66,20 @@ responsibility may exist, such as:
 - containerized Airflow, JupyterLab, MLflow, custom APIs, long-running jobs, or
   GPU/custom runtime needs inside the Snowflake boundary
 
+In the current diagram, place the first Snowpark promotion as a
+`Snowpark Python / UDF / SP` execution node inside the Snowflake Account
+boundary. Connect it only where it has a concrete responsibility:
+
+- dbt Python model / UDF / SP execution from the dbt modeling area
+- Cortex Agents custom tool logic via Stored Procedure or UDF
+- in-Snowflake eval runner, trace enrichment, or data-quality job output into
+  Trace Store
+
+Do not add SPCS as a mainline node until the design introduces containerized
+services such as Airflow, JupyterLab, MLflow, custom APIs, long-running jobs, or
+explicit Compute Pool / Service / Job Service concepts. Record SPCS as an
+active next-stage candidate rather than a rejected option.
+
 Before intermediate-stage work starts, review whether to extend this repository
 or create a separate project. Keep this repository for diagram learning,
 decision rationale, and public Pages review. Prefer a separate project when the

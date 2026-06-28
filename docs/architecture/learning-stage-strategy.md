@@ -63,6 +63,13 @@ real responsibility. Promote it into the diagram when it clarifies the design,
 for example around Snowflake-side Python, ML, eval automation, trace enrichment,
 or containerized services.
 
+For the current architecture map, the first promotion step is Snowpark
+Python/UDF/SP inside the Snowflake Account boundary. Treat it as the execution
+surface for dbt Python models, UDF/SP reusable logic, Cortex Agents custom tool
+logic, eval runners, and trace enrichment. Keep SPCS as a separate expansion
+candidate until the design needs containerized Airflow, JupyterLab, MLflow,
+custom APIs, long-running jobs, or compute-pool/service/job-service concepts.
+
 ## Project Split Decision
 
 The default next step is to evolve this repository's architecture map toward the

@@ -143,6 +143,7 @@ python3 -m retail_ai_ops.eval_runner
 - Architecture HTML: `docs/architecture/retail-ai-ops-copilot-architecture.html`
 - Future edge-contract path generation: `docs/architecture/edge-contract-path-generation.md`
 - Learning stage strategy: `docs/architecture/learning-stage-strategy.md`
+- Snowpark integration design: `docs/architecture/snowpark-integration-design.md`
 - Progress readiness rubric: `docs/architecture/progress-readiness-rubric.md`
 - Sample data coverage matrix: `docs/architecture/sample-data-coverage-matrix.md`
 - Repo responsibility boundary: `docs/architecture/repo-responsibility-boundary.md`
@@ -222,4 +223,7 @@ The generator writes a report and SVG snippet only. It does not mutate the HTML.
 - Snowflake Cortex Analyst docs: https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst
 - Snowflake Cortex Agents docs: https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-agents
 - Snowflake Cortex Search docs: https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-search/cortex-search-overview
+- Snowflake Snowpark Python + dbt quickstart: https://www.snowflake.com/en/developers/guides/data-engineering-with-snowpark-python-and-dbt/
+- Snowflake Python stored procedures docs: https://docs.snowflake.com/en/developer-guide/stored-procedure/python/procedure-python-overview
+- Snowflake Snowpark Container Services docs: https://docs.snowflake.com/en/developer-guide/snowpark-container-services/working-with-compute-pool
 - dbt documentation: https://docs.getdbt.com/docs/introduction

@@ -307,6 +307,11 @@
       min-height: 104px;
     }
 
+    .service.snowpark {
+      width: 220px;
+      min-height: 70px;
+    }
+
     .service.runtime {
       width: 300px;
       min-height: 82px;
@@ -934,6 +939,9 @@
           <path class="docs" data-edge="semantic-to-cortex-agents-reference" d="M 1015 488 H 1040 V 606 H 1050" marker-end="url(#arrow-docs)"></path>
           <path class="data" data-edge="cortex-search-to-agents" d="M 1160 540 V 564" marker-end="url(#arrow-data)"></path>
           <path class="data" data-edge="cortex-agents-to-search" d="M 1176 564 V 540" marker-end="url(#arrow-data)"></path>
+          <path class="tool" data-edge="dbt-tests-to-snowpark-python" d="M 721 593 H 758 V 638 H 795" marker-end="url(#arrow-tool)"></path>
+          <path class="tool" data-edge="cortex-agents-to-snowpark-custom-tool" d="M 1050 638 H 1015" marker-end="url(#arrow-tool)"></path>
+          <path class="tool-dashed" data-edge="snowpark-eval-trace-to-trace-store" d="M 915 684 V 742 H 873 V 780" marker-end="url(#arrow-tool)"></path>
 
           <!-- 利用者 -> Streamlit UI / Streamlit <-> Snowflake -->
           <path class="data" data-edge="analyst-to-streamlit-question" d="M 896 157 H 950" marker-end="url(#arrow-data)"></path>
@@ -954,7 +962,7 @@
           <!-- Trace / LLMOps -->
           <path class="data" data-edge="ci-cd-to-dbt-modeling-frame" d="M 388 780 V 704 H 658 V 652" marker-start="url(#arrow-data)" marker-end="url(#arrow-data)"></path>
           <path class="docs" data-edge="ci-cd-to-kpi-definitions-seed" d="M 442 780 V 684 H 532 V 579 H 500" marker-end="url(#arrow-docs)"></path>
-          <path class="ops" data-edge="golden-eval-to-semantic-improvement" d="M 623 780 V 710 H 895 V 528" marker-start="url(#arrow-ops)" marker-end="url(#arrow-ops)"></path>
+          <path class="ops" data-edge="golden-eval-to-semantic-improvement" d="M 623 780 V 710 H 760 V 548 H 895 V 528" marker-start="url(#arrow-ops)" marker-end="url(#arrow-ops)"></path>
           <path class="tool-dashed" data-edge="app-runtime-improvement-to-trace-store" d="M 1370 682 H 1335 V 730 H 873 V 780" marker-start="url(#arrow-tool)" marker-end="url(#arrow-tool)"></path>
           <path class="tool" data-edge="trace-logger-to-trace-metrics" d="M 1520 704 V 780" marker-end="url(#arrow-tool)"></path>
           <path class="data" data-edge="github-repo-to-ci-cd" d="M 214 820 H 300" marker-end="url(#arrow-data)"></path>
@@ -1000,6 +1008,9 @@
         </div>
         <div class="subzone semantic-frame" style="left: 780px; top: 350px; width: 250px; height: 230px;">
           <div class="subzone-title">セマンティック層</div>
+        </div>
+        <div class="subzone semantic-frame" style="left: 780px; top: 586px; width: 250px; height: 98px;">
+          <div class="subzone-title">Snowpark実行層</div>
         </div>
         <div class="subzone semantic-frame" style="left: 1036px; top: 300px; width: 260px; height: 378px;">
           <div class="subzone-title">AIアクセス層 (Snowflake Cortex)</div>
@@ -1060,6 +1071,11 @@
           <div class="icon sprite sp-semantic" role="img" aria-label="Semantic KPI Model"></div>
           <div class="service-title">Semantic KPI Model</div>
           <div class="service-sub">(YAML / Semantic Model)<br>指標定義・ディメンション<br>ビジネスルール・メトリクス<br>階層・ルックアップ</div>
+        </div>
+        <div class="service snowpark snow" tabindex="0" data-progress="0%" data-progress-tier="none" data-status="導入設計を追加。実装未着手" data-note="Snowpark Python / UDF / Stored Procedureをdbt Python model、Cortex Agents custom tool、eval runner、trace enrichment候補として扱う。SPCSはAirflowやJupyterなどのコンテナ実行が必要になった段階で別途判断。" style="left: 795px; top: 614px;">
+          <div class="icon sprite sp-snowflake" role="img" aria-label="Snowpark Python"></div>
+          <div class="service-title">Snowpark Python</div>
+          <div class="service-sub">UDF / SP / dbt Python<br>eval runner<br>trace enrichment</div>
         </div>
 
         <div class="service wide snow" tabindex="0" data-progress="10%" data-progress-tier="low" data-status="KPI定義tableは作成済み" data-note="Cortex Search service、引用取得、週報検索は未実装。" style="left: 1050px; top: 456px;">
@@ -1174,6 +1190,8 @@
         <div class="flow-label" style="left: 970px; top: 512px;">文書・参照</div>
         <div class="flow-label" style="left: 1260px; top: 546px;">ツール呼び出し</div>
         <div class="flow-label" style="left: 1288px; top: 474px;">実行・制御</div>
+        <div class="flow-label" style="left: 722px; top: 645px;">dbt Python<br>UDF / SP</div>
+        <div class="flow-label" style="left: 934px; top: 714px;">eval / trace<br>拡張</div>
         <div class="flow-label" style="left: 980px; top: 704px;">改善適用（バージョン更新）</div>
         <div class="flow-label" style="left: 610px; top: 708px;">指標定義 / Prompt改善</div>
         <div class="flow-label" style="left: 690px; top: 742px;">評価結果保存</div>
@@ -1214,6 +1232,7 @@
         "dbt marts": [45, 35, 5, 10, 5],
         "dbt tests": [45, 25, 5, 10, 15],
         "Semantic KPI Model": [20, 40, 25, 10, 5],
+        "Snowpark Python": [35, 15, 35, 5, 10],
         "Cortex Analyst API": [15, 25, 45, 10, 5],
         "Cortex Search": [25, 20, 40, 10, 5],
         "Cortex Agents": [10, 15, 55, 10, 10],
@@ -1249,6 +1268,7 @@
         "dbt marts": "KPI martをdbt管理の契約としてSemantic Model、Cortex、Evalへ渡す設計を持ち、直接SQLビューはreference MVP証跡として分離する",
         "dbt tests": "DEの品質ゲートとAI回帰テストをどう接続するか、どの失敗でAI回答を止めるかを設計する",
         "Semantic KPI Model": "Cortex Analystに渡すsemantic契約、verified query、禁止解釈、曖昧質問時のsuggestion/safe-stop、回帰評価の全体設計を持つ",
+        "Snowpark Python": "Snowflake内でPythonを使う責務を切り出し、dbt Python model、UDF/SP、Cortex Agents custom tool、eval/trace enrichmentのどれを担わせるかを設計する",
         "Cortex Analyst API": "自然言語からSQLまでの信頼境界、SQLをそのまま確定しない確認導線、warnings/suggestions、人手確認条件を設計する",
         "Cortex Search": "Searchを知識境界として使う範囲、Semanticとの使い分け、文脈混入、権限、引用、safe-stop方針を設計する",
         "Cortex Agents": "Cortex managed agentと独自Router/Plannerの責務を分け、tool境界、承認分岐、予算上限、観測・評価方針を設計する",
@@ -1281,6 +1301,7 @@
         "dbt marts": "DE/DSが定義するdbt martを、質問応答で参照してよい集計面として扱い、semantic model、SQL preview、eval case、失敗時停止条件へ接続",
         "dbt tests": "DE/DSが担うdbt品質検証を前提に、AI変更時に必要なsemantic差分、回答回帰、失敗時停止条件へ接続する観点を設計",
         "Semantic KPI Model": "PM/DS/DEが定義したKPI、dimension、join、grainを前提に、AIエンジニアはsemantic view/YAML、verified query、同義語、禁止解釈、曖昧質問時のsuggestion/safe-stop、回帰評価へ接続",
+        "Snowpark Python": "DE/DSが定義するPython処理やeval要件を前提に、AIエンジニアはCortex Agents custom toolから呼ぶSP/UDF、eval runner、trace enrichment、失敗時のsafe-stopと観測項目を実装・検証候補へ落とす",
         "Cortex Analyst API": "Cortex Analystのsemantic view/model、verified query、warnings、suggestion、SQL preview、人手確認条件を扱い、生成SQLをそのまま確定せず評価・safe stopへ接続",
         "Cortex Search": "PM/業務・DSが文書/KPI内容を主定義し、AIエンジニアはcorpus境界、search_column/attributes/filter、引用粒度、grounding、service権限、混ぜてよい文脈、safe-stop条件を設計・検証",
         "Cortex Agents": "Cortex Agentsではtool定義、orchestration/response instructions、予算上限、承認が必要な分岐、停止条件、eval/trace観点を設定・検証し、独自Router/Plannerとは責務を分ける",

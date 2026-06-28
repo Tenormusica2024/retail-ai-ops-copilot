@@ -45,8 +45,9 @@ runtime behavior, CI/CD, and production-like integration work belong in the
 implementation repo. After that repo produces evidence, update this repo's
 diagram and progress-readiness labels.
 
-See `docs/architecture/repo-responsibility-boundary.md` and
-`docs/architecture/learning-stage-strategy.md`.
+See `docs/architecture/repo-responsibility-boundary.md`,
+`docs/architecture/learning-stage-strategy.md`, and
+`docs/architecture/snowpark-integration-design.md`.
 
 ## Documentation Sync
 
