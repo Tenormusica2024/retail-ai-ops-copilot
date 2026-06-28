@@ -17,12 +17,14 @@ Reference MVP shortcuts must not erase intended architecture identities such as
 dbt, Cortex, semantic modeling, evaluation, traceability, or human review.
 Represent gaps as readiness/status/notes instead.
 
-This repo is the beginner-stage learning surface. The learning window is short,
-so avoid spending too much time over-polishing beginner scope. Snowpark and
-Snowpark Container Services are active intermediate/advanced learning
-candidates. Do not assume they are used in every workflow, but also do not treat
-them as distant or low-priority topics; intentionally evaluate them next when
-Snowflake-side Python, ML, eval-runner, custom service, or container
+This repo started as the beginner-stage learning surface, but the learning
+window is short, so do not optimize for the smallest safe demo. Prefer learning
+density: once the core Cortex/dbt/Streamlit/LLMOps relationships are clear, it
+is acceptable to evolve this same project toward intermediate architecture.
+Snowpark and Snowpark Container Services are active intermediate/advanced
+learning candidates. Do not assume they are used in every workflow, but also do
+not treat them as distant or low-priority topics; intentionally evaluate them
+next when Snowflake-side Python, ML, eval-runner, custom service, or container
 responsibility appears.
 
 See `docs/architecture/repo-responsibility-boundary.md` for the repo split.
@@ -41,8 +43,9 @@ scope decisions.
   workflow changes, and runtime quality improvements move back to the
   implementation repo before this diagram claims higher readiness.
 - Learning stage: beginner scope should finish quickly; intermediate work may
-  add Snowpark/SPCS as an active learning target. First run a design review to
-  decide whether to extend this repo or start a separate project.
+  add Snowpark/SPCS as an active learning target in this same project when it
+  improves learning density. Split out only when runtime cost, implementation
+  weight, or answer-quality attribution becomes hard to control.
 
 ## Documentation
 

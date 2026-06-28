@@ -36,9 +36,21 @@ snapshot of the current MVP.
 
 ## Learning Stage Strategy
 
-Treat the current repository as the beginner-stage learning surface. The
-learning window is short, so avoid spending too much time perfecting beginner
-scope after the core Cortex/dbt/Streamlit/LLMOps relationships are understood.
+Treat the current repository as a learning-density surface, not a permanently
+minimal beginner demo. The learning window is short, so avoid spending too much
+time perfecting beginner scope after the core Cortex/dbt/Streamlit/LLMOps
+relationships are understood.
+
+Prefer learning efficiency over minimum scope. This project may absorb
+intermediate architecture topics when the added component teaches a realistic
+decision and the result still preserves quality attribution.
+
+Quality attribution means the project can still explain whether an answer or
+workflow degraded because of source data, dbt/modeling, semantic contract,
+retrieval/search, agent routing, prompt/tool behavior, evaluation logic, trace,
+UI, or governance. If degradation can no longer be localized, simplify the
+feature, split the experiment, or move runtime-heavy work into a separate
+project before adding more components.
 
 Snowpark and Snowpark Container Services are active intermediate or advanced
 architecture candidates. Do not assume they are used in every workflow, but do

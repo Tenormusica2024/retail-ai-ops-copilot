@@ -1,9 +1,10 @@
 # Learning Stage Strategy
 
-This project is the beginner-stage learning surface for a Snowflake-native
-retail KPI copilot. It should establish the core AI architecture and LLMOps
-mental model quickly, then move on rather than spending too much of the
-one-month learning window on beginner-scope polish.
+This project started as the beginner-stage learning surface for a
+Snowflake-native retail KPI copilot. Because the learning window is short, the
+project should not optimize for the smallest safe demo. It should establish the
+core AI architecture and LLMOps mental model quickly, then deliberately absorb
+harder intermediate architecture topics when they increase learning density.
 
 ## Beginner Stage
 
@@ -22,6 +23,26 @@ Snowpark and Snowpark Container Services do not need to block beginner-stage
 completion, but they should be carried forward as active next-stage learning
 candidates. Omitting them from the beginner mainline must not be interpreted as
 avoiding or de-prioritizing them.
+
+## Learning Efficiency Bias
+
+The default bias is learning efficiency over minimalism. It is acceptable for
+this project to become more complex than a normal beginner demo when the added
+component teaches a realistic architecture decision.
+
+Complexity is acceptable while the project can still answer:
+
+- which layer owns the behavior: data, dbt, semantic model, search, agent
+  routing, eval, trace, UI, or governance
+- which test or evidence would prove that layer is working
+- where answer quality degraded when a result gets worse
+- whether the degradation came from implementation, source data, prompt,
+  semantic contract, retrieval, routing, or evaluation design
+
+If quality degradation becomes hard to localize, pause the expansion and
+consider simplifying the feature, splitting the experiment, or moving the
+runtime-heavy part into a separate project. Simplification is a debugging and
+learning-control tool, not the default architecture goal.
 
 ## Intermediate And Later Stages
 
@@ -44,8 +65,10 @@ or containerized services.
 
 ## Project Split Decision
 
-Whether intermediate work should evolve this repository or become a separate
-project is intentionally unresolved.
+The default next step is to evolve this repository's architecture map toward the
+intermediate design so the learning context remains continuous. A separate
+project is still valid when runtime cost, implementation weight, or quality
+attribution risk makes the current repo a poor control surface.
 
 Use this repository when the work is still about:
 

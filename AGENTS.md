@@ -13,16 +13,19 @@ dbt transformation flow with direct SQL labels just because the current sample
 path has not implemented dbt yet. Put that implementation gap in readiness,
 status, notes, or evidence docs.
 
-Treat the current repository as the beginner-stage learning surface. The
-learning window is intentionally short, so do not let beginner-scope diagram
-polish or reference MVP work crowd out harder intermediate architecture
-learning. Snowpark and Snowpark Container Services are valid intermediate or
-advanced candidates and should be actively considered for the next learning
-stage. Do not assume they appear in every workflow, but also do not steer away
-from them by default. When Snowflake-side Python, ML, eval-runner, custom
-service, or container runtime responsibility appears, evaluate Snowpark/SPCS
-early. Before expanding this repo into that scope, review whether a separate
-intermediate-stage project would be cleaner.
+Treat the current repository as a learning-density surface, not a permanently
+minimal beginner demo. The learning window is intentionally short, so do not let
+beginner-scope diagram polish or reference MVP work crowd out harder
+intermediate architecture learning. It is acceptable to evolve this same project
+toward intermediate architecture when the added complexity teaches a realistic
+decision and quality degradation remains attributable. Snowpark and Snowpark
+Container Services are valid intermediate or advanced candidates and should be
+actively considered for the next learning stage. Do not assume they appear in
+every workflow, but also do not steer away from them by default. When
+Snowflake-side Python, ML, eval-runner, custom service, or container runtime
+responsibility appears, evaluate Snowpark/SPCS early. Split into a separate
+project only when runtime cost, implementation weight, or answer-quality
+attribution becomes hard to control.
 
 The main objective is to learn and demonstrate a practical AI architecture /
 LLMOps engineering scope:

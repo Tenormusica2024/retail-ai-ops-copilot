@@ -221,9 +221,17 @@ an explicit ingestion flow. If the current path is
 Snowflake reference / seed layer and put future ingestion/lake intent in
 status/notes or a separate planned node.
 
-This repo is the beginner-stage learning surface. Do not let beginner-scope
-diagram polish or reference MVP work consume the learning window after the core
-Cortex/dbt/Streamlit/LLMOps relationships are clear.
+This repo is a learning-density surface, not a permanently minimal beginner
+demo. Do not let beginner-scope diagram polish or reference MVP work consume
+the learning window after the core Cortex/dbt/Streamlit/LLMOps relationships
+are clear.
+
+Complexity is acceptable when it teaches a realistic architecture decision and
+the project can still localize answer-quality degradation to a layer such as
+data, dbt/modeling, semantic contract, search, agent routing, prompt/tool
+behavior, eval logic, trace, UI, or governance. If the team can no longer tell
+where quality breaks, pause expansion and consider simplifying the feature,
+splitting the experiment, or moving runtime-heavy work into a separate project.
 
 Snowpark and Snowpark Container Services are active intermediate/advanced
 options. Do not assume they are used in every workflow, but also do not steer
