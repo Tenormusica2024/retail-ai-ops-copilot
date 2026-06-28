@@ -953,6 +953,7 @@
 
           <!-- Trace / LLMOps -->
           <path class="data" data-edge="ci-cd-to-dbt-modeling-frame" d="M 388 780 V 704 H 658 V 652" marker-start="url(#arrow-data)" marker-end="url(#arrow-data)"></path>
+          <path class="docs" data-edge="ci-cd-to-kpi-definitions-seed" d="M 442 780 V 684 H 532 V 579 H 500" marker-end="url(#arrow-docs)"></path>
           <path class="ops" data-edge="golden-eval-to-semantic-improvement" d="M 623 780 V 710 H 895 V 528" marker-start="url(#arrow-ops)" marker-end="url(#arrow-ops)"></path>
           <path class="tool-dashed" data-edge="app-runtime-improvement-to-trace-store" d="M 1370 682 H 1335 V 730 H 873 V 780" marker-start="url(#arrow-tool)" marker-end="url(#arrow-tool)"></path>
           <path class="tool" data-edge="trace-logger-to-trace-metrics" d="M 1520 704 V 780" marker-end="url(#arrow-tool)"></path>
@@ -1123,7 +1124,7 @@
           <div class="service-title">GitHub Repo<br>/ CI</div>
           <div class="service-sub">dbt / SQL / YAML / Prompt<br>ユーティリティ・コード<br>テスト・データ検証</div>
         </div>
-        <div class="service compact orange" tabindex="0" data-progress="5%" data-progress-tier="low" data-status="図上の予定領域" data-note="GitHub Actionsによるdbt build/test/deployは未実装。" style="left: 300px; top: 780px;">
+        <div class="service compact orange" tabindex="0" data-progress="5%" data-progress-tier="low" data-status="図上の予定領域" data-note="GitHub Actionsによるdbt build/test/deployは未実装。Snowflake公式サンプルDB自体はread-only参照で、CI/CD対象はdbtモデル、tests、semantic、seed定義。" style="left: 300px; top: 780px;">
           <div class="icon sprite sp-ci-actions" role="img" aria-label="CI/CD"></div>
           <div class="service-title">CI / CD</div>
           <div class="service-sub">GitHub Actions<br>dbt build / test<br>pytest / eval<br>semantic検証</div>

@@ -52,6 +52,22 @@ and implementation.
   status/notes, instead of making current sample-table references look like
   ingestion readiness.
 
+## CI/CD Source And Seed Boundaries
+
+Represent CI/CD relationships according to what the pipeline can actually
+change or validate.
+
+- Do not draw CI/CD as deploying a read-only external/sample source such as
+  `SNOWFLAKE_SAMPLE_DATA` unless there is an implemented ingestion or managed
+  source provisioning step.
+- Do connect CI/CD to dbt transformation/modeling when it owns `dbt build`,
+  `dbt test`, model deployment, semantic validation, or eval execution.
+- When a visible reference/seed layer contains version-controlled seeds or
+  manual definition tables, show that CI/CD can apply or validate those seed
+  definitions separately from read-only sample-table references.
+- In tooltips, explicitly distinguish read-only source references from
+  version-controlled seeds, tests, semantic artifacts, and deployable models.
+
 ## UI And Runtime Relationship Clarity
 
 When a UI node represents a user-facing facade for a broader runtime category,

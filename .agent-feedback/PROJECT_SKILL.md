@@ -220,6 +220,13 @@ an explicit ingestion flow. If the current path is
 Snowflake reference / seed layer and put future ingestion/lake intent in
 status/notes or a separate planned node.
 
+CI/CD edges must distinguish read-only sources from deployable/validatable
+seeds. CI/CD should not appear to deploy `SNOWFLAKE_SAMPLE_DATA` or another
+read-only external source unless ingestion/provisioning exists. It should
+connect to dbt build/test/modeling, semantic validation, evals, and any
+version-controlled seed or definition table that the pipeline can apply or
+validate.
+
 For UI/facade nodes such as Streamlit, preserve category-level runtime
 relationships when individual node-to-node connectors would clutter the diagram
 or imply false ownership. A UI node can connect to a runtime frame/boundary to
