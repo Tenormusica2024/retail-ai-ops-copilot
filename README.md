@@ -18,6 +18,13 @@ design inspectable, steerable, and closer to professional delivery quality.
 Architecture expansion should therefore include control mechanisms, evidence,
 and review loops, not just more components.
 
+Review workflows and skills created here should also be designed for future
+reuse in professional client-delivery work. Keep project-specific context
+separate from reusable quality-assurance patterns such as code review checklists,
+feedback routing, evidence requirements, CI/lint gates, and reviewer-agent
+contracts. When a pattern proves useful here, shape it so it can later become a
+generic skill without private, employer-specific, or one-off project wording.
+
 The project premise is target-company realistic architecture learning: use this
 repo to study and validate practical AI/LLMOps technology choices under
 conditions close to real delivery before moving implementation work forward.

@@ -286,6 +286,14 @@ gates, readiness rubrics, eval evidence, and reviewer loops. Do not treat a
 larger architecture as inherently better; the durable learning value is whether
 AI-assisted design remains inspectable, testable, and correctable.
 
+Project-launch intent also includes distilling reusable quality-assurance
+skills for future professional client-delivery work. When this project creates
+or improves a code-review checklist, diagram-review gate, feedback-routing
+rule, reviewer-agent contract, lint/CI gate, or evidence standard, separate the
+generic pattern from project-specific facts. Keep local artifacts local, but
+write durable rules so they can later be promoted into generic skills without
+private, employer-specific, or one-off wording.
+
 Layer names must be evidence-honest. Do not call a Snowflake source/source-like
 area `data lake`, `STAGE`, `RAW`, `ingestion`, or `lakehouse` merely because
 those are common Snowflake architecture concepts. Use those labels only when

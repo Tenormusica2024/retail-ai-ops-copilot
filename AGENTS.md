@@ -20,6 +20,13 @@ docs, diagram lint, CI gates, readiness rubrics, and review loops. Do not treat
 component count as learning value by itself; the value is learning how to keep a
 realistic AI architecture inspectable, testable, and steerable as it grows.
 
+Skills and review workflows created in this project should be written with
+future professional client-delivery reuse in mind. Separate reusable quality
+patterns from project-specific facts. Code review, diagram review, feedback
+ledger, CI/lint gate, and reviewer-agent rules should be phrased so they can be
+promoted into generic skills after they prove useful, without carrying private
+or one-off project context.
+
 Treat the current repository as a learning-density surface, not a permanently
 minimal beginner demo. The learning window is intentionally short, so do not let
 beginner-scope diagram polish or reference MVP work crowd out harder

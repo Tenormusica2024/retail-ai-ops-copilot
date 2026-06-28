@@ -29,6 +29,12 @@ include the control mechanisms that make the complexity governable: feedback
 ledger capture, skill/rule updates, source-backed design notes, diagram lint,
 CI gates, readiness rubrics, eval evidence, and reviewer loops.
 
+Use this project to distill reusable quality-assurance skills for future
+professional client-delivery work. When a code review, diagram review, feedback
+routing rule, reviewer-agent contract, lint/CI gate, or evidence standard proves
+useful, separate the generic lesson from project-specific context so it can be
+promoted into a reusable skill later.
+
 Do not let a narrow reference MVP, proxy dataset, or implementation shortcut
 erase technologies that belong to the intended realistic architecture. Preserve
 architecture identities such as dbt, Cortex, semantic modeling, evaluation,

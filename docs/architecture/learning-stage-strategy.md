@@ -14,6 +14,14 @@ review loops. The learning target is not just a bigger diagram; it is a complex
 system that remains inspectable and correctable as AI agents help design and
 maintain it.
 
+A related objective is to grow reusable quality-assurance skills for future
+professional client-delivery work. When this project creates or improves a
+review flow, code-review checklist, feedback-routing rule, lint gate, reviewer
+sub-agent contract, or evidence standard, keep the durable lesson generic
+enough to move into a global skill later. The project-specific artifact can stay
+local, but the proven quality pattern should be written as reusable operating
+knowledge.
+
 ## Beginner Stage
 
 The current project should stay focused on:
@@ -28,6 +36,8 @@ The current project should stay focused on:
   unvalidated
 - control evidence showing how AI-assisted changes are checked, routed, and
   corrected before the diagram or implementation claims higher readiness
+- reusable QA lessons from code review, diagram review, feedback routing,
+  lint/CI gates, and reviewer-agent orchestration
 
 Snowpark and Snowpark Container Services do not need to block beginner-stage
 completion, but they should be carried forward as active next-stage learning
