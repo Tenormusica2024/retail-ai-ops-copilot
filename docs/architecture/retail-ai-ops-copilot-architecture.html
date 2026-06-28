@@ -1227,29 +1227,31 @@
         "SQL結合": "DE/DSが決めるjoinと集計粒度を、AIが生成・選択するSQLの制約、危険条件、期待結果、SQL検証観点として扱えるようレビュー",
         "KPI集計ビュー": "DS/DEが定義するmart viewを、質問応答で参照してよい唯一の集計面として明示し、回答品質評価で見るSQL結果・根拠表示を設計",
         "dbt tests": "DE/DSが担うdbt品質検証を前提に、AI変更時に必要なsemantic差分、回答回帰、失敗時停止条件へ接続する観点を設計",
-        "Semantic KPI Model": "PM/DS定義のKPI意味をCortex Analystで誤解させないため、metric、dimension、verified query、同義語、禁止解釈、曖昧質問時の停止を設計レビュー",
-        "Cortex Analyst API": "自然言語からSQL生成までのAI責務境界を設計し、生成SQLの信頼度、SQL preview、人手確認、失敗時safe stopの扱いをレビュー",
-        "Cortex Search": "KPI定義や週報の中身はPM/業務・DSが主担当。AIエンジニアは検索対象化、chunk/metadata、引用粒度、grounding、回答に混ぜてよい文脈の制御を設計",
-        "Cortex Agents": "複数ツールの呼び出し順序、状態保持、tool selection、承認が必要な分岐、再試行上限、失敗時に勝手に確定しない停止条件を設計",
+        "Semantic KPI Model": "PM/DS/DEが定義したKPI、dimension、join、grainを前提に、AIエンジニアはsemantic view/YAML、verified query、同義語、禁止解釈、曖昧質問時のsuggestion/safe-stop、回帰評価へ接続",
+        "Cortex Analyst API": "Cortex Analystのsemantic view/model、verified query、warnings、suggestion、SQL preview、人手確認条件を扱い、生成SQLをそのまま確定せず評価・safe stopへ接続",
+        "Cortex Search": "PM/業務・DSが文書/KPI内容を主定義し、AIエンジニアはcorpus境界、search_column/attributes/filter、引用粒度、grounding、service権限、混ぜてよい文脈、safe-stop条件を設計・検証",
+        "Cortex Agents": "Cortex Agentsではtool定義、orchestration/response instructions、予算上限、承認が必要な分岐、停止条件、eval/trace観点を設定・検証し、独自Router/Plannerとは責務を分ける",
         "店舗マネージャー": "PM/業務が定義する店舗ユーザーの目的を前提に、AIが見せてよいKPI、聞き返し、権限外質問の拒否、人手確認導線をレビュー",
         "エリアマネージャー": "地域比較の業務判断はPM/業務が主定義し、AIエンジニアは集計粒度、比較条件、権限境界、誤解を生むランキング表現を制御",
         "データアナリスト": "DS/分析者の検証作業を支えるため、SQL preview、引用根拠、再現可能なクエリ、trace、評価ログをUIと回答に出す設計をレビュー",
-        "Streamlit": "UI実装自体はPG寄り。AIエンジニアは質問入力、SQL/result preview、trace表示、人手確認導線が回答品質検証に足りるかを設計レビュー",
-        "Agent Router": "質問意図、必要KPI、利用ツール、人手確認要否を判定するrouting ruleを設計し、誤routing、曖昧質問、権限外質問の評価ケースを定義",
+        "Streamlit": "PGがUI/API実装とUI E2Eを主担当する前提で、AIエンジニアは表示すべき根拠、警告条件、handoff状態、trace、評価ログ要件が回答品質検証に足りるかをレビュー",
+        "Agent Router": "PM/DSがKPI意図・期待回答を、PM/セキュリティが承認・権限外条件を定義した前提で、AIエンジニアはrouting rule、曖昧質問/誤routing/権限外質問の検出、評価ケース化を設計",
         "Planner": "質問から安全なSQL条件、集計粒度、follow-up候補へ落とす計画生成の制約を設計し、DS/DEのデータ定義から外れた計画を防ぐ",
         "Tool Adapter": "Snowflake、Cortex Analyst、Cortex Search、local test harnessの呼び分け境界を設計し、失敗時にsilent fallbackせず明示エラーへ接続",
-        "Trace Logger": "質問、tool call、SQL、回答、引用、safe stop、人手確認理由を後から評価できる粒度で記録し、改善ループに再利用できる形を設計",
-        "GitHub": "prompt、semantic model、eval case、diagram evidenceの変更を追える単位に整理し、AI関連変更のレビュー観点と差分確認を明確化",
-        "CI/CD": "PG/DEのCI基盤を前提に、AI変更で走らせるrouting eval、semantic差分、golden eval、UI smoke、失敗時block条件を設計",
-        "Golden Eval": "PM/DSが期待回答と業務妥当性を定義し、AIエンジニアは代表質問、許容SQL、引用要否、失敗分類、改善判定を回帰テスト化する",
+        "Trace Logger": "Snowflake側のCortex/AI Observabilityで取れる項目と、アプリ側で補うroute、planner_output、human_review_reason、cost-relevant metadataを分けてtrace schemaを設計",
+        "GitHub": "PG/PlatformがGitHub運用・CI基盤を管理する前提で、AIエンジニアはprompt、semantic model、eval case、diagram evidenceなどAI関連差分のレビュー観点と証跡粒度を明確化",
+        "CI/CD": "PG/Platform/DEがCI基盤・branch protection・デプロイ手順を管理する前提で、AIエンジニアはAI変更時に必要なrouting eval、semantic差分、golden evalと、人へ返す判定材料を定義",
+        "Golden Eval": "PM/DSが代表質問・期待回答・業務妥当性を定義し、DS/DEが許容SQL・結果妥当性を確認した前提で、AIエンジニアは引用要否、失敗分類、改善判定を回帰テストへ接続",
         "Trace Store": "DEが管理する保存基盤を前提に、AI評価で必要な質問、SQL、tool結果、引用、承認状態、失敗分類を後から抽出できるschemaをレビュー",
         "Version Registry": "prompt、semantic YAML、router rule、eval set、Cortex設定の版管理を設計し、変更前後で回答品質が良くなったか比較できる粒度を決める",
         "Error Taxonomy": "PM/DS/DEと誤り分類をすり合わせ、AIエンジニアは誤SQL、KPI解釈違い、データ不足、権限不足、曖昧質問を改善ループへ接続",
-        "人手レビュー": "PM/業務承認が必要な判断をAIが確定しないよう、承認待ち、修正依頼、コメント保存、再評価への戻し方、UI上の警告を設計レビュー",
-        "RBAC": "権限設計はPM/セキュリティ/DEと整理し、AIエンジニアはrole別に参照できる文脈、deny path、説明すべき制約、trace記録を設計",
-        "Cost Guardrails": "費用方針はPM/基盤側と合意し、AIエンジニアはCortex/Snowflake呼び出し回数、再試行、長時間query、eval実行の停止条件を設計"
+        "人手レビュー": "承認ポリシーはPM/業務が主定義し、AIエンジニアはAIが確定してはいけない判断、handoff状態、修正依頼、コメント保存、再評価へ戻すtrace項目を設計",
+        "RBAC": "PM/業務・セキュリティ/Platform・DEがロール、許可/拒否ポリシー、データアクセス面を定義し、AIエンジニアは制約を検索範囲、ツール実行前チェック、拒否応答、trace記録へ反映",
+        "Cost Guardrails": "PM/業務・Platform/FinOpsが予算、上限、アラート方針を定義し、AIエンジニアは方針に従ってCortex/Snowflake呼び出し、再試行、長時間query、eval実行の停止条件とtrace項目を設計"
       };
-      const fallbackAiEngineerDetail = "PM/DS/DEが定義する業務・データ前提を、AI機能の検索、生成、評価、失敗時停止、人手確認、trace改善ループへ接続する観点を設計レビュー";
+      const fallbackAiEngineerDetail = "AIエンジニア担当詳細が未定義。PM/DS/DE/PG/セキュリティなど隣接オーナーと、AI機能側の具体的な成果物を明示してから公開する";
+      const missingRoleSplitLabels = new Set();
+      const missingAiDetailLabels = new Set();
 
       const getServiceLabel = (service) => (
         service.querySelector(".icon")?.getAttribute("aria-label")
@@ -1270,6 +1272,13 @@
 
         const serviceLabel = getServiceLabel(service);
         const split = roleSplits[serviceLabel] || fallbackRoleSplit;
+        if (!roleSplits[serviceLabel]) {
+          missingRoleSplitLabels.add(serviceLabel || `service-${serviceIndex + 1}`);
+        }
+        const aiDetailText = aiEngineerDetails[serviceLabel];
+        if (!aiDetailText) {
+          missingAiDetailLabels.add(serviceLabel || `service-${serviceIndex + 1}`);
+        }
         let aiDetail = null;
         roleLabels.forEach((label, roleIndex) => {
           const isAiEngineer = label === "AIエンジニア";
@@ -1297,7 +1306,7 @@
             detailTitle.textContent = "AIエンジニアの担当内容";
             const detailText = document.createElement("span");
             detailText.className = "role-detail-text";
-            detailText.textContent = normalizeTooltipText(aiEngineerDetails[serviceLabel] || fallbackAiEngineerDetail);
+            detailText.textContent = normalizeTooltipText(aiDetailText || fallbackAiEngineerDetail);
             detail.append(detailTitle, detailText);
             aiDetail = detail;
           }
@@ -1354,6 +1363,12 @@
         service.append(tooltip);
         service.setAttribute("aria-describedby", tooltipId);
       });
+      if (missingRoleSplitLabels.size || missingAiDetailLabels.size) {
+        console.warn("[architecture-tooltip] Missing role metadata", {
+          roleSplits: [...missingRoleSplitLabels],
+          aiEngineerDetails: [...missingAiDetailLabels],
+        });
+      }
     })();
   </script>
 </body>

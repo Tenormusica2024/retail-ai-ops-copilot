@@ -22,6 +22,7 @@ visual fidelity gates.
 - `child-skills/role-responsibility-tooltips/SKILL.md`
   - role responsibility wording in hover cards
   - PM/DE/DS/AI engineer/PG boundary clarity
+  - Snowflake/Cortex managed-service responsibility boundaries
   - nested role-detail hover panels
   - tooltip text sizing and browser verification expectations
 

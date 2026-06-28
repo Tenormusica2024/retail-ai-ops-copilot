@@ -30,6 +30,10 @@ feasibility, and governance.
 - PG owns implementation feasibility at design time: UI/API constraints,
   runtime ergonomics, integration shape, CI practicality, and operational
   impact. Do not present PG percentages as coding allocation.
+- Security, platform, and FinOps ownership should be named in the detail text
+  when RBAC, service privileges, budget limits, alerts, CI infrastructure, or
+  runtime guardrails are involved. Do not squeeze these policy owners into AI
+  engineer responsibility.
 
 ## KPI And Search Wording
 
@@ -45,14 +49,41 @@ For Cortex Search:
 - PM/business and DS own the content of KPI definitions, weekly reports, and
   business notes.
 - AI engineer owns search readiness: corpus boundaries, chunking, metadata,
-  retrieval query shape, citation granularity, grounding controls, fallback or
-  safe-stop behavior, and what context may be mixed into an answer.
+  `search_column`, attributes/filters, service privileges, retrieval query
+  shape, citation granularity, grounding controls, fallback or safe-stop
+  behavior, and what context may be mixed into an answer.
+
+For Cortex Analyst / Semantic Model:
+
+- PM/business and DS own KPI meaning, expected answer behavior, and business
+  validity.
+- DE owns source tables, joins, grain, dimensions, and data correctness.
+- AI engineer connects the agreed definitions into semantic view/model or YAML
+  representation, verified query coverage, synonym/forbidden-interpretation
+  handling, warnings/suggestions handling, safe-stop behavior, and regression
+  evals.
+
+For Cortex Agents:
+
+- Treat Snowflake Cortex Agents as a managed platform. Do not imply that the AI
+  engineer builds the whole orchestration runtime, state engine, or sandbox.
+- AI engineer owns tool definitions, orchestration/response instructions,
+  budget constraints, approval branches, stop conditions, evaluation coverage,
+  and trace requirements.
+- If the repo also has a custom Router or Planner, describe it as an MVP or
+  app-side complement, not as the same responsibility as operating Cortex
+  Agents internals.
 
 ## Tooltip Detail Rules
 
 - Prefer explicit responsibility boundaries over short but ambiguous labels.
 - A role-detail panel may be longer than the parent tooltip when it materially
   improves learning value.
+- Every AI engineer detail should name at least one concrete artifact,
+  configuration, or verification output, such as semantic view/YAML, verified
+  query, eval case, trace field, safe-stop rule, handoff state, warning
+  condition, or CI gate input. Do not end at generic "設計レビュー" wording
+  unless the object being reviewed is explicit.
 - When role details become longer, the tooltip must expand or wrap to contain
   the text. Do not let detail text overflow outside the card just to preserve a
   compact tooltip.
@@ -83,6 +114,9 @@ After editing tooltip text:
 
 - verify every progress node still has one tooltip, one role section, one
   AI-engineer trigger, and one AI detail panel
+- verify every progress node has explicit `roleSplits` and
+  `aiEngineerDetails`; generic fallback text should fail review or be visibly
+  marked as missing metadata
 - move the pointer from node to tooltip and confirm the tooltip remains open
 - hover/focus the AI engineer chip and confirm the nested detail opens
 - check parent tooltip and nested detail overflow
