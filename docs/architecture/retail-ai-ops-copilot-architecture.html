@@ -348,12 +348,12 @@
     .progress-tooltip {
       position: absolute;
       left: 50%;
-      top: calc(100% + 8px);
+      top: 100%;
       transform: translate(-50%, -4px);
       box-sizing: border-box;
-      width: max-content;
-      min-width: 320px;
-      max-width: 560px;
+      inline-size: max-content;
+      min-inline-size: 320px;
+      max-inline-size: min(680px, calc(100vw - 48px));
       padding: 10px 12px 11px;
       border: 1px solid #9aa8ba;
       border-left: 5px solid var(--progress-color);
@@ -369,9 +369,19 @@
       word-break: normal;
       overflow-wrap: anywhere;
       opacity: 0;
+      visibility: hidden;
       pointer-events: none;
       transition: opacity 120ms ease, transform 120ms ease;
       z-index: 36;
+    }
+
+    .progress-tooltip::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: -8px;
+      height: 8px;
     }
 
     .tooltip-progress {
@@ -406,12 +416,16 @@
 
     .tooltip-role-grid {
       display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 4px;
+      grid-template-columns: repeat(5, max-content);
+      column-gap: 4px;
+      row-gap: 0;
       margin-top: 4px;
+      width: max-content;
+      max-width: 100%;
     }
 
     .tooltip-role-chip {
+      appearance: none;
       box-sizing: border-box;
       min-width: 0;
       padding: 3px 5px;
@@ -426,6 +440,64 @@
       white-space: nowrap;
     }
 
+    button.tooltip-role-chip {
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 500;
+      line-height: 1.25;
+      cursor: help;
+    }
+
+    .tooltip-role-chip.is-detail-trigger {
+      border-color: #9cc7f4;
+      background: #eff6ff;
+      color: #174272;
+    }
+
+    .tooltip-role-chip.is-detail-trigger:hover,
+    .tooltip-role-chip.is-detail-trigger:focus-visible {
+      border-color: #2f72bc;
+      outline: 2px solid rgba(47, 114, 188, 0.22);
+      outline-offset: 1px;
+    }
+
+    .tooltip-role-detail {
+      display: none;
+      grid-column: 1 / -1;
+      box-sizing: border-box;
+      inline-size: max-content;
+      max-inline-size: 100%;
+      margin-top: 4px;
+      padding: 7px 9px;
+      border: 1px solid #bfd6ef;
+      border-left: 4px solid #2f72bc;
+      border-radius: 4px;
+      background: #f8fbff;
+      color: #1f2933;
+      font-size: 11.5px;
+      font-weight: 400;
+      line-height: 1.45;
+      text-align: left;
+      white-space: normal;
+      overflow-wrap: anywhere;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.55);
+    }
+
+    .tooltip-role-grid.is-ai-detail-open .tooltip-role-detail {
+      display: block;
+    }
+
+    .role-detail-title {
+      display: block;
+      margin-bottom: 2px;
+      color: #174272;
+      font-weight: 700;
+    }
+
+    .role-detail-text {
+      font-weight: 400;
+    }
+
     .service[data-tip="right"] .progress-tooltip {
       left: 0;
       transform: translate(0, -4px);
@@ -438,22 +510,28 @@
     }
 
     .service[data-progress]:hover,
-    .service[data-progress]:focus-visible {
+    .service[data-progress]:focus-visible,
+    .service[data-progress]:focus-within {
       z-index: 42;
       outline: 2px solid rgba(47, 114, 188, 0.28);
       outline-offset: 2px;
     }
 
     .service[data-progress]:hover .progress-tooltip,
-    .service[data-progress]:focus-visible .progress-tooltip {
+    .service[data-progress]:focus-visible .progress-tooltip,
+    .service[data-progress]:focus-within .progress-tooltip {
       opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
       transform: translate(-50%, 0);
     }
 
     .service[data-tip="right"]:hover .progress-tooltip,
     .service[data-tip="right"]:focus-visible .progress-tooltip,
+    .service[data-tip="right"]:focus-within .progress-tooltip,
     .service[data-tip="left"]:hover .progress-tooltip,
-    .service[data-tip="left"]:focus-visible .progress-tooltip {
+    .service[data-tip="left"]:focus-visible .progress-tooltip,
+    .service[data-tip="left"]:focus-within .progress-tooltip {
       transform: translate(0, 0);
     }
 
@@ -1121,6 +1199,39 @@
       };
       const roleLabels = ["DE", "DS", "AIエンジニア", "PM", "PG"];
       const fallbackRoleSplit = [20, 20, 20, 20, 20];
+      const aiEngineerDetails = {
+        "Snowflake公式サンプルDB": "AI回答で使える粒度、欠損、proxy限界を確認し、評価データとCortex接続時の前提をレビュー",
+        "注文・明細": "自然言語質問で参照する売上、数量、割引の意味を整理し、誤回答につながる粒度差を確認",
+        "顧客・地域": "地域フィルタやロール境界がAI回答に与える影響を確認し、店舗粒度がない制約を明示",
+        "商品・原価": "商品カテゴリproxyと原価proxyがKPI回答に使える範囲を確認し、在庫やSKU階層との混同を防ぐ",
+        "KPI定義": "KPI名、同義語、計算式、質問意図の対応を設計し、Cortex SearchやSemantic Modelに渡す知識境界を整理",
+        "元テーブル": "サンプルDB直参照がAI経路の暫定入力であることを確認し、STAGE/RAW未実装の影響をレビュー",
+        "SQL結合": "AIが生成または選択するSQLの前処理前提を確認し、join粒度、集計前後の意味、検証観点を整理",
+        "KPI集計ビュー": "質問から参照するmart viewの責務を確認し、回答品質評価で見るべきSQL結果の期待値を定義",
+        "dbt tests": "将来の品質ゲートとして必要なschema test、data test、semantic差分検知の観点を設計",
+        "Semantic KPI Model": "Cortex Analyst向けのmetric、dimension、verified query、同義語、禁止解釈を設計レビュー",
+        "Cortex Analyst API": "自然言語質問からSQL生成までの責務、信頼境界、失敗時の人手確認ルートを設計",
+        "Cortex Search": "KPI定義、週報、補足文書の検索対象、引用粒度、回答に混ぜてよい文脈を設計",
+        "Cortex Agents": "複数ツールの呼び出し順序、状態保持、承認が必要な分岐、失敗時の停止条件を設計",
+        "店舗マネージャー": "店舗向け質問の許可範囲、見せてよいKPI、曖昧質問時の聞き返し方をレビュー",
+        "エリアマネージャー": "地域比較や集計粒度の質問意図を整理し、ロール境界を越える回答を防ぐ観点を設計",
+        "データアナリスト": "分析者向けにSQL preview、根拠、再現可能なクエリ、評価ログを出す設計をレビュー",
+        "Streamlit": "質問入力、SQL/result preview、trace表示、人手確認導線がAI回答品質を検証できるかを確認",
+        "Agent Router": "質問意図、必要KPI、利用ツール、人手確認要否を判定するrouting ruleと評価ケースを設計",
+        "Planner": "質問から安全なSQL条件、集計粒度、follow-up候補へ落とす計画生成ロジックを設計レビュー",
+        "Tool Adapter": "Snowflake、Cortex、Search、local test harnessの呼び分け境界と失敗時の明示エラーを設計",
+        "Trace Logger": "質問、tool call、SQL、回答、safe stop、人手確認理由を後から評価できるtrace粒度を設計",
+        "GitHub": "prompt、semantic model、eval case、diagram evidenceを変更履歴で追えるレビュー単位に整理",
+        "CI/CD": "AI関連変更で走らせるrouting eval、semantic差分、golden eval、UI smokeのゲートを設計",
+        "Golden Eval": "代表質問、期待KPI、許容SQL、失敗分類、改善判定を定義し、回答品質の回帰を検知",
+        "Trace Store": "本番または検証ログから失敗例、低信頼回答、改善候補を抽出できるschemaをレビュー",
+        "Version Registry": "prompt、semantic YAML、router rule、eval setの版管理と、変更前後比較の粒度を設計",
+        "Error Taxonomy": "誤SQL、KPI解釈違い、データ不足、権限不足、曖昧質問を分類し、改善ループに接続",
+        "人手レビュー": "承認待ち、修正依頼、コメント保存、再評価への戻し方を設計し、AIが勝手に確定しない境界を確認",
+        "RBAC": "AI回答が参照できるデータ範囲、role別のdeny path、説明すべき権限制約を設計レビュー",
+        "Cost Guardrails": "CortexやSnowflake実行の上限、危険な再試行、長時間query、評価実行回数の制御方針を設計"
+      };
+      const fallbackAiEngineerDetail = "AI機能の適用可否、評価観点、失敗時の人手確認、ログと改善ループへの影響を設計レビュー";
 
       const getServiceLabel = (service) => (
         service.querySelector(".icon")?.getAttribute("aria-label")
@@ -1128,7 +1239,7 @@
         || ""
       );
 
-      const createRoleSection = (service) => {
+      const createRoleSection = (service, serviceIndex) => {
         const roleSection = document.createElement("div");
         roleSection.className = "tooltip-roles";
 
@@ -1139,12 +1250,49 @@
         const roleGrid = document.createElement("div");
         roleGrid.className = "tooltip-role-grid";
 
-        const split = roleSplits[getServiceLabel(service)] || fallbackRoleSplit;
+        const serviceLabel = getServiceLabel(service);
+        const split = roleSplits[serviceLabel] || fallbackRoleSplit;
+        let aiDetail = null;
         roleLabels.forEach((label, roleIndex) => {
-          const chip = document.createElement("span");
+          const isAiEngineer = label === "AIエンジニア";
+          const chip = document.createElement(isAiEngineer ? "button" : "span");
           chip.className = "tooltip-role-chip";
           chip.textContent = `${label} ${split[roleIndex]}%`;
+          if (isAiEngineer) {
+            const detailId = `ai-role-detail-${serviceIndex + 1}`;
+            chip.type = "button";
+            chip.classList.add("is-detail-trigger");
+            chip.setAttribute("aria-describedby", detailId);
+            chip.setAttribute("aria-label", `${serviceLabel} のAIエンジニア担当内容`);
+            chip.addEventListener("mouseenter", () => roleGrid.classList.add("is-ai-detail-open"));
+            chip.addEventListener("focus", () => roleGrid.classList.add("is-ai-detail-open"));
+          }
           roleGrid.append(chip);
+          if (isAiEngineer) {
+            const detail = document.createElement("span");
+            detail.id = `ai-role-detail-${serviceIndex + 1}`;
+            detail.className = "tooltip-role-detail";
+            detail.setAttribute("role", "note");
+            detail.addEventListener("mouseenter", () => roleGrid.classList.add("is-ai-detail-open"));
+            const detailTitle = document.createElement("span");
+            detailTitle.className = "role-detail-title";
+            detailTitle.textContent = "AIエンジニアの担当内容";
+            const detailText = document.createElement("span");
+            detailText.className = "role-detail-text";
+            detailText.textContent = normalizeTooltipText(aiEngineerDetails[serviceLabel] || fallbackAiEngineerDetail);
+            detail.append(detailTitle, detailText);
+            aiDetail = detail;
+          }
+        });
+        if (aiDetail) {
+          roleGrid.append(aiDetail);
+        }
+
+        roleGrid.addEventListener("mouseleave", () => roleGrid.classList.remove("is-ai-detail-open"));
+        roleGrid.addEventListener("focusout", (event) => {
+          if (!roleGrid.contains(event.relatedTarget)) {
+            roleGrid.classList.remove("is-ai-detail-open");
+          }
         });
 
         roleSection.append(roleLabel, roleGrid);
@@ -1184,7 +1332,7 @@
         noteText.textContent = normalizeTooltipText(service.dataset.note);
         note.append(noteLabel, noteText);
 
-        tooltip.append(progress, status, note, createRoleSection(service));
+        tooltip.append(progress, status, note, createRoleSection(service, index));
         service.append(tooltip);
         service.setAttribute("aria-describedby", tooltipId);
       });

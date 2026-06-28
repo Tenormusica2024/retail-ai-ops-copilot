@@ -436,6 +436,18 @@ Required behavior:
   Do not remove meaningful internal dots in identifiers such as Snowflake object
   names while doing punctuation cleanup. Verify every progress node has exactly
   one tooltip and at least one hovered screenshot after typography changes.
+- hover tooltip surfaces must remain open when the pointer moves from the node
+  to the tooltip itself. Place the tooltip adjacent to the node or add an
+  explicit hover bridge so there is no dead gap, make the visible tooltip
+  `pointer-events: auto`, and use `:focus-within` so keyboard users can move
+  into nested controls without closing the tooltip. If a tooltip contains
+  secondary hover/focus targets, such as role chips, verify the nested panel can
+  be opened and inspected without the parent tooltip disappearing.
+- all hover CSS surfaces should size from their text content rather than a
+  brittle fixed width. Use max-content sizing with tested min/max bounds,
+  normal wrapping, and overflow checks for both the parent tooltip and nested
+  hover panels. Do not accept a tooltip change until a browser check confirms
+  text does not spill outside the visible card.
 - design/review involvement percentages may appear in the hover tooltip when
   they help the learning objective. They are not implementation work
   allocation, staffing commitment, or coding ownership. Keep them as compact
@@ -444,9 +456,13 @@ Required behavior:
   feasibility, UI/API/operation impact, and review involvement at the design
   stage. Because the public diagram should not imply an official staffing model,
   label these values as assumed design/review involvement and do not put
-  company-internal preparation wording into the public HTML. After adding or
-  renaming role chips, run a browser check for tooltip overflow, edge overflow,
-  one tooltip per progress node, and one role section per tooltip.
+  company-internal preparation wording into the public HTML. Role chips may open
+  a secondary hover/focus panel when the learning value justifies it; the panel
+  should describe the role's concrete design/review responsibility for that
+  node, not implementation staffing. After adding or renaming role chips, run a
+  browser check for tooltip persistence, nested-panel visibility, tooltip
+  overflow, edge overflow, one tooltip per progress node, one role section per
+  tooltip, and the expected nested detail count.
 
 ### Repo Responsibility Boundary Gate
 
