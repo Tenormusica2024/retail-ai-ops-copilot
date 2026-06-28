@@ -34,6 +34,32 @@ When reviewing diagram metadata, consider the user's project-launch intent:
 the diagram is a learning and technology-selection map first, not only a
 snapshot of the current MVP.
 
+## Learning Stage Strategy
+
+Treat the current repository as the beginner-stage learning surface. The
+learning window is short, so avoid spending too much time perfecting beginner
+scope after the core Cortex/dbt/Streamlit/LLMOps relationships are understood.
+
+Snowpark and Snowpark Container Services are active intermediate or advanced
+architecture candidates. Do not assume they are used in every workflow, but do
+not steer away from them by default.
+
+Evaluate Snowpark/SPCS early in the next-stage design when a concrete
+responsibility may exist, such as:
+
+- complex Python-oriented preprocessing that SQL/dbt cannot express cleanly
+- Snowflake-side UDFs, UDTFs, or stored procedures
+- in-Snowflake eval runners, trace enrichment, or data-quality jobs
+- ML feature engineering, training, inference, or model registry workflows
+- containerized Airflow, JupyterLab, MLflow, custom APIs, long-running jobs, or
+  GPU/custom runtime needs inside the Snowflake boundary
+
+Before intermediate-stage work starts, review whether to extend this repository
+or create a separate project. Keep this repository for diagram learning,
+decision rationale, and public Pages review. Prefer a separate project when the
+work becomes runtime construction, cost-bearing Snowflake services, live
+experiments, CI/CD, deployment, or operational guardrails.
+
 ## Layer Naming Honesty
 
 Use architecture layer names that describe the actual evidence in the diagram

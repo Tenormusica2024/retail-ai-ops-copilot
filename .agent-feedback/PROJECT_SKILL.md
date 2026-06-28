@@ -221,6 +221,20 @@ an explicit ingestion flow. If the current path is
 Snowflake reference / seed layer and put future ingestion/lake intent in
 status/notes or a separate planned node.
 
+This repo is the beginner-stage learning surface. Do not let beginner-scope
+diagram polish or reference MVP work consume the learning window after the core
+Cortex/dbt/Streamlit/LLMOps relationships are clear.
+
+Snowpark and Snowpark Container Services are active intermediate/advanced
+options. Do not assume they are used in every workflow, but also do not steer
+away from them by default. For the next-stage architecture, intentionally
+evaluate Snowpark/SPCS when Snowflake-side Python UDF/SP work, complex
+preprocessing, in-Snowflake eval runners, trace enrichment, ML feature/model
+workflows, Airflow/Jupyter/MLflow/custom API services, or other containerized
+runtime needs appear. Before expanding into that scope, decide whether this
+repository should evolve or a separate intermediate-stage project should own
+the runtime work.
+
 CI/CD edges must distinguish read-only sources from deployable/validatable
 seeds. CI/CD should not appear to deploy `SNOWFLAKE_SAMPLE_DATA` or another
 read-only external source unless ingestion/provisioning exists. It should

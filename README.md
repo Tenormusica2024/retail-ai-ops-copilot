@@ -17,7 +17,17 @@ Reference MVP shortcuts must not erase intended architecture identities such as
 dbt, Cortex, semantic modeling, evaluation, traceability, or human review.
 Represent gaps as readiness/status/notes instead.
 
+This repo is the beginner-stage learning surface. The learning window is short,
+so avoid spending too much time over-polishing beginner scope. Snowpark and
+Snowpark Container Services are active intermediate/advanced learning
+candidates. Do not assume they are used in every workflow, but also do not treat
+them as distant or low-priority topics; intentionally evaluate them next when
+Snowflake-side Python, ML, eval-runner, custom service, or container
+responsibility appears.
+
 See `docs/architecture/repo-responsibility-boundary.md` for the repo split.
+See `docs/architecture/learning-stage-strategy.md` for beginner/intermediate
+scope decisions.
 
 ## Current Direction
 
@@ -30,6 +40,9 @@ See `docs/architecture/repo-responsibility-boundary.md` for the repo split.
 - Repo boundary: diagram/progress visualization stays here; concrete tests,
   workflow changes, and runtime quality improvements move back to the
   implementation repo before this diagram claims higher readiness.
+- Learning stage: beginner scope should finish quickly; intermediate work may
+  add Snowpark/SPCS as an active learning target. First run a design review to
+  decide whether to extend this repo or start a separate project.
 
 ## Documentation
 
@@ -126,6 +139,7 @@ python3 -m retail_ai_ops.eval_runner
 - GitHub Pages: https://tenormusica2024.github.io/retail-ai-ops-copilot/
 - Architecture HTML: `docs/architecture/retail-ai-ops-copilot-architecture.html`
 - Future edge-contract path generation: `docs/architecture/edge-contract-path-generation.md`
+- Learning stage strategy: `docs/architecture/learning-stage-strategy.md`
 - Progress readiness rubric: `docs/architecture/progress-readiness-rubric.md`
 - Sample data coverage matrix: `docs/architecture/sample-data-coverage-matrix.md`
 - Repo responsibility boundary: `docs/architecture/repo-responsibility-boundary.md`
