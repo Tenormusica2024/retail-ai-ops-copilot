@@ -463,6 +463,14 @@ Required behavior:
   browser check for tooltip persistence, nested-panel visibility, tooltip
   overflow, edge overflow, one tooltip per progress node, one role section per
   tooltip, and the expected nested detail count.
+- role responsibility wording belongs to the AI architecture learning skill
+  lane, not the generic imagegen HTML reproduction lane. When a hover detail
+  could imply that AI engineers own business KPI definitions, data contracts,
+  RBAC policy, cost policy, or UI implementation by themselves, route to
+  `skills/ai-architecture-learning/child-skills/role-responsibility-tooltips/SKILL.md`
+  and rewrite the text to name the actual neighboring owner, such as PM/業務,
+  DS, DE, PG, security, or platform, plus the AI engineer's LLM/Cortex/agent
+  responsibility.
 
 ### Repo Responsibility Boundary Gate
 
