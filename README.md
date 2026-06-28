@@ -122,6 +122,32 @@ python3 -m retail_ai_ops.eval_runner
 - Sample data coverage matrix: `docs/architecture/sample-data-coverage-matrix.md`
 - Repo responsibility boundary: `docs/architecture/repo-responsibility-boundary.md`
 
+## Diagram Quality Checks
+
+Run the connector geometry lint before asking for visual review after editing
+the architecture HTML. It renders the diagram, checks both start and end
+endpoints for every SVG connector, and samples the full path to detect service
+card body intersections, missing `data-edge` ids, and missing bidirectional
+arrow markers.
+
+```bash
+node tools/check_diagram_connectors.mjs
+```
+
+The lint writes:
+
+- `outputs/diagram-connector-geometry-report.json`
+- `outputs/diagram-connector-geometry-check.png`
+
+If Playwright is provided by the Codex runtime instead of repo-local
+dependencies, run:
+
+```bash
+NODE_PATH=/Users/urayahadays/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules \
+  /Users/urayahadays/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node \
+  tools/check_diagram_connectors.mjs
+```
+
 ## Primary References
 
 - Snowflake Cortex Analyst docs: https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst

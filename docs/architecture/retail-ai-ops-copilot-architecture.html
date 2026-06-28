@@ -804,11 +804,11 @@
           </defs>
 
           <!-- TPCH_SF1 sample groups -> Snowflake sample source tables -->
-          <path class="data" d="M 238 222 H 270"></path>
-          <path class="data" d="M 238 325 H 270"></path>
-          <path class="data" d="M 238 428 H 270"></path>
-          <path class="data" d="M 238 531 H 270"></path>
-          <path class="data" d="M 270 222 V 531"></path>
+          <path class="data" data-edge="sample-db-to-source-bus" d="M 238 222 H 270"></path>
+          <path class="data" data-edge="orders-source-to-source-bus" d="M 238 325 H 270"></path>
+          <path class="data" data-edge="customer-source-to-source-bus" d="M 238 428 H 270"></path>
+          <path class="data" data-edge="part-source-to-source-bus" d="M 238 531 H 270"></path>
+          <path class="data" data-edge="source-bus-vertical" d="M 270 222 V 531"></path>
           <path class="data" data-edge="tpch-source-bus-to-source-tables" d="M 270 389 H 350" marker-end="url(#arrow-data)"></path>
           <path class="docs" data-edge="kpi-definitions-seed-to-kpi-seed" d="M 238 634 H 282 V 579 H 350" marker-end="url(#arrow-docs)"></path>
 
@@ -835,25 +835,25 @@
           <path class="tool" data-edge="cortex-agents-to-tool-adapter" d="M 1280 606 H 1332 V 553 H 1370" marker-end="url(#arrow-tool)"></path>
 
           <!-- App Runtime 内: 元図の主鎖 -->
-          <path class="tool" d="M 1520 374 V 402" marker-end="url(#arrow-tool)"></path>
-          <path class="tool" d="M 1520 484 V 512" marker-end="url(#arrow-tool)"></path>
-          <path class="tool" d="M 1520 594 V 622" marker-end="url(#arrow-tool)"></path>
+          <path class="tool" data-edge="agent-router-to-planner" d="M 1520 374 V 402" marker-end="url(#arrow-tool)"></path>
+          <path class="tool" data-edge="planner-to-tool-adapter" d="M 1520 484 V 512" marker-end="url(#arrow-tool)"></path>
+          <path class="tool" data-edge="tool-adapter-to-trace-logger" d="M 1520 594 V 622" marker-end="url(#arrow-tool)"></path>
 
           <!-- Trace / LLMOps -->
           <path class="data" data-edge="ci-cd-to-dbt-modeling-frame" d="M 388 780 V 704 H 658 V 652" marker-start="url(#arrow-data)" marker-end="url(#arrow-data)"></path>
-          <path class="ops" data-edge="golden-eval-to-semantic-improvement" d="M 623 780 V 710 H 895 V 494" marker-start="url(#arrow-ops)" marker-end="url(#arrow-ops)"></path>
-          <path class="tool-dashed" d="M 1370 682 H 1335 V 730 H 873 V 780" marker-end="url(#arrow-tool)"></path>
+          <path class="ops" data-edge="golden-eval-to-semantic-improvement" d="M 623 780 V 710 H 895 V 528" marker-start="url(#arrow-ops)" marker-end="url(#arrow-ops)"></path>
+          <path class="tool-dashed" data-edge="app-runtime-improvement-to-trace-store" d="M 1370 682 H 1335 V 730 H 873 V 780" marker-start="url(#arrow-tool)" marker-end="url(#arrow-tool)"></path>
           <path class="tool" data-edge="trace-logger-to-trace-metrics" d="M 1520 704 V 780" marker-end="url(#arrow-tool)"></path>
-          <path class="data" d="M 214 820 H 300" marker-end="url(#arrow-data)"></path>
-          <path class="data" d="M 476 820 H 535" marker-end="url(#arrow-data)"></path>
-          <path class="data" d="M 785 820 H 711" marker-end="url(#arrow-data)"></path>
-          <path class="data" d="M 961 812 H 1010" marker-end="url(#arrow-data)"></path>
-          <path class="data" d="M 1010 832 H 961" marker-end="url(#arrow-data)"></path>
-          <path class="data" d="M 1186 812 H 1235" marker-end="url(#arrow-data)"></path>
-          <path class="data" d="M 1235 832 H 1186" marker-end="url(#arrow-data)"></path>
-          <path class="data" d="M 1411 820 H 1480" marker-end="url(#arrow-data)"></path>
+          <path class="data" data-edge="github-repo-to-ci-cd" d="M 214 820 H 300" marker-end="url(#arrow-data)"></path>
+          <path class="data" data-edge="ci-cd-to-golden-eval" d="M 476 820 H 535" marker-end="url(#arrow-data)"></path>
+          <path class="data" data-edge="trace-store-to-golden-eval" d="M 785 820 H 711" marker-end="url(#arrow-data)"></path>
+          <path class="data" data-edge="trace-store-to-version-registry" d="M 961 812 H 1010" marker-end="url(#arrow-data)"></path>
+          <path class="data" data-edge="version-registry-to-trace-store" d="M 1010 832 H 961" marker-end="url(#arrow-data)"></path>
+          <path class="data" data-edge="version-registry-to-error-taxonomy" d="M 1186 812 H 1235" marker-end="url(#arrow-data)"></path>
+          <path class="data" data-edge="error-taxonomy-to-version-registry" d="M 1235 832 H 1186" marker-end="url(#arrow-data)"></path>
+          <path class="data" data-edge="error-taxonomy-to-human-review" d="M 1411 820 H 1480" marker-end="url(#arrow-data)"></path>
           <path class="human" data-edge="approval-feedback-to-human-review" d="M 1568 758 V 780" marker-end="url(#arrow-human)"></path>
-          <path class="review-dashed" data-edge="error-taxonomy-review-request-to-human-review" d="M 1323 876 V 1044 H 1568 V 876" marker-end="url(#arrow-review)"></path>
+          <path class="review-dashed" data-edge="error-taxonomy-review-request-to-human-review" d="M 1323 876 V 1044 H 1568 V 876" marker-start="url(#arrow-review)" marker-end="url(#arrow-review)"></path>
 
           <!-- 統制 / 承認フィードバック -->
           <path class="data" data-edge="trace-store-to-rbac" d="M 873 854 V 930" marker-end="url(#arrow-data)"></path>

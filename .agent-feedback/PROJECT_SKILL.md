@@ -69,6 +69,92 @@ Use rendered geometry for SVG endpoints:
 - record endpoint proof with selector/path id, source rectangle, target
   rectangle, path start/end, tolerance, and PASS/FAIL before accepting the fix
 
+### Diagram Path Occlusion Gate
+
+For every source-matched SVG connector, check the whole visible path against
+foreground node, frame, and label rectangles. Endpoint and marker checks are not
+enough.
+
+Required behavior:
+
+- sample each SVG path with `getPointAtLength()` across the full length, not
+  only at start and end
+- compare sampled points with rendered `getBoundingClientRect()` rectangles
+  converted into the SVG/viewBox coordinate system
+- fail if any non-anchor portion of the connector enters a foreground service
+  card, text block, icon area, or label box
+- allow a path to touch a node rectangle only at the documented source or
+  destination anchor side, within a small tolerance
+- capture a focused crop for each high-risk endpoint; a lower-band crop is not
+  enough for an upper or middle endpoint
+- after any node move, card resize, frame resize, or route change, re-run this
+  intersection check for all edges whose path or nearby node rectangle changed
+
+In this project, `Semantic KPI Model <-> Golden Eval` is a high-risk
+relationship because the evaluation/improvement loop approaches the Semantic
+card vertically and can look correct by relationship coverage while still
+piercing the card body.
+
+### Automated Connector Geometry Lint Gate
+
+Do not rely on AI or human visual review as the first detector for connector
+adjacency, endpoint, and body-piercing failures. Add and run an automated
+geometry lint whenever the architecture HTML or connector paths change.
+
+Use:
+
+```bash
+node tools/check_diagram_connectors.mjs
+```
+
+The lint should render the page in Playwright, collect all `.service`,
+`.subzone`, `.zone`, `.flow-label`, and connector SVG path rectangles, and
+produce machine-readable findings for:
+
+- path endpoints that are not adjacent to the declared source or destination
+  anchor
+- arrowheads or endpoints that enter a service-card body away from the allowed
+  anchor side
+- path bodies that cross foreground cards, text, icons, or labels
+- paths with missing `data-edge` ids
+- source-declared bidirectional edges missing `marker-start` or `marker-end`
+- short dangling paths, hidden arrowheads, or path segments clipped by the SVG
+  viewport
+
+Treat this lint as a pre-HITL gate. Visual review and sub-agent review should
+then focus on semantic source fidelity, label meaning, and intentional
+differences that pure geometry cannot decide.
+
+### Diagram Bidirectional Marker Gate
+
+For any source relationship that is bidirectional or visually has arrowheads at
+both ends, route coverage is not enough. The rendered artifact must prove both
+endpoint markers are visible and source-faithful.
+
+Required behavior:
+
+- classify whether the selected-source edge is one-way, two-way on one path, or
+  two separate opposing paths before judging the HTML
+- verify `marker-start` and `marker-end`, or equivalent separate paths, against
+  the visible screenshot for both endpoint arrowheads
+- fail when a selected-source two-way relationship becomes a one-way-looking
+  path even if the route geometry and labels are otherwise correct
+- compare marker size, fill, stroke, color, dash style, and endpoint alignment
+  at both ends, not just the line body
+- assign stable `data-edge` ids to every source-matched connector whenever the
+  HTML is edited; if a legacy path lacks `data-edge`, the review matrix must
+  still include it using a line/path selector and mark id hygiene separately
+
+Common high-risk relationships in this project include:
+
+- `改善適用（バージョン更新）`
+- `修正依頼`
+- `Semantic KPI Model <-> Golden Eval`
+- `CI / CD <-> dbt frame`
+- `Trace Store <-> Version Registry`
+- `Version Registry <-> Error Taxonomy`
+- `RBAC <-> Cost Guardrails`
+
 ### Diagram Source Hierarchy Fidelity Gate
 
 Before implementing or reviewing architecture HTML, inventory parent zones,
