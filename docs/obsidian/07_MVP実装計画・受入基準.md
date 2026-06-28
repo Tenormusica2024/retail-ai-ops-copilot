@@ -40,8 +40,9 @@ Snowflake接続前またはCortex課金を抑えたい時に、明示的な `loc
 
 - Snowflake trial account を使う
 - small warehouse
-- `SNOWFLAKE_SAMPLE_DATA.TPCH_SF1` からSQLまたはdbtでmart作成
+- `SNOWFLAKE_SAMPLE_DATA.TPCH_SF1` からdbtでsource/staging/intermediate/mart/seed/testsを作成
 - Tasty Bytesが利用できる場合は同じmart契約に差し替える
+- Snowparkは初期mart集計の代替ではなく、baseline安定後のeval/trace enrichment、dbt Python model、UDF/SP候補として扱う
 - Cortex Analyst semantic model
 - verified query候補
 - StreamlitからCortex Analystを呼ぶ

@@ -22,8 +22,10 @@ Snowflake-native Retail Operations KPI Copilot の設計・実装学習プロジ
 - [[08_公開情報・判断根拠|08_公開情報・判断根拠]]
 - [[09_同期運用|09_同期運用]]
 - [[10_Snowpark導入設計|10_Snowpark導入設計]]
+- [[11_dbt_Snowpark設計|11_dbt_Snowpark設計]]
 - Repo mirror: [Learning Stage Strategy](../architecture/learning-stage-strategy.md)
 - Repo mirror: [Snowpark Integration Design](../architecture/snowpark-integration-design.md)
+- Repo mirror: [dbt / Snowpark Design](../architecture/dbt-snowpark-design.md)
 
 ## 原本とrepo
 

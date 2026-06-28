@@ -65,7 +65,8 @@ implementation repo. After that repo produces evidence, update this repo's
 diagram and progress-readiness labels.
 
 See `docs/architecture/repo-responsibility-boundary.md`,
-`docs/architecture/learning-stage-strategy.md`, and
+`docs/architecture/learning-stage-strategy.md`,
+`docs/architecture/dbt-snowpark-design.md`, and
 `docs/architecture/snowpark-integration-design.md`.
 
 ## Documentation Sync

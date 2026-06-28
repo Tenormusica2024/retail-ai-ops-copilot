@@ -340,6 +340,15 @@ runtime needs appear. Before expanding into that scope, decide whether this
 repository should evolve or a separate intermediate-stage project should own
 the runtime work.
 
+For dbt design in this project, keep SQL dbt as the primary transformation and
+quality-contract layer. Use TPCH_SF1 as the fixed current source unless the user
+explicitly reopens data selection. Design `source -> staging -> intermediate ->
+mart -> seed/tests` first, then add Snowpark only where Python execution creates
+clear learning or quality-control value such as eval/trace enrichment, dbt
+Python models, UDF/SP reuse, or Cortex Agents custom tools. Do not use Snowpark
+for simple joins, casts, or monthly KPI aggregation merely because Snowpark is a
+learning target.
+
 When promoting Snowpark into the current diagram, prefer a small
 `Snowpark Python / UDF / SP` node inside the Snowflake Account boundary before
 adding SPCS. Connect Snowpark only to responsibilities that are source-backed or

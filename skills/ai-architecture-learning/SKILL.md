@@ -77,6 +77,13 @@ Snowpark and Snowpark Container Services are active intermediate or advanced
 architecture candidates. Do not assume they are used in every workflow, but do
 not steer away from them by default.
 
+For dbt design, keep SQL dbt as the primary transformation, testing, docs, and
+lineage layer. Use the current `SNOWFLAKE_SAMPLE_DATA.TPCH_SF1` source unless
+the user explicitly reopens data selection. Snowpark-aware design means leaving
+clear extension points for dbt Python models, UDF/SP execution, eval/trace
+enrichment, and Cortex Agents custom tools; it does not mean moving simple
+joins, casts, or monthly mart aggregation into Python.
+
 Evaluate Snowpark/SPCS early in the next-stage design when a concrete
 responsibility may exist, such as:
 
