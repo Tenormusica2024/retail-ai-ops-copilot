@@ -166,6 +166,12 @@ review:
 - `tools/check_diagram_connectors.mjs`
 - `tools/check_diagram_text_layout.mjs`
 
+GitHub Actions also runs the same wrapper with `--no-screenshot` on pushes and
+pull requests that touch the architecture diagram, diagram lint scripts,
+workflow file, README, AGENTS, or feedback rules. Treat CI as a required
+backstop after fixes; local runs are still required when you need screenshots,
+reports, or fast iteration before HITL review.
+
 Run individual checks when you need their specific report paths or thresholds:
 
 ```bash

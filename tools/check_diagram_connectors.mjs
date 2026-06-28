@@ -90,6 +90,16 @@ function absoluteFromCwd(filePath) {
   return path.isAbsolute(filePath) ? filePath : path.resolve(process.cwd(), filePath);
 }
 
+function chromiumLaunchOptions() {
+  const options = { headless: true };
+  if (process.env.CHROME_EXECUTABLE_PATH) {
+    options.executablePath = process.env.CHROME_EXECUTABLE_PATH;
+  } else if (process.platform === "darwin") {
+    options.executablePath = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+  }
+  return options;
+}
+
 function printSummary(report) {
   const errors = report.findings.filter((finding) => finding.severity === "error");
   const warnings = report.findings.filter((finding) => finding.severity === "warning");
@@ -118,10 +128,7 @@ const htmlPath = absoluteFromCwd(options.html);
 const reportPath = absoluteFromCwd(options.out);
 const screenshotPath = options.screenshot ? absoluteFromCwd(options.screenshot) : "";
 
-const browser = await chromium.launch({
-  headless: true,
-  executablePath: process.env.CHROME_EXECUTABLE_PATH || "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
-});
+const browser = await chromium.launch(chromiumLaunchOptions());
 
 try {
   const page = await browser.newPage({

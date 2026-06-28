@@ -1,0 +1,43 @@
+name: Diagram Quality
+
+on:
+  pull_request:
+    paths:
+      - "docs/architecture/**"
+      - "tools/check_diagram_*.mjs"
+      - ".github/workflows/diagram-quality.yml"
+      - "README.md"
+      - "AGENTS.md"
+      - ".agent-feedback/**"
+  push:
+    branches:
+      - main
+    paths:
+      - "docs/architecture/**"
+      - "tools/check_diagram_*.mjs"
+      - ".github/workflows/diagram-quality.yml"
+      - "README.md"
+      - "AGENTS.md"
+      - ".agent-feedback/**"
+  workflow_dispatch:
+
+jobs:
+  diagram-quality:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Playwright Chromium
+        run: |
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+
+      - name: Run diagram quality lint
+        run: node tools/check_diagram_quality.mjs --no-screenshot

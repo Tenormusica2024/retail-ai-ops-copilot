@@ -173,6 +173,12 @@ The wrapper must call every required diagram lint in this repo, currently:
 - `tools/check_diagram_connectors.mjs`
 - `tools/check_diagram_text_layout.mjs`
 
+The project CI workflow must run this wrapper after relevant diagram, lint, or
+rule changes. Use CI as the post-fix enforcement gate so a local repair cannot
+be merged or published without rerunning the same correlation-arrow lint bundle.
+Local wrapper evidence remains required before HITL/final review when
+screenshots, JSON reports, or quick debugging feedback matter.
+
 If a new diagram lint becomes part of arrow-fidelity, connector routing, text
 layout, or source hierarchy acceptance, add it to `tools/check_diagram_quality.mjs`
 before marking the skill update complete. Individual linters may still be run

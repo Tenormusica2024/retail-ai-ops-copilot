@@ -84,6 +84,10 @@ node tools/check_diagram_quality.mjs
 ```
 
 The wrapper must run every required diagram lint for correlation-arrow review.
+The GitHub Actions workflow `.github/workflows/diagram-quality.yml` must also
+run this wrapper after relevant pushes and pull requests. CI is a backstop, not
+a substitute for local proof: run the wrapper locally before final delivery, and
+let CI confirm the same gate after the fix is pushed.
 Use the individual commands only when debugging a specific gate:
 
 ```bash
