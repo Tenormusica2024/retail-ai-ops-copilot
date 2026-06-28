@@ -157,6 +157,18 @@ card body intersections, missing `data-edge` ids, and missing bidirectional
 arrow markers.
 
 ```bash
+node tools/check_diagram_quality.mjs
+```
+
+The all-check wrapper runs the required diagram linters for correlation-arrow
+review:
+
+- `tools/check_diagram_connectors.mjs`
+- `tools/check_diagram_text_layout.mjs`
+
+Run individual checks when you need their specific report paths or thresholds:
+
+```bash
 node tools/check_diagram_connectors.mjs
 node tools/check_diagram_text_layout.mjs
 ```
@@ -177,6 +189,9 @@ If Playwright is provided by the Codex runtime instead of repo-local
 dependencies, run:
 
 ```bash
+NODE_PATH=/Users/urayahadays/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules \
+  /Users/urayahadays/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node \
+  tools/check_diagram_quality.mjs
 NODE_PATH=/Users/urayahadays/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules \
   /Users/urayahadays/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node \
   tools/check_diagram_connectors.mjs

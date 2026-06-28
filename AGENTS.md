@@ -80,6 +80,13 @@ Before reporting architecture HTML visual edits as complete, run both diagram
 lint gates:
 
 ```bash
+node tools/check_diagram_quality.mjs
+```
+
+The wrapper must run every required diagram lint for correlation-arrow review.
+Use the individual commands only when debugging a specific gate:
+
+```bash
 node tools/check_diagram_connectors.mjs
 node tools/check_diagram_text_layout.mjs
 ```

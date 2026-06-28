@@ -159,6 +159,26 @@ label hidden by another text label changes the apparent source edge, so
 `tools/check_diagram_text_layout.mjs` must pass before an arrow-fidelity
 reviewer can mark relationship coverage as PASS.
 
+### Diagram Quality All-Check Gate
+
+For correlation-arrow / arrow-fidelity review, prefer the all-check wrapper
+over manually remembering each lint script:
+
+```bash
+node tools/check_diagram_quality.mjs
+```
+
+The wrapper must call every required diagram lint in this repo, currently:
+
+- `tools/check_diagram_connectors.mjs`
+- `tools/check_diagram_text_layout.mjs`
+
+If a new diagram lint becomes part of arrow-fidelity, connector routing, text
+layout, or source hierarchy acceptance, add it to `tools/check_diagram_quality.mjs`
+before marking the skill update complete. Individual linters may still be run
+for debugging, but final arrow-fidelity evidence should include the all-check
+wrapper result or explicitly state why a specific check was skipped.
+
 ### Diagram Edge Contract Generation Gate
 
 For new 0-to-1 imagegen architecture diagrams, system configuration diagrams,
