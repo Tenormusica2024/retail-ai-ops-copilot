@@ -972,7 +972,7 @@
         </svg>
 
         <div class="zone" style="left: 38px; top: 132px; width: 248px; height: 580px;">
-          <div class="zone-label blue">Snowflakeサンプル / 手動定義</div>
+          <div class="zone-label blue">Snowflake参照・Seed</div>
         </div>
         <div class="zone dashed" style="left: 300px; top: 250px; width: 1000px; height: 440px;">
           <div class="zone-label green">Snowflake Account</div>
@@ -988,7 +988,7 @@
         </div>
 
         <div class="subzone" style="left: 330px; top: 304px; width: 190px; height: 348px;">
-          <div class="subzone-title">サンプル参照 / 手動定義</div>
+          <div class="subzone-title">Snowflake参照・Seed層</div>
           <div class="nested-frame" style="left: 14px; top: 54px; width: 162px; height: 270px;"></div>
         </div>
         <div class="subzone orange" style="left: 545px; top: 304px; width: 201px; height: 348px;">
@@ -1028,12 +1028,12 @@
           <div class="service-sub">手動投入<br>定義表</div>
         </div>
 
-        <div class="service small snow" tabindex="0" data-progress="25%" data-progress-tier="low" data-status="Snowflake公式サンプル参照" data-note="STAGE/RAWは未作成。現在はSNOWFLAKE_SAMPLE_DATA.TPCH_SF1を直接ビューから参照。" style="left: 350px; top: 376px;">
-          <div class="icon sprite sp-stage-db" role="img" aria-label="元テーブル"></div>
-          <div class="service-title">元テーブル</div>
+        <div class="service small snow" tabindex="0" data-progress="25%" data-progress-tier="low" data-status="Snowflake公式サンプルを直接参照" data-note="データレイク/STAGE/RAW層ではなく、現在はSNOWFLAKE_SAMPLE_DATA.TPCH_SF1を直接ビューから参照。将来の取込層とは区別する。" style="left: 350px; top: 376px;">
+          <div class="icon sprite sp-stage-db" role="img" aria-label="TPCH元テーブル"></div>
+          <div class="service-title">TPCH<br>元テーブル</div>
           <div class="service-sub">注文・明細<br>顧客・商品</div>
         </div>
-        <div class="service small snow" tabindex="0" data-progress="10%" data-progress-tier="low" data-status="KPI定義のみ作成済み" data-note="KPI_DEFINITIONSテーブルは作成済み。週報・文書投入とCortex Search indexは未実装。" style="left: 350px; top: 545px;">
+        <div class="service small snow" tabindex="0" data-progress="10%" data-progress-tier="low" data-status="KPI定義Seedのみ作成済み" data-note="KPI_DEFINITIONSテーブルは手動Seedとして作成済み。週報・文書投入、Cortex Search index、継続的な取込層は未実装。" style="left: 350px; top: 545px;">
           <div class="icon generic green" role="img" aria-label="KPI定義">KPI</div>
           <div class="service-title">KPI定義</div>
           <div class="service-sub">手動投入<br>定義表</div>
@@ -1163,7 +1163,7 @@
           <div class="service-sub">予算アラート・上限制御<br>トークン・クエリコスト監視</div>
         </div>
 
-        <div class="flow-label" style="left: 252px; top: 332px;">サンプル参照</div>
+        <div class="flow-label" style="left: 252px; top: 332px;">Snowflake参照</div>
         <div class="flow-label" style="left: 286px; top: 694px;">dbt build / test<br>モデル・指標デプロイ</div>
         <div class="flow-label" style="left: 948px; top: 232px;">質問・文脈</div>
         <div class="flow-label" style="left: 1042px; top: 232px;">回答・可視化</div>
@@ -1178,7 +1178,7 @@
         <div class="flow-label" style="left: 1398px; top: 1020px;">修正依頼</div>
 
         <div class="rail-label" style="left: 128px; top: 690px;">サンプルDB</div>
-        <div class="rail-label" style="left: 312px; top: 652px;">データ基盤</div>
+        <div class="rail-label" style="left: 312px; top: 652px;">参照・Seed層</div>
         <div class="rail-label" style="left: 1166px; top: 716px;">エージェント実行</div>
 
         <div class="footer-note">
@@ -1204,7 +1204,7 @@
         "顧客・地域": [50, 25, 5, 10, 10],
         "商品・原価": [50, 25, 5, 10, 10],
         "KPI定義": [30, 35, 10, 15, 10],
-        "元テーブル": [70, 10, 5, 10, 5],
+        "TPCH元テーブル": [70, 10, 5, 10, 5],
         "dbt staging": [60, 20, 5, 5, 10],
         "dbt marts": [45, 35, 5, 10, 5],
         "dbt tests": [45, 25, 5, 10, 15],
@@ -1239,7 +1239,7 @@
         "顧客・地域": "地域/顧客の粒度、ロール別に比較してよい範囲、店舗粒度が足りない時の説明・停止方針を設計する",
         "商品・原価": "商品/原価proxyと本来必要なSKU・在庫・仕入れの境界を整理し、AIが補完してよい範囲と注記・停止条件を決める",
         "KPI定義": "PM/DS定義をSemantic/Search/Evalへどう分解するか、KPIが回答可能になる条件と定義不足時の止め方を設計する",
-        "元テーブル": "source、stage、martの責務境界とAIが参照してよい層を決め、未整備層を回答・traceでどう見せるかを設計する",
+        "TPCH元テーブル": "Snowflake公式サンプルをsource/seed代替として使う範囲、将来のデータレイク/STAGE/RAW層と区別する境界、AIが直参照してよい条件を設計する",
         "dbt staging": "sourceからstagingへ入れる粒度、型、欠損、source freshness、test contractを設計し、現MVPの直接SQLをdbt readinessとして扱わない境界を決める",
         "dbt marts": "KPI martをdbt管理の契約としてSemantic Model、Cortex、Evalへ渡す設計を持ち、直接SQLビューはreference MVP証跡として分離する",
         "dbt tests": "DEの品質ゲートとAI回帰テストをどう接続するか、どの失敗でAI回答を止めるかを設計する",
@@ -1271,7 +1271,7 @@
         "顧客・地域": "PM/業務が使う地域比較の意図と、実データに店舗粒度がない制約をつなぎ、ロール境界や回答拒否条件を設計レビュー",
         "商品・原価": "DS/DEが持つ商品・原価proxyの定義を、AIがSKU階層、在庫、仕入れ実績と混同しないよう検索語、説明文、失敗分類に反映",
         "KPI定義": "PM/業務とDSがKPIの意味・計算式を主定義し、AIエンジニアは同義語、質問意図、引用文脈、Semantic Model/Searchへ渡す表現境界を設計",
-        "元テーブル": "DEが管理するsource tableの責務を前提に、AI経路では直参照かSTAGE/RAW経由かを明示し、未実装部分を回答やtraceで誤表示しない設計を確認",
+        "TPCH元テーブル": "DEが管理する本来の取込層ではなくSnowflake公式サンプルを直接参照している前提を明示し、AI経路でSTAGE/RAWやデータレイク整備済みと誤表示しないよう確認",
         "dbt staging": "DEが担うstaging model、source.yml、schema testsを前提に、AI経路では未実装を明示し、直接SQLの結果をstaging品質として誤表示しないよう確認",
         "dbt marts": "DE/DSが定義するdbt martを、質問応答で参照してよい集計面として扱い、semantic model、SQL preview、eval case、失敗時停止条件へ接続",
         "dbt tests": "DE/DSが担うdbt品質検証を前提に、AI変更時に必要なsemantic差分、回答回帰、失敗時停止条件へ接続する観点を設計",

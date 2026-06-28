@@ -210,6 +210,16 @@ dataset, or sample path conflicts with the intended learning architecture,
 preserve the intended architecture in the primary node/frame identity and put
 the shortcut reality into readiness/status/notes/evidence.
 
+Layer names must be evidence-honest. Do not call a Snowflake source/source-like
+area `data lake`, `STAGE`, `RAW`, `ingestion`, or `lakehouse` merely because
+those are common Snowflake architecture concepts. Use those labels only when
+the diagram or implementation includes the corresponding object or planned
+node, such as external stage, Snowpipe, Iceberg, RAW tables, dynamic tables, or
+an explicit ingestion flow. If the current path is
+`SNOWFLAKE_SAMPLE_DATA` plus manually inserted KPI rows, label it as a
+Snowflake reference / seed layer and put future ingestion/lake intent in
+status/notes or a separate planned node.
+
 If the selected source shows components such as `dbt staging`, `dbt marts`,
 `dbt tests`, `STAGE / RAW`, or `Snowpipe取込` inside a smaller category or
 inner frame, preserve that nested structure in HTML. Do not flatten those items

@@ -34,6 +34,24 @@ When reviewing diagram metadata, consider the user's project-launch intent:
 the diagram is a learning and technology-selection map first, not only a
 snapshot of the current MVP.
 
+## Layer Naming Honesty
+
+Use architecture layer names that describe the actual evidence in the diagram
+and implementation.
+
+- Do not call a Snowflake source area a data lake, STAGE, RAW, ingestion, or
+  lakehouse layer unless the diagram or implementation actually includes the
+  corresponding objects, such as external stages, Snowpipe, Iceberg, RAW tables,
+  dynamic tables, or an explicit ingestion flow.
+- When the current evidence is direct reference to
+  `SNOWFLAKE_SAMPLE_DATA` plus manually inserted definition rows, label it as a
+  Snowflake reference / seed layer rather than a generic data platform or data
+  lake layer.
+- If a future intended data lake or ingestion layer is important for learning,
+  keep it as a planned architecture node with 0% readiness and explicit
+  status/notes, instead of making current sample-table references look like
+  ingestion readiness.
+
 ## Child Skills
 
 - `child-skills/role-responsibility-tooltips/SKILL.md`
