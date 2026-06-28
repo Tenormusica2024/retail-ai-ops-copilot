@@ -125,6 +125,34 @@ Treat this lint as a pre-HITL gate. Visual review and sub-agent review should
 then focus on semantic source fidelity, label meaning, and intentional
 differences that pure geometry cannot decide.
 
+### Automated Text Layout Lint Gate
+
+Do not rely on final screenshot review as the first detector for text clipping
+or label-to-label collisions. Run an automated text-layout lint whenever the
+architecture HTML changes labels, card text, rail labels, flow labels, boundary
+notes, hover-trigger text, node sizes, or nearby connector labels.
+
+Use:
+
+```bash
+node tools/check_diagram_text_layout.mjs
+```
+
+The lint should render the page in Playwright, collect text-bearing elements
+such as `.flow-label`, `.rail-label`, `.boundary-note`, `.zone-label`,
+`.subzone-title`, `.service-title`, and `.service-sub`, and produce
+machine-readable findings for:
+
+- text elements whose `scrollWidth` or `scrollHeight` exceeds their visible box
+- text that escapes its containing service card or subzone frame
+- two text-bearing elements whose rendered rectangles overlap enough that one
+  label can visually clip or hide the other
+
+Treat `text-overlap`, `text-overflow`, and `text-escapes-parent` as pre-HITL
+failures. After moving labels to clear text overlap, rerun the connector
+geometry lint too, because a text-safe label can still create a connector-label
+crossing or source/destination ambiguity.
+
 ### Diagram Edge Contract Generation Gate
 
 For new 0-to-1 imagegen architecture diagrams, system configuration diagrams,

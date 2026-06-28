@@ -74,6 +74,19 @@ If repo docs changed first, sync to Obsidian:
 python3 tools/sync_obsidian_docs.py --direction repo-to-obsidian
 ```
 
+## Diagram Quality Gates
+
+Before reporting architecture HTML visual edits as complete, run both diagram
+lint gates:
+
+```bash
+node tools/check_diagram_connectors.mjs
+node tools/check_diagram_text_layout.mjs
+```
+
+If using the bundled Codex Node/Playwright runtime, set `NODE_PATH` to the
+runtime `node_modules` path as documented in `README.md`.
+
 ## Scope Boundaries
 
 Must include in this repo as diagram, docs, rubric, or evidence references:

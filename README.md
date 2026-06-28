@@ -158,12 +158,20 @@ arrow markers.
 
 ```bash
 node tools/check_diagram_connectors.mjs
+node tools/check_diagram_text_layout.mjs
 ```
 
-The lint writes:
+The connector lint writes:
 
 - `outputs/diagram-connector-geometry-report.json`
 - `outputs/diagram-connector-geometry-check.png`
+
+The text-layout lint renders the same diagram and fails on text overflow,
+text escaping a parent card/frame, or text-bearing labels overlapping each
+other. It writes:
+
+- `outputs/diagram-text-layout-report.json`
+- `outputs/diagram-text-layout-check.png`
 
 If Playwright is provided by the Codex runtime instead of repo-local
 dependencies, run:
@@ -172,6 +180,9 @@ dependencies, run:
 NODE_PATH=/Users/urayahadays/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules \
   /Users/urayahadays/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node \
   tools/check_diagram_connectors.mjs
+NODE_PATH=/Users/urayahadays/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules \
+  /Users/urayahadays/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node \
+  tools/check_diagram_text_layout.mjs
 ```
 
 ## Future Edge Contract Generation
