@@ -151,18 +151,23 @@ NODE_PATH=/Users/urayahadays/.cache/codex-runtimes/codex-primary-runtime/depende
 
 ## Future Edge Contract Generation
 
-For new 0-to-1 imagegen architecture or system-diagram reproductions, prefer an
-edge-contract workflow instead of hand-writing fixed SVG path coordinates first.
-This belongs to this visualization repository's diagram tooling; it does not
-change the implementation pipeline or the current source-faithful architecture
-HTML.
+For new 0-to-1 imagegen architecture/system-diagram reproductions, and for
+future layout-affecting diagram changes such as node moves, frame moves, card
+resizing, or connector rerouting, prefer an edge-contract workflow instead of
+hand-writing fixed SVG path coordinates first. This belongs to this
+visualization repository's diagram tooling; it does not change the
+implementation pipeline or automatically migrate the current source-faithful
+architecture HTML.
 
 The intended workflow is:
 
 - add stable `data-node-id` values to diagram nodes when the HTML is first built
 - define edges with `from.node`, `from.anchor`, `to.node`, and `to.anchor`
 - generate SVG `path d` values from rendered node rectangles
-- run the connector geometry lint after generation or layout changes
+- after layout changes, regenerate affected contract-managed paths or document
+  why a fixed-coordinate exception is still required
+- run the connector geometry lint after generation, layout changes, or fixed
+  coordinate exceptions
 
 Demo:
 

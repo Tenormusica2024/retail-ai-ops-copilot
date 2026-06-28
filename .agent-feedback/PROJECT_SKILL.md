@@ -128,14 +128,15 @@ differences that pure geometry cannot decide.
 ### Diagram Edge Contract Generation Gate
 
 For new 0-to-1 imagegen architecture diagrams, system configuration diagrams,
-and workflow diagrams in this visualization repo, prefer an edge-contract
-workflow before hand-writing SVG path coordinates.
+and workflow diagrams in this visualization repo, and for future
+layout-affecting edits to existing diagrams, prefer an edge-contract workflow
+before hand-writing SVG path coordinates.
 
 This gate is for diagram reproduction and visualization tooling. It must not be
 treated as pipeline implementation work, Snowflake/Cortex runtime work, or proof
 that the architecture nodes themselves are implemented.
 
-Required behavior for new diagrams:
+Required behavior for new diagrams and layout-affecting edits:
 
 - add stable `data-node-id` values to every node or frame that can be an edge
   endpoint
@@ -150,10 +151,18 @@ Required behavior for new diagrams:
   buses, lanes, label anchors, source-faithful visual quirks, or already-locked
   diagrams
 - after node moves, card resizing, frame resizing, or helper/header removal,
-  regenerate affected paths and then run `tools/check_diagram_connectors.mjs`
+  regenerate affected contract-managed paths and then run
+  `tools/check_diagram_connectors.mjs`
+- do not read "new 0-to-1" as excluding later modification work. When a future
+  edit changes node placement, frame geometry, card dimensions, or connector
+  routing, either move the affected edge area toward contract generation or
+  document why a fixed-coordinate exception is still required.
 - keep the current source-faithful architecture HTML on its existing fixed-path
   route unless a separate HITL-approved migration task is opened, because
-  automatic migration can change many fine visual positions at once
+  automatic migration can change many fine visual positions at once. This
+  exception only avoids a mass rewrite of stable current paths; it is not
+  permission to keep adding brittle fixed coordinates during future layout
+  changes.
 
 Use `tools/generate_diagram_edges_from_contract.mjs` and
 `docs/architecture/edge-contract-path-generation.md` as the reference workflow.
