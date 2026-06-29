@@ -1,0 +1,90 @@
+version: 2
+
+models:
+  - name: stg_tpch_orders
+    description: Order header proxy from TPCH orders.
+    columns:
+      - name: order_key
+        data_tests: [not_null, unique]
+      - name: customer_key
+        data_tests: [not_null]
+      - name: order_date
+        data_tests: [not_null]
+
+  - name: stg_tpch_lineitem
+    description: Order line proxy for sales, discount, product, and supplier keys.
+    data_tests:
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [order_key, line_number]
+    columns:
+      - name: order_key
+        data_tests: [not_null]
+      - name: line_number
+        data_tests: [not_null]
+      - name: part_key
+        data_tests: [not_null]
+      - name: supplier_key
+        data_tests: [not_null]
+      - name: quantity
+        data_tests:
+          - not_null
+          - not_negative
+      - name: extended_price
+        data_tests:
+          - not_null
+          - not_negative
+      - name: discount_rate
+        data_tests:
+          - not_null
+          - between_zero_and_one
+
+  - name: stg_tpch_customer
+    description: Customer to nation bridge.
+    columns:
+      - name: customer_key
+        data_tests: [not_null, unique]
+      - name: nation_key
+        data_tests: [not_null]
+
+  - name: stg_tpch_nation
+    description: Nation to region bridge.
+    columns:
+      - name: nation_key
+        data_tests: [not_null, unique]
+      - name: nation_name
+        data_tests: [not_null]
+      - name: region_key
+        data_tests: [not_null]
+
+  - name: stg_tpch_region
+    description: TPCH region dimension.
+    columns:
+      - name: region_key
+        data_tests: [not_null, unique]
+      - name: region_name
+        data_tests: [not_null]
+
+  - name: stg_tpch_part
+    description: Product category proxy from TPCH part.
+    columns:
+      - name: part_key
+        data_tests: [not_null, unique]
+      - name: category_name
+        data_tests: [not_null]
+
+  - name: stg_tpch_partsupp
+    description: Supply-cost proxy keyed by part and supplier.
+    data_tests:
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [part_key, supplier_key]
+    columns:
+      - name: part_key
+        data_tests: [not_null]
+      - name: supplier_key
+        data_tests: [not_null]
+      - name: supply_cost
+        data_tests:
+          - not_null
+          - not_negative

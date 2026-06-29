@@ -1,0 +1,52 @@
+version: 2
+
+models:
+  - name: mart_retail_monthly_kpi
+    description: >
+      Fixed-grain KPI mart for Semantic Model, Golden Eval, and Streamlit.
+      The grain is month_start, region_name, nation_name, category_name.
+      order_count is not rollup-safe after dropping category_name.
+    data_tests:
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [month_start, region_name, nation_name, category_name]
+    columns:
+      - name: month_start
+        description: Month-start date derived from TPCH order date.
+        data_tests: [not_null]
+      - name: region_name
+        description: TPCH region name.
+        data_tests: [not_null]
+      - name: nation_name
+        description: TPCH nation name.
+        data_tests: [not_null]
+      - name: category_name
+        description: Product category proxy from TPCH part type or brand.
+        data_tests: [not_null]
+      - name: order_count
+        description: Distinct order count at the fixed mart grain only.
+        data_tests: [not_null, positive]
+      - name: item_quantity
+        description: Additive item quantity.
+        data_tests: [not_null, not_negative]
+      - name: gross_sales
+        description: Additive gross line sales before discount.
+        data_tests: [not_null, not_negative]
+      - name: discount_amount
+        description: Additive discount numerator used to recompute avg_discount.
+        data_tests: [not_null, not_negative]
+      - name: net_sales
+        description: Additive discount-adjusted sales.
+        data_tests: [not_null, not_negative]
+      - name: supply_cost_amount
+        description: Additive supply-cost proxy amount.
+        data_tests: [not_null, not_negative]
+      - name: gross_margin
+        description: Net sales minus supply-cost proxy.
+        data_tests: [not_null]
+      - name: gross_margin_rate
+        description: Recomputed as gross_margin divided by net_sales at the current query grain.
+        data_tests: [between_zero_and_one]
+      - name: avg_discount
+        description: Recomputed as discount_amount divided by gross_sales at the current query grain.
+        data_tests: [between_zero_and_one]

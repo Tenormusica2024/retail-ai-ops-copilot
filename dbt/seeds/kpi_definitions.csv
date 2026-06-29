@@ -1,0 +1,8 @@
+kpi_name,business_definition,calculation_note,llm_safe,owner,current_data_fit,known_gap
+net_sales,Discount-adjusted sales amount from TPCH line items,Sum of extended price multiplied by one minus line discount,true,AI architecture MVP,good_proxy,TPCH is not real POS and has no store channel or return semantics
+gross_margin_rate,Gross margin divided by net sales,Uses TPCH partsupp supply cost as a cost proxy and recomputes from additive numerator and denominator,true,AI architecture MVP,usable_proxy,Supply cost is not a retail cost accounting model
+order_count,Distinct order count at the mart fixed grain,Do not sum category-level order_count after dropping category_name,true,AI architecture MVP,grain_limited,Needs requested-grain distinct count or a separate order mart for higher-grain questions
+avg_discount,Average discount rate,Use discount_amount divided by gross_sales rather than averaging stored rates,true,AI architecture MVP,usable_proxy,TPCH discount is not a promotion calendar or campaign entity
+stockout_risk,Inventory stockout risk,Unsupported in TPCH_SF1 current slice,true,AI architecture MVP,unsupported,Requires inventory snapshots or supply-demand events
+promotion_lift,Promotion lift,Unsupported in TPCH_SF1 current slice,true,AI architecture MVP,unsupported,Requires campaign calendar and counterfactual or baseline data
+same_store_sales_growth,Same-store sales growth,Unsupported in TPCH_SF1 current slice,true,AI architecture MVP,unsupported,Requires store dimension and comparable-store flags

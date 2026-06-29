@@ -17,6 +17,8 @@ create warehouse if not exists RETAIL_AI_OPS_XS
   initially_suspended = true;
 
 create database if not exists RETAIL_AI_OPS;
+create schema if not exists RETAIL_AI_OPS.STAGING;
+create schema if not exists RETAIL_AI_OPS.INTERMEDIATE;
 create schema if not exists RETAIL_AI_OPS.MART;
 create schema if not exists RETAIL_AI_OPS.OPS;
 
@@ -32,13 +34,19 @@ select
   coalesce(p.p_type, p.p_brand)::varchar as category_name,
   count(distinct o.o_orderkey) as order_count,
   sum(l.l_quantity) as item_quantity,
+  sum(l.l_extendedprice) as gross_sales,
+  sum(l.l_extendedprice * l.l_discount) as discount_amount,
   sum(l.l_extendedprice * (1 - l.l_discount)) as net_sales,
+  sum(ps.ps_supplycost * l.l_quantity) as supply_cost_amount,
   sum((l.l_extendedprice * (1 - l.l_discount)) - (ps.ps_supplycost * l.l_quantity)) as gross_margin,
   div0(
     sum((l.l_extendedprice * (1 - l.l_discount)) - (ps.ps_supplycost * l.l_quantity)),
     nullif(sum(l.l_extendedprice * (1 - l.l_discount)), 0)
   ) as gross_margin_rate,
-  avg(l.l_discount) as avg_discount
+  div0(
+    sum(l.l_extendedprice * l.l_discount),
+    nullif(sum(l.l_extendedprice), 0)
+  ) as avg_discount
 from snowflake_sample_data.tpch_sf1.orders o
 join snowflake_sample_data.tpch_sf1.lineitem l
   on o.o_orderkey = l.l_orderkey
@@ -70,7 +78,7 @@ from values
   ('net_sales', 'Discount-adjusted sales amount from line items.', true, 'AI architecture MVP'),
   ('gross_margin_rate', 'Gross margin divided by net sales. In the current TPCH sample this is a proxy using supply cost.', true, 'AI architecture MVP'),
   ('order_count', 'Distinct order count at the mart grain.', true, 'AI architecture MVP'),
-  ('avg_discount', 'Average line-item discount rate.', true, 'AI architecture MVP');
+  ('avg_discount', 'Discount amount divided by gross sales.', true, 'AI architecture MVP');
 
 create or replace table RETAIL_AI_OPS.OPS.COPILOT_TRACE_LOG (
   created_at timestamp_ntz default current_timestamp(),

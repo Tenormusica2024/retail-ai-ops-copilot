@@ -123,8 +123,9 @@ Snowflake sample data `SNOWFLAKE_SAMPLE_DATA.TPCH_SF1` を使った初期KPI mar
 証跡:
 - repo path: `dbt/`
 - repo path: `docs/architecture/dbt-snowpark-design.md`
-- command: `dbt parse`
-- command: `dbt compile`
+- repo path: `requirements-dbt.txt`
+- command: `dbt parse --warn-error`
+- command: `dbt compile --no-populate-cache --no-introspect --empty`
 - command: `dbt build` live credentialsありの場合
 - result: 実行結果をBacklogコメントへ記録する
 

@@ -166,6 +166,45 @@ Run deterministic golden eval:
 python3 -m retail_ai_ops.eval_runner
 ```
 
+## Run dbt Scaffold Checks
+
+The dbt scaffold is the `RAIOPS-3` source-to-mart contract. Install dbt
+dependencies separately from the lightweight reference MVP. Use Python 3.12 for
+local dbt checks until the dbt dependency stack is verified on Python 3.14:
+
+```bash
+python3.12 -m venv /tmp/retail-ai-ops-dbt-venv
+/tmp/retail-ai-ops-dbt-venv/bin/python -m pip install -r requirements-dbt.txt
+```
+
+Create a local uncommitted profile from the example, or point dbt at a temporary
+profiles directory:
+
+```bash
+cp dbt/profiles.example.yml dbt/profiles.yml
+```
+
+Credentials-free checks should be reported as parse/compile evidence only:
+
+```bash
+/tmp/retail-ai-ops-dbt-venv/bin/dbt parse \
+  --project-dir dbt \
+  --profiles-dir dbt \
+  --warn-error
+/tmp/retail-ai-ops-dbt-venv/bin/dbt compile \
+  --project-dir dbt \
+  --profiles-dir dbt \
+  --no-populate-cache \
+  --no-introspect \
+  --empty
+```
+
+Run live build only when Snowflake credentials are intentionally available:
+
+```bash
+dbt build --project-dir dbt --profiles-dir dbt --select tag:llm_contract+
+```
+
 ## Public Preview
 
 - GitHub Pages: https://tenormusica2024.github.io/retail-ai-ops-copilot/

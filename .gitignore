@@ -8,6 +8,10 @@ __pycache__/
 outputs/
 work/
 .local-private/
+dbt/target/
+dbt/logs/
+dbt/profiles.yml
+dbt/.user.yml
 *.sqlite
 *.db
 *.log

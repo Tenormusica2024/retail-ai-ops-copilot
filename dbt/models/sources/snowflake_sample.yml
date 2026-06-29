@@ -1,0 +1,73 @@
+version: 2
+
+sources:
+  - name: src_tpch
+    description: Read-only Snowflake sample TPCH_SF1 source for the first LLMOps learning slice.
+    database: SNOWFLAKE_SAMPLE_DATA
+    schema: TPCH_SF1
+    tables:
+      - name: orders
+        identifier: ORDERS
+        columns:
+          - name: O_ORDERKEY
+            data_tests: [not_null, unique]
+          - name: O_CUSTKEY
+            data_tests: [not_null]
+          - name: O_ORDERDATE
+            data_tests: [not_null]
+      - name: lineitem
+        identifier: LINEITEM
+        columns:
+          - name: L_ORDERKEY
+            data_tests: [not_null]
+          - name: L_LINENUMBER
+            data_tests: [not_null]
+          - name: L_PARTKEY
+            data_tests: [not_null]
+          - name: L_SUPPKEY
+            data_tests: [not_null]
+          - name: L_QUANTITY
+            data_tests: [not_null]
+          - name: L_EXTENDEDPRICE
+            data_tests: [not_null]
+          - name: L_DISCOUNT
+            data_tests: [not_null]
+      - name: customer
+        identifier: CUSTOMER
+        columns:
+          - name: C_CUSTKEY
+            data_tests: [not_null, unique]
+          - name: C_NATIONKEY
+            data_tests: [not_null]
+      - name: nation
+        identifier: NATION
+        columns:
+          - name: N_NATIONKEY
+            data_tests: [not_null, unique]
+          - name: N_REGIONKEY
+            data_tests: [not_null]
+          - name: N_NAME
+            data_tests: [not_null]
+      - name: region
+        identifier: REGION
+        columns:
+          - name: R_REGIONKEY
+            data_tests: [not_null, unique]
+          - name: R_NAME
+            data_tests: [not_null]
+      - name: part
+        identifier: PART
+        columns:
+          - name: P_PARTKEY
+            data_tests: [not_null, unique]
+          - name: P_TYPE
+            data_tests: [not_null]
+      - name: partsupp
+        identifier: PARTSUPP
+        columns:
+          - name: PS_PARTKEY
+            data_tests: [not_null]
+          - name: PS_SUPPKEY
+            data_tests: [not_null]
+          - name: PS_SUPPLYCOST
+            data_tests: [not_null]

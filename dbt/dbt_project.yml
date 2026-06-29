@@ -1,0 +1,35 @@
+name: retail_ai_ops
+version: "1.0.0"
+config-version: 2
+
+profile: retail_ai_ops
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "logs"
+
+models:
+  retail_ai_ops:
+    staging:
+      +materialized: view
+      +schema: staging
+      +tags: ["llm_contract"]
+    intermediate:
+      +materialized: view
+      +schema: intermediate
+      +tags: ["llm_contract"]
+    marts:
+      +materialized: view
+      +schema: mart
+      +tags: ["llm_contract", "semantic_input", "eval_input"]
+
+seeds:
+  retail_ai_ops:
+    +schema: mart
+    +quote_columns: false
