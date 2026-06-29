@@ -839,6 +839,28 @@ HTML, and Obsidian mirror unless the main session explicitly grants a narrow
 edit scope. A parallel session's output should include proposed shared-file
 updates instead of silently editing shared state.
 
+### Parallel Session Acceptance Confirmation Gate
+
+When delegating work through GitHub Issue or another pane-routing bridge, do not
+treat "Issue comment posted" or "bridge send succeeded" as proof that the
+target session accepted the task.
+
+Report delegation as accepted only after at least one receiving-side evidence
+source exists:
+
+- the receiving Codex session transcript contains the delegated task or source
+  comment id
+- the routing supervisor marks the command resolved with a reply/comment URL
+- the target session creates the instructed worktree, branch, file change, or
+  other scoped work artifact
+- the target session posts an explicit `/githubissue` acknowledgment
+
+Terminal-based pane delivery is especially risky because `Mac visible-send` can
+submit text to a busy Codex session while that session continues an unrelated
+goal. If the target pane is busy, the command remains pending, or the receiving
+transcript does not contain the task, report the delegation as "sent but not
+accepted" and avoid treating the task as active implementation work.
+
 ### Extensible Validation Slice Gate
 
 Do not default to `最小実装`, `最小構成`, or "smallest working scope" when
