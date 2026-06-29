@@ -11,7 +11,7 @@ Detailed body source: `docs/project-management/backlog-ticket-bodies.md`
 | Key | Prefix | Title | Main Evidence Target |
 | --- | --- | --- | --- |
 | [RAIOPS-1](https://raiops27.backlog.com/view/RAIOPS-1) | Evidence/Docs | Backlog運用DoDと証跡テンプレートを定義する | `docs/project-management/backlog-workflow.md`, this map, Obsidian sync |
-| [RAIOPS-2](https://raiops27.backlog.com/view/RAIOPS-2) | Design/ADR | TPCH_SF1小売KPI mart契約を固定する | `docs/architecture/dbt-snowpark-design.md` |
+| [RAIOPS-2](https://raiops27.backlog.com/view/RAIOPS-2) | Design/ADR | TPCH_SF1小売KPI mart契約を固定する | `docs/architecture/dbt-snowpark-design.md`, `docs/architecture/raiops-2-12-preimplementation-gate.md` |
 | [RAIOPS-3](https://raiops27.backlog.com/view/RAIOPS-3) | Build/dbt | TPCH source-to-mart の dbt scaffold を作る | `dbt/`, `dbt parse`, `dbt compile`, credentialed `dbt build` |
 | [RAIOPS-4](https://raiops27.backlog.com/view/RAIOPS-4) | Eval/Test | dbt testsをsemantic/eval readiness gateにする | dbt test report, CI gate, readiness rule |
 | [RAIOPS-5](https://raiops27.backlog.com/view/RAIOPS-5) | Build/Semantic | Semantic Model YAMLをdbt mart契約に合わせる | `semantic/retail_kpi_semantic_model.yaml`, KPI definition seed |
@@ -21,7 +21,7 @@ Detailed body source: `docs/project-management/backlog-ticket-bodies.md`
 | [RAIOPS-9](https://raiops27.backlog.com/view/RAIOPS-9) | Governance/HITL | send/write要求を承認キューに止める | approval-required trace and UI review queue |
 | [RAIOPS-10](https://raiops27.backlog.com/view/RAIOPS-10) | Build/Streamlit | Analyst review用のEvidence Workbenchを作る | Streamlit UI with answer, SQL, result, citation, trace, approval queue |
 | [RAIOPS-11](https://raiops27.backlog.com/view/RAIOPS-11) | Eval/Test | 初期5シナリオのUI E2Eを追加する | Playwright trace/screenshots or equivalent UI evidence |
-| [RAIOPS-12](https://raiops27.backlog.com/view/RAIOPS-12) | Spike/Snowpark | 最初のSnowpark責務をeval/trace enrichmentで決める | ADR comparing dbt Python model, SP, UDF, and defer option |
+| [RAIOPS-12](https://raiops27.backlog.com/view/RAIOPS-12) | Spike/Snowpark | 最初のSnowpark責務をeval/trace enrichmentで決める | `docs/architecture/snowpark-integration-design.md`, `docs/architecture/raiops-2-12-preimplementation-gate.md` |
 | [RAIOPS-13](https://raiops27.backlog.com/view/RAIOPS-13) | Governance | RBACとコストガードレールの基本証跡を作る | role denied path, cost metadata, trace visibility |
 | [RAIOPS-14](https://raiops27.backlog.com/view/RAIOPS-14) | Evidence/Diagram | 実装証跡をdiagram readinessへ反映する | diagram tooltip/readiness update, `node tools/check_diagram_quality.mjs`, sync check |
 

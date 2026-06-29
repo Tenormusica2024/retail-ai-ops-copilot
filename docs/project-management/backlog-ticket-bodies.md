@@ -81,6 +81,7 @@ Snowflake sample data `SNOWFLAKE_SAMPLE_DATA.TPCH_SF1` を使った初期KPI mar
 証跡:
 - repo path: `docs/architecture/dbt-snowpark-design.md`
 - repo path: `docs/architecture/sample-data-coverage-matrix.md`
+- repo path: `docs/architecture/raiops-2-12-preimplementation-gate.md`
 - repo path: `sql/00_setup_from_snowflake_sample.sql`
 - Backlog: `RAIOPS-2`
 - result: 設計レビュー後にBacklogコメントへ記録する
@@ -465,6 +466,7 @@ Snowparkはこのプロジェクトの中級以上の学習候補として積極
 - repo path: `docs/architecture/snowpark-integration-design.md`
 - repo path: `docs/architecture/dbt-snowpark-design.md`
 - repo path: `docs/architecture/learning-stage-strategy.md`
+- repo path: `docs/architecture/raiops-2-12-preimplementation-gate.md`
 - Backlog: `RAIOPS-12`
 - result: ADR判断をBacklogコメントへ記録する
 
