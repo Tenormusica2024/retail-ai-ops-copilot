@@ -861,6 +861,25 @@ goal. If the target pane is busy, the command remains pending, or the receiving
 transcript does not contain the task, report the delegation as "sent but not
 accepted" and avoid treating the task as active implementation work.
 
+For Codex CLI panes, prefer bridge logs with `post_submit_verified=true` plus a
+matching `post_submit_verification.comment_id` and receiving
+`post_submit_verification.session_path` as the immediate acceptance proof.
+`post_submit_verified=null` means the message was sent at the Terminal/bridge
+layer only; it must not be upgraded into session acceptance without transcript,
+worktree, branch, diff, resolved receipt, or explicit `/githubissue`
+acknowledgment evidence.
+
+If the pane-routing bridge or visible-send script was changed before a retry,
+restart the long-running Issue bridge process before testing. A launchd bridge
+that was already running will keep the old Python code loaded and can repeat
+the same false-positive dispatch behavior even after the file is patched.
+
+When the selected lower/upper pane is occupied by an unrelated active Codex
+goal, do not retry into that same session. Create a dedicated worktree and fresh
+titled Codex session, dry-run pane routing to prove the expected title / tty /
+window id, then resend through Issue so the acceptance proof points to the new
+session.
+
 ### Extensible Validation Slice Gate
 
 Do not default to `最小実装`, `最小構成`, or "smallest working scope" when
