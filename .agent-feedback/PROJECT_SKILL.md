@@ -69,6 +69,23 @@ complete an E2E pass in this project proving that:
   `.agent-feedback/SUBAGENT_INVOCATIONS.md` when sub-agent firing is the thing
   being tested
 
+### Documentation Sync Evidence Gate
+
+When reporting Obsidian synchronization as evidence, distinguish repo-mirror
+checks from checks against a real external Obsidian workspace.
+
+The default no-argument command may be used only as repo-mirror evidence:
+
+```bash
+python3 tools/sync_obsidian_docs.py --direction check
+```
+
+To claim the external Obsidian workspace is synchronized, run the command with
+`RETAIL_AI_OPS_OBSIDIAN_DIR` set or pass `--obsidian-dir <local-vault-project>`.
+Do not report a repo-mirror-only `obsidian_sync=ok` as proof that the external
+vault was updated. If repo docs changed first, run `repo-to-obsidian` with the
+same explicit target before final delivery.
+
 ### Diagram Connector Endpoint Gate
 
 For architecture diagram edits, verify node-anchored connectors against rendered
