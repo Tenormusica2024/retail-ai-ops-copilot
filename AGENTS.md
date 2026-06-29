@@ -149,6 +149,11 @@ trigger-condition weakness and strengthen the feedback-ledger trigger rules.
 Before creating, updating, reviewing, or synchronizing Backlog tickets, load
 `skills/ai-architecture-learning/child-skills/backlog-ticketing/SKILL.md`.
 
+Before splitting implementation work across parallel Codex sessions, read
+`docs/project-management/parallel-session-implementation-plan.md`. Do not start
+parallel implementation until the relevant design, Backlog lane, allowed files,
+blocked shared files, acceptance criteria, and verification commands are clear.
+
 ## Scope Boundaries
 
 Must include in this repo as diagram, docs, rubric, or evidence references:

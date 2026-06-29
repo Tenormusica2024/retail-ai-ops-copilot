@@ -801,6 +801,27 @@ project-management artifacts, so they need Japanese-readable intent, background,
 acceptance criteria, and evidence links rather than only source-faithful node
 labels.
 
+### Parallel Session Implementation Gate
+
+Before splitting implementation across parallel Codex sessions, first create or
+update the design and Backlog lane that defines the work. Use:
+
+- `docs/project-management/parallel-session-implementation-plan.md`
+- `docs/project-management/backlog-workflow.md`
+- `docs/project-management/backlog-ticket-bodies.md`
+
+Parallel sessions should start only after the target lane has clear purpose,
+acceptance criteria, editable files, files that must not be touched, verification
+commands, and reporting expectations. While those are not clear, parallel
+sessions may do research, review, or design alternatives, but not independent
+implementation.
+
+Keep main-session ownership for shared integration surfaces such as README,
+AGENTS, feedback ledger, project skill, Backlog ticket tables, architecture
+HTML, and Obsidian mirror unless the main session explicitly grants a narrow
+edit scope. A parallel session's output should include proposed shared-file
+updates instead of silently editing shared state.
+
 ### No Silent Runtime Fallback Gate
 
 For Snowflake/Cortex implementation work, do not silently switch from a live

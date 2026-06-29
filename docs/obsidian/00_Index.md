@@ -24,10 +24,12 @@ Snowflake-native Retail Operations KPI Copilot の設計・実装学習プロジ
 - [[10_Snowpark導入設計|10_Snowpark導入設計]]
 - [[11_dbt_Snowpark設計|11_dbt_Snowpark設計]]
 - [[12_チケット駆動運用|12_チケット駆動運用]]
+- [[13_並列セッション計画|13_並列セッション計画]]
 - Repo mirror: [Learning Stage Strategy](../architecture/learning-stage-strategy.md)
 - Repo mirror: [Snowpark Integration Design](../architecture/snowpark-integration-design.md)
 - Repo mirror: [dbt / Snowpark Design](../architecture/dbt-snowpark-design.md)
 - Repo mirror: [Backlog Ticket Workflow](../project-management/backlog-workflow.md)
+- Repo mirror: [Parallel Session Implementation Plan](../project-management/parallel-session-implementation-plan.md)
 - Repo mirror: [Backlog Initial Ticket Map](../project-management/backlog-initial-ticket-map.md)
 
 ## 原本とrepo

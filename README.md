@@ -296,6 +296,11 @@ For Backlog ticket creation, updates, reviews, or repo synchronization, load the
 project-local child skill before writing ticket text:
 `skills/ai-architecture-learning/child-skills/backlog-ticketing/SKILL.md`.
 
+Before splitting implementation across parallel Codex sessions, use
+`docs/project-management/parallel-session-implementation-plan.md`. Parallel
+work should start from design-fixed Backlog lanes with explicit acceptance
+criteria, allowed files, blocked shared files, and verification commands.
+
 For diagram checks, if Playwright is provided by the Codex runtime instead of
 repo-local dependencies, run:
 
