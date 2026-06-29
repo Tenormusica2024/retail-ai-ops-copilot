@@ -822,6 +822,22 @@ HTML, and Obsidian mirror unless the main session explicitly grants a narrow
 edit scope. A parallel session's output should include proposed shared-file
 updates instead of silently editing shared state.
 
+### dbt Test Readiness Gate
+
+For RAIOPS-4 and dbt quality work, load the dbt readiness gates child skill:
+
+- `skills/ai-architecture-learning/child-skills/dbt-readiness-gates/SKILL.md`
+
+Keep parse/compile evidence separate from live `dbt build/test` proof. Defined
+dbt tests and credentials-free compile can show static project health, but they
+do not unlock live Semantic/Eval/UI/Cortex readiness. Downstream readiness may
+increase only after the relevant dbt gate is proven and the remaining
+answer-quality checks are explicit.
+
+If dbt tests fail or live test evidence is unavailable, do not raise diagram
+percentages or Backlog completion as if the dbt quality gate passed. Record the
+failure or missing evidence and keep the next action visible.
+
 ### No Silent Runtime Fallback Gate
 
 For Snowflake/Cortex implementation work, do not silently switch from a live

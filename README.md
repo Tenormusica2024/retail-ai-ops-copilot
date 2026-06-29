@@ -213,6 +213,7 @@ dbt build --project-dir dbt --profiles-dir dbt --select tag:llm_contract+
 - Learning stage strategy: `docs/architecture/learning-stage-strategy.md`
 - Snowpark integration design: `docs/architecture/snowpark-integration-design.md`
 - dbt / Snowpark design: `docs/architecture/dbt-snowpark-design.md`
+- RAIOPS-4 dbt test readiness gate: `docs/architecture/raiops-4-dbt-test-readiness-gate.md`
 - Progress readiness rubric: `docs/architecture/progress-readiness-rubric.md`
 - Sample data coverage matrix: `docs/architecture/sample-data-coverage-matrix.md`
 - Repo responsibility boundary: `docs/architecture/repo-responsibility-boundary.md`

@@ -212,6 +212,11 @@ separate in the learning diagram.
   - Japanese-first issue summaries and acceptance criteria
   - evidence template and repo-doc synchronization for tickets
   - public-safe learning-realistic ticket language
+- `child-skills/dbt-readiness-gates/SKILL.md`
+  - RAIOPS-4 dbt test/readiness gate design
+  - parse/compile versus live `dbt build/test` proof separation
+  - Semantic/Eval/Streamlit/Cortex readiness gating from dbt evidence
+  - dbt test failure policy and parallel session brief boundaries
 - `child-skills/role-responsibility-tooltips/SKILL.md`
   - role responsibility wording in hover cards
   - PM/DE/DS/AI engineer/PG boundary clarity
@@ -227,6 +232,11 @@ reviews, ticket synchronization, ticket templates, ticket wording, evidence
 comments, or Japanese/English balance in project-management artifacts, route to
 the Backlog ticketing child skill before creating, updating, reviewing, or
 synchronizing ticket text.
+
+When work concerns RAIOPS-4, dbt tests, dbt build/test evidence, parse/compile
+versus live proof, or readiness gating for Semantic/Eval/UI/Cortex from dbt
+quality evidence, route to the dbt readiness gates child skill before editing
+design docs, Backlog text, readiness rubrics, or final reports.
 
 When feedback concerns who owns a concept, KPI, data definition, AI grounding,
 tool routing, eval, trace, or implementation feasibility, route to the role

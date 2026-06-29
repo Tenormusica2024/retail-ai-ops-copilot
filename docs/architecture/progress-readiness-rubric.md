@@ -65,6 +65,26 @@ tests, answer-quality checks, integration proof, and operational confidence.
 - The current golden eval checks route and metric classification only; it does
   not yet prove answer quality, SQL result correctness, grounding, UI E2E, or
   role-specific behavior.
+- `dbt parse` and credentials-free `dbt compile --no-populate-cache --no-introspect --empty`
+  pass for the dbt scaffold. This proves static dbt project validity only.
+  It does not prove live Snowflake `dbt build/test` success.
+
+## dbt Test Readiness Gate
+
+Use `docs/architecture/raiops-4-dbt-test-readiness-gate.md` for dbt readiness.
+
+- Defined dbt tests without live execution may raise documentation confidence,
+  but must not be reported as live dbt quality proof.
+- A successful credentials-free parse/compile can support scaffold readiness,
+  but does not unlock Semantic Model, Golden Eval, Cortex Analyst, or Streamlit
+  answer-path readiness.
+- A successful live `dbt build/test` can unlock dbt staging/mart/test readiness
+  and allow Semantic/Eval work to proceed against the dbt mart contract.
+- Answer-quality readiness still requires Semantic/Eval checks after dbt tests
+  pass. dbt tests alone do not prove LLM answer quality.
+- If dbt tests fail, downstream readiness for Semantic/Eval/UI must not be
+  raised until the failing source/staging/intermediate/mart/seed contract is
+  fixed or explicitly scoped out.
 
 ## Repo Boundary
 

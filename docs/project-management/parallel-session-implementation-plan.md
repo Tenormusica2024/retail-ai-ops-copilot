@@ -132,3 +132,19 @@ agentのどこが原因か切り分けにくくなる。
 
 その設計ができたら、`dbt品質gate`、`Semantic契約`、`Golden Eval拡張`を
 最初の並列候補として具体化する。
+
+## RAIOPS-4 dbt品質gate brief
+
+`RAIOPS-4` の設計正本は
+`docs/architecture/raiops-4-dbt-test-readiness-gate.md`。
+
+このlaneを並列sessionへ渡す場合、まず次を守る。
+
+- 編集してよい: `dbt/models/**/schema.yml`, `dbt/tests/**`, `dbt/seeds/**`,
+  `docs/architecture/raiops-4-dbt-test-readiness-gate.md`
+- 触らない: feedback ledger、project skill、Backlog台帳、構成図HTML、
+  Obsidian mirror
+- live `dbt build/test` を実行できない場合、localやcompile結果で代替成功に
+  しない
+- 変更後は `dbt parse`, `dbt compile`, 実行可能なら `dbt build/test` を報告する
+- Semantic/Eval/readinessを上げる提案はmain sessionへ返す

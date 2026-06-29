@@ -24,6 +24,10 @@ Snowparkはdbtの代替ではなく、Pythonが必要なeval/trace enrichment、
 
 次は `RAIOPS-4` として、dbt testsをSemantic Model、Golden Eval、diagram readinessの前提ゲートにする。
 
+RAIOPS-4の設計正本は [RAIOPS-4 dbt Test Readiness Gate](../architecture/raiops-4-dbt-test-readiness-gate.md)。
+
+現在のparse/compile通過はLevel 0の静的検証であり、live `dbt build/test` 成功とは分けて扱う。
+
 ## 実装前ゲート
 
 dbt scaffoldへ進む前に、`mart_retail_monthly_kpi` の再集計契約を固定する。
