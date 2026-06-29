@@ -129,9 +129,31 @@ Current verification before this gate:
 - `.venv/bin/python -m pytest -q`: 8 passed
 - `python3 -m retail_ai_ops.eval_runner`: 10/10 passed
 
+## RAIOPS-3 Verification Update
+
+`RAIOPS-3` scaffold has now been created under `dbt/`.
+
+Credentials-free validation was run on 2026-06-29 with a temporary profiles
+directory and dummy Snowflake environment variables. This is parse/compile
+evidence only, not live Snowflake proof.
+
+Verified:
+
+- `dbt/` contains `dbt_project.yml` and `profiles.example.yml`.
+- TPCH source, staging, intermediate, mart, seed, docs, and data tests are
+  represented in the scaffold.
+- `dbt parse --project-dir dbt --profiles-dir /tmp/retail-ai-ops-dbt-profiles`
+  passed with `dbt=1.11.11` and `dbt-snowflake=1.11.6`.
+- `dbt compile --project-dir dbt --profiles-dir /tmp/retail-ai-ops-dbt-profiles --no-populate-cache --no-introspect --empty`
+  passed with 9 models, 1 seed, 97 data tests, 7 sources, and 542 macros.
+
+This verification is enough to treat the scaffold as syntactically ready for
+the next `RAIOPS-4` test/readiness gate, but it must not be reported as a
+successful `dbt build`.
+
 ## Remaining Open Items
 
 - Actual Backlog description/comment synchronization has not been verified.
-- `dbt/` has not been created yet.
-- `dbt parse`, `dbt compile`, and live `dbt build` have not been run.
+- live `dbt build` has not been run.
+- Snowflake live data tests have not been run.
 - Snowflake/Cortex live trace evidence has not been collected in this gate.
