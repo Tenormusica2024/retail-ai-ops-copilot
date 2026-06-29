@@ -84,6 +84,32 @@ dbtの目的は、ただmartを作ることではない。Cortex AnalystやStrea
 
 Snowflake、dbt、Snowparkが動かない場合、ローカルPythonや固定データへ黙って切り替えない。`local_explicit_test` は明示的なテストモードに限る。
 
+## 実装前ゲート: mart再集計契約
+
+dbt scaffoldへ進む前に、`mart_retail_monthly_kpi` の集計契約を明示する。
+
+初期方針は、`mart_retail_monthly_kpi` を次の固定粒度で読むLLM契約martとする。
+
+- `month_start`
+- `region_name`
+- `nation_name`
+- `category_name`
+
+この粒度のまま回答する場合は、`order_count`、`net_sales`、`gross_margin_rate`、`avg_discount` を表示してよい。
+
+ただし、利用者がカテゴリを外した上位粒度で質問する場合、カテゴリ別の `order_count` を単純に合算してはいけない。同じ注文が複数カテゴリにまたがる可能性があるため、distinct order countが二重計上される。
+
+率系KPIも、保存済みの `gross_margin_rate` や `avg_discount` を単純平均してはいけない。上位粒度では、martまたは中間modelが持つ加算可能な分子・分母から再計算する。
+
+実装時は次を契約に含める。
+
+- 加算可能な値: `item_quantity`, `net_sales`, `gross_margin`, `supply_cost_amount`, `discount_amount`, `gross_sales`
+- 固定粒度限定の値: `order_count`
+- 再計算ルール: `gross_margin_rate = gross_margin / net_sales`, `avg_discount = discount_amount / gross_sales`
+- 上位粒度の注文数: `int_order_line_enriched` から要求粒度で `count(distinct order_key)` するか、将来 `mart_retail_monthly_order_kpi` を追加する
+
+Semantic KPI Modelは、このmartを自由再集計可能な万能テーブルとして扱わない。Golden Evalには、カテゴリを外した質問で `order_count` を合算しないこと、率を平均しないことを検出するケースを入れる。
+
 ## dbt Project構成案
 
 ```text
@@ -327,10 +353,11 @@ Golden Evalは次を必ず検証する。
 
 ## 実装順序
 
+0. mart再集計契約を固定する
 1. dbt scaffoldを作る
 2. sourceとstagingを作る
 3. `int_order_line_enriched` を作る
-4. `mart_retail_monthly_kpi` を既存SQLと同じ契約で作る
+4. `mart_retail_monthly_kpi` を再集計契約込みで作る
 5. `kpi_definitions.csv` seedを作る
 6. tests/docsを入れる
 7. 既存Streamlit/Plannerの参照先をdbt mart契約に合わせる
@@ -343,6 +370,7 @@ Golden Evalは次を必ず検証する。
 設計段階:
 
 - TPCH_SF1前提が明示されている
+- martの固定粒度、上位集計時の注文数、率系KPI再計算ルールが明示されている
 - source/staging/intermediate/mart/seed/testの責務が分かれている
 - Snowparkを使う場所と使わない場所が説明されている
 - Semantic/Eval/Traceとの接続契約がある
@@ -352,6 +380,7 @@ Golden Evalは次を必ず検証する。
 
 - `dbt build` がSnowflake live modeで通る
 - `mart_retail_monthly_kpi` が既存SQL版と同等の主要KPIを返す
+- 上位粒度の質問でカテゴリ別 `order_count` を合算せず、率系KPIを分子・分母から再計算する
 - `dim_kpi_definition` とGolden EvalのKPI名が一致する
 - unsupported KPIを無理に回答しない
 - Snowpark実装はlocal fallbackせず、失敗時は明示エラーになる

@@ -3,9 +3,10 @@
 -- First implementation target:
 --   SNOWFLAKE_SAMPLE_DATA.TPCH_SF1 -> RETAIL_AI_OPS.MART.MART_RETAIL_MONTHLY_KPI
 --
--- Tasty Bytes is preferred when the account has the quickstart data loaded.
--- TPCH_SF1 is the secondary dataset because it is bundled as Snowflake sample data and
--- keeps the first LLMOps slice cheap and reproducible.
+-- TPCH_SF1 is the current fixed learning dataset because it is bundled as
+-- Snowflake sample data and keeps the first LLMOps slice cheap and reproducible.
+-- Tasty Bytes or richer retail samples are later expansion candidates, not a
+-- silent fallback for this setup script.
 
 use role accountadmin;
 
@@ -67,7 +68,7 @@ select
   column4::varchar as owner
 from values
   ('net_sales', 'Discount-adjusted sales amount from line items.', true, 'AI architecture MVP'),
-  ('gross_margin_rate', 'Gross margin divided by net sales. In TPCH secondary dataset this is a proxy using supply cost.', true, 'AI architecture MVP'),
+  ('gross_margin_rate', 'Gross margin divided by net sales. In the current TPCH sample this is a proxy using supply cost.', true, 'AI architecture MVP'),
   ('order_count', 'Distinct order count at the mart grain.', true, 'AI architecture MVP'),
   ('avg_discount', 'Average line-item discount rate.', true, 'AI architecture MVP');
 

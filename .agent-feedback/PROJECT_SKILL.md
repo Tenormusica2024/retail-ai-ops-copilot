@@ -22,6 +22,31 @@ appear during project work:
 
 ## Project-Specific Durable Rules
 
+### Feedback Trigger Decision Gate
+<!-- feedback-gate:trigger-decision -->
+
+For every project task, make a quick trigger decision before assuming feedback
+reflection is irrelevant.
+
+The feedback-ledger flow must fire when the user or a reviewer mentions
+feedback, review findings, missed reflection, skill/rule updates, root-cause
+analysis, reusable fixes, workflow changes, or Japanese cues such as `指摘`,
+`改善`, `反映`, `発火`, `スキル`, `ルール`, `漏れ`, or `なぜ`.
+
+If this decision was not made, treat that as a trigger-condition defect. Do not
+only repair the downstream routing or skill text. Record the missed trigger
+decision in the ledger and strengthen the relevant trigger rule.
+
+For any task with feedback/reflection cues, report one visible status:
+
+- `trigger_decision=fired`
+- `trigger_decision=not-triggered`
+- `trigger_decision=missed`
+
+Do not rely on an internal-only trigger check when the user is asking whether
+feedback reflection fired, why it did not fire, or whether the workflow is
+working.
+
 ### Feedback Reflection Migration
 
 The main agent runs the global `agent-feedback-ledger` flow as the single
@@ -272,7 +297,7 @@ child nodes, and any nested mini-frames, subcategory boxes, inner stack frames,
 or grouped frames inside a parent category.
 
 Project-launch intent is part of the review lens. This repo's architecture
-diagram is a target-company realistic technology-selection learning surface,
+diagram is a delivery-realistic technology-selection learning surface,
 not only a current MVP implementation snapshot. When a current shortcut, proxy
 dataset, or sample path conflicts with the intended learning architecture,
 preserve the intended architecture in the primary node/frame identity and put
@@ -515,6 +540,7 @@ can safely continue, record `pending with handoff` instead of stopping the main
 task.
 
 ### Feedback Routing Child Pack Gate
+<!-- feedback-gate:missing-child-skill-creation -->
 
 The installed diagram feedback skill may use child routing packs to improve
 classification accuracy, but the global feedback-ledger lane remains the single
@@ -549,6 +575,19 @@ can route to `assets-text` for typography, `layout-visual` for overflow, and
 update the parent or project-wide rule. Do not treat adding a bullet to this
 file as sufficient when the child-pack structure is relevant.
 
+When the correct durable target is a task-specific child skill under a project
+parent skill, but that child skill does not exist yet, create it under the
+parent skill when edits are allowed. Do not treat the parent skill or this
+project-wide rule file as sufficient just because they can hold a generic
+bullet. Record the created child skill path and the parent routing entry before
+reporting reflection complete.
+
+Every new reflected ledger row must include a concrete `target_scope=...`
+decision. If the target is `child-specific` or `multi-child`, the row must also
+include a child-skill path, `created_child_skill=...`,
+`proposed_child_skill=...`, `loaded_child_packs=[...]`, or
+`child_pack_not_loaded=...`.
+
 Installed child pack paths:
 
 - `/Users/urayahadays/.codex/skills/imagegen-diagram-feedback-skill-ledger/child-skills/routing-process/SKILL.md`
@@ -563,6 +602,28 @@ status or in `.agent-feedback/SUBAGENT_INVOCATIONS.md`, together with
 was loaded for a trigger that spans process, layout, arrow, asset/text, or
 ledger hygiene, record the reason instead of silently relying on memory. Missing
 child-pack or parent-scope evidence is itself a feedback reflection defect.
+
+### Feedback Reflection Audit Gate
+<!-- feedback-gate:reflection-audit -->
+
+After editing feedback ledgers, project rules, repo-local skills, or feedback
+workflow docs, run:
+
+```bash
+node tools/check_feedback_reflection.mjs
+```
+
+This rule-based lint does not replace the natural-language trigger decision.
+It catches structural defects that should be mechanically visible after the
+decision: duplicate ledger ids, missing referenced child-skill files, child
+skills not listed by their parent skill, new reflected ledger rows without
+`target_scope`, child-specific ledger rows without child routing evidence, and
+project rules that no longer contain the trigger decision or missing-child-skill
+gates.
+
+If the lint passes but a feedback turn still did not fire, treat the remaining
+problem as a trigger-condition weakness and update the global/project trigger
+rules, not only the lint.
 
 ### Diagram Progress Overlay Gate
 
@@ -705,6 +766,24 @@ implementation repo. Do not raise this repo's node percentages based on planned
 implementation work; raise them only after implementation-repo evidence exists
 or after a deliberately scoped reference/smoke proof in this repo.
 
+### Backlog Ticket Japanese-First Gate
+<!-- feedback-gate:backlog-ticket-japanese -->
+
+When creating, updating, or reviewing Backlog tickets for this project, load the
+Backlog ticketing child skill:
+
+- `skills/ai-architecture-learning/child-skills/backlog-ticketing/SKILL.md`
+
+Backlog ticket titles, summaries, acceptance criteria, and comments should be
+Japanese-first. Preserve English for exact product names, issue prefixes, repo
+paths, commands, filenames, and stable architecture terms, but do not leave the
+main task meaning in English only.
+
+This rule is separate from diagram-label Japanese rules. Backlog tickets are
+project-management artifacts, so they need Japanese-readable intent, background,
+acceptance criteria, and evidence links rather than only source-faithful node
+labels.
+
 ### No Silent Runtime Fallback Gate
 
 For Snowflake/Cortex implementation work, do not silently switch from a live
@@ -723,6 +802,27 @@ not describe it as equivalent validation of Snowflake/Cortex behavior. If a
 Snowflake live run fails, report the failure and next action rather than
 returning `local_explicit_test` results. Avoid naming local test data as a
 runtime fallback or treating it as a transparent substitute.
+
+### Feedback Reflection Status Semantics
+
+`Feedback reflection` status is about whether a user/reviewer/improvement
+signal was reflected into the project feedback ledger, project rules, or
+repo-local/global skills. It is not the same as whether the main artifact,
+diagram, Backlog ticket, or design document was edited.
+
+When reporting a task that has both artifact work and feedback reflection,
+separate the two statuses:
+
+- `Artifact/docs status`: whether the primary requested output was edited,
+  reviewed, or left as a proposal
+- `Feedback reflection status`: whether ledger/rule/skill reflection is
+  `complete`, `proposed-only`, `pending with handoff`, `non-reusable`, or
+  `main-context substituted`
+
+Use `proposed-only` only when the reflection update itself is only proposed,
+for example read-only review, artifact-only mode, no edit authorization, or a
+global-skill change that requires later approval. Do not use `proposed-only`
+merely because the main document edits have not yet been applied.
 
 ## Do Not Use This File As A Raw Dump
 

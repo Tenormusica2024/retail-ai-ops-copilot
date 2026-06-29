@@ -6,7 +6,7 @@ This repository is primarily the architecture-diagram reproduction and public
 learning surface for `retail-ai-ops-copilot`, a Snowflake-native retail KPI
 copilot.
 
-The project premise is target-company realistic architecture learning. Preserve
+The project premise is delivery-realistic architecture learning. Preserve
 the intended architecture and technology-selection surface even when the
 reference MVP uses a narrower shortcut. For example, do not replace a planned
 dbt transformation flow with direct SQL labels just because the current sample
@@ -118,6 +118,37 @@ node tools/check_diagram_text_layout.mjs
 If using the bundled Codex Node/Playwright runtime, set `NODE_PATH` to the
 runtime `node_modules` path as documented in `README.md`.
 
+## Feedback Reflection Gates
+
+Before reporting feedback-ledger, project-rule, or repo-local skill work as
+complete, run:
+
+```bash
+node tools/check_feedback_reflection.mjs
+```
+
+This is the repo-local and CI-safe check. To verify installed global feedback
+skills on this machine, run the local-only variant:
+
+```bash
+node tools/check_feedback_reflection.mjs \
+  --global-ledger-skill "$HOME/.codex/skills/agent-feedback-ledger/SKILL.md" \
+  --global-review-skill "$HOME/.codex/skills/agent-feedback-ledger-review/SKILL.md"
+```
+
+This lint is a structural backstop. It does not replace the natural-language
+trigger decision, but it catches rule-based misses: duplicate ledger ids,
+malformed ledger rows, new reflected rows without `target_scope` or
+`trigger_decision`, missing child-skill files, child skills not listed by their
+parent, reflected child-specific improvements without routing evidence, and
+missing project gates for trigger decisions or child-skill creation.
+
+If the lint passes but a feedback turn still did not fire, treat that as a
+trigger-condition weakness and strengthen the feedback-ledger trigger rules.
+
+Before creating, updating, reviewing, or synchronizing Backlog tickets, load
+`skills/ai-architecture-learning/child-skills/backlog-ticketing/SKILL.md`.
+
 ## Scope Boundaries
 
 Must include in this repo as diagram, docs, rubric, or evidence references:
@@ -167,6 +198,14 @@ This project uses trigger-first feedback reflection. For details, read
 During project work, user/HITL feedback, reviewer findings, and validated
 improvement methods are mandatory triggers. Capture first, then classify as
 `要望`, `指摘`, and/or `改善`.
+
+Make the trigger decision visibly when the task mentions feedback, review
+findings, missed reflection, skill/rule updates, root-cause analysis, reusable
+fixes, workflow changes, or cues such as `指摘`, `改善`, `反映`, `発火`,
+`スキル`, `ルール`, `漏れ`, or `なぜ`. Use
+`trigger_decision=fired`, `trigger_decision=not-triggered`, or
+`trigger_decision=missed` in the final reflection block, ledger row, or handoff.
+If the decision itself was skipped, record that as a trigger-condition defect.
 
 Run one feedback reflection lane per trigger batch. If a domain-specific
 feedback skill also applies, use it as context or as the update target for the

@@ -25,7 +25,7 @@ feedback routing, evidence requirements, CI/lint gates, and reviewer-agent
 contracts. When a pattern proves useful here, shape it so it can later become a
 generic skill without private, employer-specific, or one-off project wording.
 
-The project premise is target-company realistic architecture learning: use this
+The project premise is delivery-realistic architecture learning: use this
 repo to study and validate practical AI/LLMOps technology choices under
 conditions close to real delivery before moving implementation work forward.
 Reference MVP shortcuts must not erase intended architecture identities such as
@@ -59,7 +59,7 @@ scope decisions.
 
 - Domain: retail and distribution operations
 - Core flow: natural-language KPI question -> semantic KPI layer -> Cortex Analyst -> validated answer -> trace/eval log
-- Data source: Snowflake sample/Tasty Bytes first; TPCH_SF1 is the low-cost secondary dataset when Tasty Bytes is not loaded
+- Current implementation source: `SNOWFLAKE_SAMPLE_DATA.TPCH_SF1`; Tasty Bytes, Kaggle, or richer retail samples are later expansion candidates when inventory, promotion, store-level, or memo/search coverage becomes the active learning target
 - Optional slice: Cortex Search for KPI definitions and weekly-report notes
 - UI: Streamlit work surface with chat, context, route/tool trace, SQL/result preview, citations, and approval queue
 - Learning focus: LLMOps, agent state, tool routing, regression evaluation, observability, and human-reviewable improvement loops
@@ -221,8 +221,44 @@ other. It writes:
 - `outputs/diagram-text-layout-report.json`
 - `outputs/diagram-text-layout-check.png`
 
-If Playwright is provided by the Codex runtime instead of repo-local
-dependencies, run:
+## Feedback Reflection Checks
+
+Run the feedback reflection lint after editing `.agent-feedback/`, project
+rules, or repo-local skills:
+
+```bash
+node tools/check_feedback_reflection.mjs
+```
+
+This is the repo-local CI-safe check. It verifies the project ledger, local
+rules, and repo-local skills. GitHub Actions cannot inspect installed user
+skills under `/Users/.../.codex`, so installed global skill checks are a local
+verification step:
+
+```bash
+node tools/check_feedback_reflection.mjs \
+  --global-ledger-skill "$HOME/.codex/skills/agent-feedback-ledger/SKILL.md" \
+  --global-review-skill "$HOME/.codex/skills/agent-feedback-ledger-review/SKILL.md"
+```
+
+The lint cannot decide the semantic question of whether a user sentence is
+reusable feedback. That trigger decision is still owned by the feedback-ledger
+workflow. The lint does catch structural defects after the decision: duplicate
+ledger ids, malformed ledger rows, new reflected rows without `target_scope` or
+`trigger_decision`, missing referenced skill files, child skills not listed by
+their parent, child-specific improvements without routing evidence, and missing
+project gates for trigger decisions or child-skill creation.
+
+If this command passes but a feedback item still did not trigger reflection,
+the remaining issue is a weak trigger condition. Strengthen the global/project
+feedback-ledger trigger rules instead of only adding more routing checks.
+
+For Backlog ticket creation, updates, reviews, or repo synchronization, load the
+project-local child skill before writing ticket text:
+`skills/ai-architecture-learning/child-skills/backlog-ticketing/SKILL.md`.
+
+For diagram checks, if Playwright is provided by the Codex runtime instead of
+repo-local dependencies, run:
 
 ```bash
 NODE_PATH=/Users/urayahadays/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules \

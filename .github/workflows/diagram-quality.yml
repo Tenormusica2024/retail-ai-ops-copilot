@@ -1,27 +1,46 @@
-name: Diagram Quality
+name: Quality Gates
 
 on:
   pull_request:
     paths:
       - "docs/architecture/**"
       - "tools/check_diagram_*.mjs"
+      - "tools/check_feedback_reflection.mjs"
       - ".github/workflows/diagram-quality.yml"
       - "README.md"
       - "AGENTS.md"
       - ".agent-feedback/**"
+      - "skills/**"
   push:
     branches:
       - main
     paths:
       - "docs/architecture/**"
       - "tools/check_diagram_*.mjs"
+      - "tools/check_feedback_reflection.mjs"
       - ".github/workflows/diagram-quality.yml"
       - "README.md"
       - "AGENTS.md"
       - ".agent-feedback/**"
+      - "skills/**"
   workflow_dispatch:
 
 jobs:
+  feedback-reflection:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+
+      - name: Run feedback reflection lint
+        run: node tools/check_feedback_reflection.mjs
+
   diagram-quality:
     runs-on: ubuntu-latest
 
