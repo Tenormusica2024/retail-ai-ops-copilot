@@ -39,6 +39,29 @@ Keep English only when it is one of these:
 Do not leave the main meaning of a ticket in English only. If a title prefix is
 English, the title body should still explain the work in Japanese.
 
+## Japanese-First Report Rule
+
+Remote task reports, GitHub Issue replies, Backlog comments, and completion
+summaries are also project-management artifacts. Write them Japanese-first so
+English-heavy report habits do not leak into ticket bodies later.
+
+Prefer Japanese headings such as:
+
+- `作業報告`
+- `次タスク`
+- `判断`
+- `検証`
+- `未実施`
+- `フィードバック反映`
+
+Avoid routine English-only headings such as `Next steps`, `Artifact/docs
+status`, or `Feedback reflection` in user-facing reports. If an exact
+machine-readable status or skill contract must be shown, pair it with Japanese:
+for example, `フィードバック反映: 完了（Feedback reflection: complete）`.
+
+Keep exact product names, issue ids, repo paths, commands, branch names, and
+required status tokens unchanged when changing them would reduce traceability.
+
 ## Ticket Body Shape
 
 Prefer this structure for new or materially updated tickets:

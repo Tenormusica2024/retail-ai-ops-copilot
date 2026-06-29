@@ -801,6 +801,23 @@ project-management artifacts, so they need Japanese-readable intent, background,
 acceptance criteria, and evidence links rather than only source-faithful node
 labels.
 
+### Issue and Task Report Japanese-First Gate
+
+When reporting work through GitHub Issue, Backlog comments, task completion
+summaries, or next-task recommendations, write the user-facing report
+Japanese-first. These reports often become the raw material for Backlog tickets,
+so English-heavy headings or status labels can become ticket wording drift.
+
+Prefer headings such as `作業報告`, `次タスク`, `判断`, `検証`, `未実施`, and
+`フィードバック反映`. Avoid routine English-only headings such as `Next steps`,
+`Artifact/docs status`, or `Feedback reflection` unless they are required by a
+machine-readable contract. When an exact token must appear, pair it with
+Japanese wording, for example `フィードバック反映: 完了（Feedback reflection:
+complete）`.
+
+Preserve exact product names, issue ids, repo paths, commands, branch names,
+and required status tokens when translation would reduce traceability.
+
 ### Parallel Session Implementation Gate
 
 Before splitting implementation across parallel Codex sessions, first create or

@@ -210,6 +210,7 @@ separate in the learning diagram.
 - `child-skills/backlog-ticketing/SKILL.md`
   - Backlog ticket title/body/comment wording
   - Japanese-first issue summaries and acceptance criteria
+  - Japanese-first remote Issue reports, task reports, and Backlog comments
   - evidence template and repo-doc synchronization for tickets
   - public-safe learning-realistic ticket language
 - `child-skills/dbt-readiness-gates/SKILL.md`
@@ -229,9 +230,10 @@ separate in the learning diagram.
 
 When work concerns Backlog tickets, issue creation, issue updates, issue
 reviews, ticket synchronization, ticket templates, ticket wording, evidence
-comments, or Japanese/English balance in project-management artifacts, route to
-the Backlog ticketing child skill before creating, updating, reviewing, or
-synchronizing ticket text.
+comments, remote GitHub Issue reports, task completion reports, next-task
+recommendations, or Japanese/English balance in project-management artifacts,
+route to the Backlog ticketing child skill before creating, updating,
+reviewing, synchronizing, or reporting ticket text.
 
 When work concerns RAIOPS-4, dbt tests, dbt build/test evidence, parse/compile
 versus live proof, or readiness gating for Semantic/Eval/UI/Cortex from dbt
