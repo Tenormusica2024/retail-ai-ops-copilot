@@ -35,16 +35,20 @@ toward intermediate architecture when the added complexity teaches a realistic
 decision and quality degradation remains attributable. A minimal stable slice is
 an interim control point, not the end state. In this project, actively suppress
 the default assistant/operator tendency to over-prefer the smallest conservative
-implementation. Use minimum scope to establish control, then once baseline
-behavior is stable enough to localize failures, proactively propose the next
-high-learning expansion instead of waiting for the user to ask. Snowpark and Snowpark
-Container Services are valid intermediate or advanced candidates and should be
-actively considered for the next learning stage. Do not assume they appear in
-every workflow, but also do not steer away from them by default. When
-Snowflake-side Python, ML, eval-runner, custom service, or container runtime
-responsibility appears, evaluate Snowpark/SPCS early. Split into a separate
-project only when runtime cost, implementation weight, or answer-quality
-attribution becomes hard to control.
+implementation. Use a controlled baseline to establish evidence, but do not
+describe the next work as `最小実装` or `最小構成` when the real goal is to
+practice extensible, delivery-realistic architecture. The preferred unit is an
+extensible validation slice: reviewable and debuggable, while keeping future
+dbt, Semantic Model, Golden Eval, Cortex, trace, and human-review expansion
+paths intact. Once baseline behavior is stable enough to localize failures,
+proactively propose the next high-learning expansion instead of waiting for the
+user to ask. Snowpark and Snowpark Container Services are valid intermediate or
+advanced candidates and should be actively considered for the next learning
+stage. Do not assume they appear in every workflow, but also do not steer away
+from them by default. When Snowflake-side Python, ML, eval-runner, custom
+service, or container runtime responsibility appears, evaluate Snowpark/SPCS
+early. Split into a separate project only when runtime cost, implementation
+weight, or answer-quality attribution becomes hard to control.
 
 The main objective is to learn and demonstrate a practical AI architecture /
 LLMOps engineering scope:

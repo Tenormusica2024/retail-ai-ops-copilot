@@ -33,6 +33,35 @@ Semantic/Eval/readinessを上げると、回答品質が崩れた原因を後段
 したがって、現在の証跡は「testが定義され、parse/compileできる」までであり、
 「testがSnowflake上で通った」証跡ではない。
 
+## 実装方針
+
+RAIOPS-4の次作業は「最小実装」ではなく、拡張可能なdbt品質ゲートの
+検証スライスとして扱う。
+
+ここでいう検証スライスは、単にseed testを1つ足して終わるものではない。
+source、staging、intermediate、mart、KPI seed、Semantic/Eval連携、
+reaggregation guard、live実行証跡の境界を保ったまま、まずレビュー可能な
+単位で実装・検証するという意味である。
+
+DATUM STUDIOの公開事例や求人情報で示されているSnowflake/dbt、CI/CD、
+DevOps、設計から構築・運用・継続改善までの文脈を踏まえると、この学習
+プロジェクトでも「小さく閉じる」より、後からCortex、Golden Eval、
+Trace Store、Snowparkへ広げられる構造を先に残す方が学習価値が高い。
+
+追加の複雑性によって設計ミスや実装ミスが出ることは、このプロジェクトでは
+必ずしも避けるべき失敗ではない。原因がdbt、semantic、eval、runtime、
+trace、UI、governanceのどこにあるか追える限り、HITLレビューとレビュー
+エージェントを鍛える材料として扱う。
+
+参考公開情報:
+
+- DATUM STUDIO ヤオコー事例:
+  https://datumstudio.jp/casestudy/snowflake-yaoko01/
+- Snowflake ヤオコー事例:
+  https://www.snowflake.com/ja/customers/all-customers/case-study/yaoko/
+- DATUM STUDIO プロジェクトマネージャ（データ基盤構築）求人:
+  https://hrmos.co/pages/datumstudio/jobs/2138921283063963675
+
 ## Test Category
 
 | Category | 対象 | 目的 | 後段への意味 |
@@ -167,7 +196,8 @@ warehouse, database, and schema without exposing secrets.
 
 ## RAIOPS-4 Implementation Tasks
 
-1. Add or confirm seed-level tests for `kpi_definitions.csv`.
+1. Add seed-level tests for `kpi_definitions.csv` as part of the Semantic/Eval
+   contract, not as an isolated tiny test.
 2. Confirm that every model participating in Semantic/Eval has the right
    `llm_contract`, `semantic_input`, or `eval_input` tags.
 3. Add singular tests or eval-side checks for reaggregation hazards that generic

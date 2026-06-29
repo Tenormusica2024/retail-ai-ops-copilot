@@ -64,10 +64,23 @@ Actively counter the default assistant tendency to choose the smallest
 conservative implementation. In this project, minimum scope is a control tactic,
 not the preferred long-term architecture direction.
 
-A minimal stable slice is an interim control point, not a default finish line.
-When baseline behavior is stable enough to localize failures, proactively
-propose the next high-learning expansion instead of only recommending that the
-project stay small. Name the expected learning value and the attribution risk.
+Do not frame the next task as `最小実装` or `最小構成` when the user's goal is
+to learn delivery-realistic architecture and review complex AI-assisted work.
+Use a controlled baseline only as an evidence and attribution tactic. The
+preferred implementation unit is an extensible validation slice: reviewable,
+testable, and debuggable, while preserving future paths into dbt, Semantic
+Model, Golden Eval, Cortex, trace, human review, and Snowpark.
+
+An extensible stable slice is an interim control point, not a default finish
+line. When baseline behavior is stable enough to localize failures,
+proactively propose the next high-learning expansion instead of only
+recommending that the project stay small. Name the expected learning value and
+the attribution risk.
+
+Mistakes introduced by useful complexity are acceptable review material in this
+project when the control surface can still explain which layer failed. Do not
+avoid all complexity merely because it might create later corrections; those
+corrections are part of the user's and reviewer agents' learning loop.
 
 Quality attribution means the project can still explain whether an answer or
 workflow degraded because of source data, dbt/modeling, semantic contract,

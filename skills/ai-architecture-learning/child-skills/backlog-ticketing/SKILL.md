@@ -96,6 +96,10 @@ AI/LLMOps architecture learning with evidence, not a tiny demo checklist.
 
 - State why the task matters for architecture learning, quality attribution,
   or implementation readiness.
+- Do not call the next work `最小実装` merely because it should be reviewable.
+  Prefer `拡張可能な検証スライス` or similar wording when the task should leave
+  room for dbt, Semantic Model, Golden Eval, Cortex, trace, human review, or
+  Snowpark expansion.
 - Avoid wording that implies a company-internal mandate, official staffing
   model, or private onboarding purpose in public-facing ticket text.
 - If a shortcut is used, name it as current evidence or a reference path, and

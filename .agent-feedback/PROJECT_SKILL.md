@@ -839,6 +839,23 @@ HTML, and Obsidian mirror unless the main session explicitly grants a narrow
 edit scope. A parallel session's output should include proposed shared-file
 updates instead of silently editing shared state.
 
+### Extensible Validation Slice Gate
+
+Do not default to `最小実装`, `最小構成`, or "smallest working scope" when
+recommending the next task for this project. This project is meant to practice
+delivery-realistic AI architecture and review, not to finish as a tiny demo.
+
+Use a controlled baseline only to keep evidence and failure attribution clear.
+The preferred unit is an extensible validation slice: small enough to review and
+debug, but shaped so dbt, Semantic Model, Golden Eval, Cortex, trace, human
+review, and Snowpark responsibilities can expand without replacing the design.
+
+When public delivery-realistic evidence points toward Snowflake/dbt, CI/CD,
+DevOps, operation, and continuous improvement, treat excessive minimalism as a
+quality risk. Complexity that creates reviewable design or implementation
+mistakes is acceptable learning material as long as tests, traces, docs,
+readiness gates, and feedback reflection can localize the failure.
+
 ### dbt Test Readiness Gate
 
 For RAIOPS-4 and dbt quality work, load the dbt readiness gates child skill:

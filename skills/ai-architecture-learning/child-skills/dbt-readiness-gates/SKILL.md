@@ -25,6 +25,24 @@ Use these evidence levels:
 - Level 2: Semantic/Eval contract linked to the dbt mart and KPI seed
 - Level 3: answer-quality/regression checks after dbt quality is proven
 
+## Implementation Slice Rule
+
+Do not describe RAIOPS-4 as `最小実装` when recommending or executing the next
+work. The dbt step should be an extensible validation slice, not a closed tiny
+patch.
+
+The first implementation may stay reviewable, but it should preserve the
+production-realistic path:
+
+- source, staging, intermediate, mart, and seed test categories remain visible
+- Semantic/Eval model tags and KPI seed alignment are part of the contract
+- reaggregation hazards are assigned to dbt singular tests or Golden Eval
+- live `dbt build/test` evidence is separated from parse/compile
+- later Cortex, Streamlit, trace, and Snowpark work can reuse the same contract
+
+This better matches a delivery-realistic Snowflake/dbt/AI architecture learning
+goal than a smallest-possible dbt demo.
+
 ## Readiness Routing
 
 When dbt test evidence is weak or missing:

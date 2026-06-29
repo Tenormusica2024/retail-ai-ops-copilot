@@ -51,11 +51,22 @@ this project to become more complex than a normal beginner demo when the added
 component teaches a realistic architecture decision.
 
 This project intentionally counterbalances the assistant's usual conservative
-engineering bias toward the smallest stable implementation. The conservative
-slice is valuable for control, but it should not silently become the long-term
-plan when the user's goal is dense architecture learning.
+engineering bias toward the smallest stable implementation. A controlled slice
+is valuable for control, but it should not silently become the long-term plan
+when the user's goal is dense architecture learning.
 
-A minimal slice is useful as a control point, not as a default resting place.
+Do not frame the next task as `最小実装` or `最小構成` when the real goal is to
+practice delivery-realistic design and review. The preferred unit is an
+extensible validation slice: narrow enough to review, test, and localize
+failures, but intentionally shaped so dbt, Semantic Model, Golden Eval, Cortex,
+trace, human review, and Snowpark responsibilities can expand without replacing
+the architecture.
+
+In this project, design and implementation mistakes caused by useful
+complexity are not pure waste. They are review material for the user and
+reviewer agents, as long as the failure remains attributable to a layer and the
+control surface captures the lesson.
+
 After the baseline can run repeatably and failures can be localized to a layer,
 the assistant should proactively propose the next expansion candidate instead
 of only preserving the smallest stable scope.

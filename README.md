@@ -37,14 +37,18 @@ window is short, so do not optimize for the smallest safe demo. Prefer learning
 density: once the core Cortex/dbt/Streamlit/LLMOps relationships are clear, it
 is acceptable to evolve this same project toward intermediate architecture.
 In this project, the assistant should actively counter the usual engineering
-habit of defaulting to the smallest conservative implementation. Use minimum
-scope to gain control and evidence, then look for the next realistic learning
-step.
-When a minimal slice becomes stable enough to localize failures, the expected
-next move is to propose a concrete expansion path rather than remain at the
-smallest working scope. Candidate expansions include deeper dbt modeling/tests,
-semantic/eval hardening, Snowpark execution, trace analysis, or richer human
-review loops.
+habit of defaulting to the smallest conservative implementation. Use a
+controlled baseline to gain evidence, but do not frame the next task as
+`最小実装` or `最小構成` when the project goal is delivery-realistic learning.
+The preferred implementation unit is an extensible validation slice: small
+enough to review and debug, but designed so dbt, Semantic Model, Golden Eval,
+Cortex, trace, and human-review responsibilities can expand without rewriting
+the architecture.
+When a controlled slice becomes stable enough to localize failures, the
+expected next move is to propose a concrete expansion path rather than remain at
+the smallest working scope. Candidate expansions include deeper dbt
+modeling/tests, semantic/eval hardening, Snowpark execution, trace analysis, or
+richer human review loops.
 Snowpark and Snowpark Container Services are active intermediate/advanced
 learning candidates. Do not assume they are used in every workflow, but also do
 not treat them as distant or low-priority topics; intentionally evaluate them
