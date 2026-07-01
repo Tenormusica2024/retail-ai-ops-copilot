@@ -8,7 +8,7 @@ const docsRoot = path.join(repoRoot, "docs");
 const publicPages = [
   {
     file: "docs/index.html",
-    tokens: ["ソースコード改修実例", "テストパターン一覧"],
+    tokens: ["ソースコード改修実例", "ソースコード改修実例を開く", "テストパターン一覧"],
   },
   {
     file: "docs/architecture/retail-ai-ops-copilot-architecture.html",
