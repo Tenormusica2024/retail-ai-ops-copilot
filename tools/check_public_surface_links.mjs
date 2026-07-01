@@ -4,6 +4,22 @@ import path from "node:path";
 
 const repoRoot = process.cwd();
 const docsRoot = path.join(repoRoot, "docs");
+const textScanRoots = ["docs", "tools"];
+const wordCodeReview = "\u30b3\u30fc\u30c9\u30ec\u30d3\u30e5\u30fc";
+const wordReview = "\u30ec\u30d3\u30e5\u30fc";
+const wordProblem = "\u554f\u984c";
+const wordDetected = "\u767a\u899a";
+const blockedPublicSurfaceFraming = [
+  `${wordCodeReview}${wordProblem}${wordDetected}`,
+  `${wordCodeReview}${wordDetected}${wordProblem}`,
+  `${wordProblem}${wordDetected}`,
+  `${wordDetected}${wordProblem}`,
+  `${wordDetected}\u5185\u5bb9`,
+  `${wordReview}\u3067${wordDetected}`,
+  `\u5b9f${wordReview}\u3067${wordDetected}`,
+  `${wordReview}\u3067\u5b9f\u969b\u306b${wordDetected}`,
+  "\u6539\u4fee\u4f8b",
+];
 
 const publicPages = [
   {
@@ -46,6 +62,24 @@ function stripQueryAndHash(rawTarget) {
   return rawTarget.split("#", 1)[0].split("?", 1)[0];
 }
 
+function collectTextFiles(root) {
+  const files = [];
+  const entries = fs.readdirSync(root, { withFileTypes: true });
+  for (const entry of entries) {
+    const absoluteEntry = path.join(root, entry.name);
+    if (entry.isDirectory()) {
+      files.push(...collectTextFiles(absoluteEntry));
+    } else if (entry.isFile()) {
+      files.push(absoluteEntry);
+    }
+  }
+  return files;
+}
+
+function lineNumberFor(content, index) {
+  return content.slice(0, index).split("\n").length;
+}
+
 for (const page of publicPages) {
   const absoluteFile = path.join(repoRoot, page.file);
   if (!fs.existsSync(absoluteFile)) {
@@ -84,6 +118,27 @@ for (const page of publicPages) {
     }
     if (!fs.existsSync(resolved)) {
       addFinding(page.file, `${rawTarget} target is missing`);
+    }
+  }
+}
+
+for (const relativeRoot of textScanRoots) {
+  const absoluteRoot = path.join(repoRoot, relativeRoot);
+  if (!fs.existsSync(absoluteRoot)) {
+    continue;
+  }
+
+  for (const absoluteFile of collectTextFiles(absoluteRoot)) {
+    const relativeFile = path.relative(repoRoot, absoluteFile);
+    const content = fs.readFileSync(absoluteFile, "utf8");
+    for (const phrase of blockedPublicSurfaceFraming) {
+      const index = content.indexOf(phrase);
+      if (index !== -1) {
+        addFinding(
+          relativeFile,
+          `blocked public wording remains at line ${lineNumberFor(content, index)}: ${phrase}`,
+        );
+      }
     }
   }
 }
