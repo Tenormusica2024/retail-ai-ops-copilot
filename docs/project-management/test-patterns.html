@@ -539,6 +539,27 @@
         <article class="pattern">
           <div class="pattern-head">
             <div class="badge-row">
+              <span class="badge category">カテゴリ: Semantic contract</span>
+              <span class="badge level-contract">証跡: contract-test</span>
+              <span class="badge level-static">証跡: local-static validator</span>
+            </div>
+            <h3>率KPI mutation / 分母ゼロguard</h3>
+          </div>
+          <div class="pattern-body">
+            <div class="cell"><b>現在のプロジェクト状況</b><p>L5 commit <code>ef6a825</code> を <code>reviewed-candidate_local-static</code> として反映。<code>tests/test_semantic_contract.py</code> は <code>19 passed</code>、<code>tools/validate_semantic_contract.py --json</code> は <code>ok=true</code>、<code>live_external_execution=false</code>、全体pytestは <code>27 passed</code>。</p></div>
+            <div class="cell"><b>使うべきか</b><p>使う。率KPIを保存済み率のまま <code>SUM</code> / <code>AVG</code> する誤用と、分母ゼロguardの欠落をSemantic契約変更時に早く検知する。</p></div>
+            <div class="cell"><b>コマンドまたは証跡artifact</b><p><code>PYTHONDONTWRITEBYTECODE=1 pytest -q tests/test_semantic_contract.py</code><br><code>PYTHONDONTWRITEBYTECODE=1 python3 tools/validate_semantic_contract.py --json</code><br><code>PYTHONDONTWRITEBYTECODE=1 pytest -q</code></p></div>
+            <div class="cell"><b>何を証明するか</b><p>Semantic validatorがstored-rate <code>SUM</code> / <code>AVG</code> の負例と、denominator zero guardの契約違反をlocal/staticに検出できること。</p></div>
+            <div class="cell"><b>何を証明しないか</b><p>Snowflake実行、Cortex Analyst登録または実応答、SQL result correctness、answer quality、live external execution、L4 browser E2Eのreviewed/published状態は証明しない。</p></div>
+            <div class="cell"><b>再利用先</b><p>Semantic KPI Model、verified query、Golden Evalのrate KPIケース、CIの契約validator、Backlog受入基準。</p></div>
+            <div class="cell"><b>関連ノードまたはレーン</b><p>Semantic KPI Model、dbt tests、Golden Eval、L5 Semantic validator lane。</p></div>
+            <div class="cell"><b>次アクションまたはブロッカー</b><p>live Snowflake/Cortex、SQL結果正当性、回答品質は別証跡で追加する。L4 browser E2Eは今回のSemantic公開面には反映しない。</p></div>
+          </div>
+        </article>
+
+        <article class="pattern">
+          <div class="pattern-head">
+            <div class="badge-row">
               <span class="badge category">カテゴリ: notification workflow</span>
               <span class="badge level-fixture">証跡: fixture-unit / 単体・ユニット</span>
             </div>

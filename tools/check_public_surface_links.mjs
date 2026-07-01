@@ -28,7 +28,7 @@ const publicPages = [
   },
   {
     file: "docs/architecture/retail-ai-ops-copilot-architecture.html",
-    tokens: ["dbt seed", "ソースコード改修実例", "テストパターン一覧", "quality_passed=16", "reviewed-candidate_local-component-smoke"],
+    tokens: ["dbt seed", "ソースコード改修実例", "テストパターン一覧", "quality_passed=16", "reviewed-candidate_local-component-smoke", "ef6a825", "reviewed-candidate_local-static"],
   },
   {
     file: "docs/project-management/code-review-findings.html",
@@ -40,7 +40,7 @@ const publicPages = [
   },
   {
     file: "docs/project-management/test-patterns.html",
-    tokens: ["テストパターン一覧", "code-review-findings.html", "evaluation_mode=local_static_fixture", "Streamlit component smoke", "live_external_executed=false"],
+    tokens: ["テストパターン一覧", "code-review-findings.html", "evaluation_mode=local_static_fixture", "Streamlit component smoke", "live_external_executed=false", "ef6a825", "率KPI mutation", "live_external_execution=false"],
   },
 ];
 
