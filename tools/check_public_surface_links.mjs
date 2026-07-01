@@ -8,15 +8,15 @@ const docsRoot = path.join(repoRoot, "docs");
 const publicPages = [
   {
     file: "docs/index.html",
-    tokens: ["コードレビュー発覚問題", "テストパターン一覧"],
+    tokens: ["ソースコード改修実例", "テストパターン一覧"],
   },
   {
     file: "docs/architecture/retail-ai-ops-copilot-architecture.html",
-    tokens: ["dbt seed", "コードレビュー発覚問題", "テストパターン一覧"],
+    tokens: ["dbt seed", "ソースコード改修実例", "テストパターン一覧"],
   },
   {
     file: "docs/project-management/code-review-findings.html",
-    tokens: ["コードレビュー発覚問題一覧", "dbt seed"],
+    tokens: ["ソースコード改修実例", "dbt seed"],
   },
   {
     file: "docs/project-management/code-review-ai-mistake-patterns.html",
