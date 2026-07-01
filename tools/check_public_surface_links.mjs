@@ -24,15 +24,15 @@ const blockedPublicSurfaceFraming = [
 const publicPages = [
   {
     file: "docs/index.html",
-    tokens: ["ソースコード改修実例", "ソースコード改修実例を開く", "テストパターン一覧"],
+    tokens: ["ソースコード改修実例", "ソースコード改修実例を開く", "テストパターン一覧", "b8321eb"],
   },
   {
     file: "docs/architecture/retail-ai-ops-copilot-architecture.html",
-    tokens: ["dbt seed", "ソースコード改修実例", "テストパターン一覧"],
+    tokens: ["dbt seed", "ソースコード改修実例", "テストパターン一覧", "quality_passed=16"],
   },
   {
     file: "docs/project-management/code-review-findings.html",
-    tokens: ["ソースコード改修実例", "dbt seed"],
+    tokens: ["ソースコード改修実例", "dbt seed", "b8321eb", "known_gaps_observed=10"],
   },
   {
     file: "docs/project-management/code-review-ai-mistake-patterns.html",
@@ -40,7 +40,7 @@ const publicPages = [
   },
   {
     file: "docs/project-management/test-patterns.html",
-    tokens: ["テストパターン一覧", "code-review-findings.html"],
+    tokens: ["テストパターン一覧", "code-review-findings.html", "evaluation_mode=local_static_fixture"],
   },
 ];
 

@@ -501,10 +501,10 @@
           </div>
           <div class="pattern-body">
             <div class="cell"><b>現在のプロジェクト状況</b><p>credentials-freeのdummy envでdbt projectを構文解析、空compileする入口がある。RAIOPS-4系の前段品質gateとして使う。</p></div>
-            <div class="cell"><b>使うべきか</b><p>使う。dbt編集の最初の安全確認。ただしlive Snowflake proofの代替にしない。</p></div>
+            <div class="cell"><b>使うべきか</b><p>使う。dbt編集の最初の安全確認。ただしSnowflake live proofの代替にしない。</p></div>
             <div class="cell"><b>コマンドまたは証跡artifact</b><p><code>dbt parse --project-dir dbt --profiles-dir /tmp/retail-ai-ops-dbt-profiles</code><br><code>dbt compile --no-populate-cache --no-introspect --empty</code></p></div>
             <div class="cell"><b>何を証明するか</b><p>YAML、Jinja、macro、selector、test定義がparse/compile可能で、reviewableなdbt artifactへ進めること。</p></div>
-            <div class="cell"><b>何を証明しないか</b><p>live Snowflake接続、warehouse上の行数、role権限、dbt test成功、Cortex/Semanticの回答品質。</p></div>
+            <div class="cell"><b>何を証明しないか</b><p>Snowflake live接続、warehouse上の行数、role権限、dbt test成功、Cortex/Semanticの回答品質。</p></div>
             <div class="cell"><b>再利用先</b><p>project-family、generic client-delivery skill、Backlog受入基準、docs template。</p></div>
             <div class="cell"><b>関連ノードまたはレーン</b><p>dbt staging/intermediate/marts、RAIOPS-4 dbt品質gate、Semantic Model readiness。</p></div>
             <div class="cell"><b>次アクションまたはブロッカー</b><p>live資格情報を使う別laneで<code>dbt seed/build/test</code>を実行し、target、role、schema、失敗test名を残す。</p></div>
@@ -628,7 +628,7 @@
             <div class="cell"><b>使うべきか</b><p>使う。LLM routing、safe stop、trace、Golden Eval fixture、docs syncの局所回帰を安く検知できる。</p></div>
             <div class="cell"><b>コマンドまたは証跡artifact</b><p><code>python3 -m pytest -q</code><br><code>python3 tools/sync_obsidian_docs.py --direction check</code></p></div>
             <div class="cell"><b>何を証明するか</b><p>local Python環境でplanner/traceやdocs syncのfixtureが期待通り動くこと。</p></div>
-            <div class="cell"><b>何を証明しないか</b><p>Cortex、Snowflake、Streamlitのlive動作、公開Pages成功、LLM回答品質の網羅性。</p></div>
+            <div class="cell"><b>何を証明しないか</b><p>Cortex、Snowflake、Streamlitのlive動作、公開Pages到達、LLM回答品質の網羅性。</p></div>
             <div class="cell"><b>再利用先</b><p>project-local、project-family、lint・CI、Backlog受入基準。</p></div>
             <div class="cell"><b>関連ノードまたはレーン</b><p>agent planner、trace logging、Obsidian docs mirror、Golden Eval seed。</p></div>
             <div class="cell"><b>次アクションまたはブロッカー</b><p>pytest未導入なら実施済みにしない。Python env固定後にcommand、runtime、skip理由を報告形式へ入れる。</p></div>
@@ -639,20 +639,20 @@
           <div class="pattern-head">
             <div class="badge-row">
               <span class="badge category">カテゴリ: answer quality</span>
-              <span class="badge level-e2e">証跡: user-facing-e2e / E2E</span>
+              <span class="badge level-data">証跡: local-static-fixture</span>
               <span class="badge level-contract">証跡: eval pattern</span>
             </div>
             <h3>Golden Eval / user-facing answer quality</h3>
           </div>
           <div class="pattern-body">
-            <div class="cell"><b>現在のプロジェクト状況</b><p><code>data/golden_eval.json</code>とeval runnerの足場がある。回答品質の本格証跡はSemantic ModelとUI経路へ接続してから扱う。</p></div>
+            <div class="cell"><b>現在のプロジェクト状況</b><p><code>b8321eb</code> の統合候補でlocal/static fixture evalを確認。<code>quality_passed=16</code>、<code>known_gaps_observed=10</code>、<code>unexpected_failures=0</code>、allow-known-gapsでは <code>failed=0</code>、<code>total=26</code>。</p></div>
             <div class="cell"><b>使うべきか</b><p>使う。dbt契約だけでは防げない、質問意図、KPI粒度、unsupported回答、率系再集計の品質劣化を検知する。</p></div>
-            <div class="cell"><b>コマンドまたは証跡artifact</b><p><code>python3 -m retail_ai_ops.eval_runner</code><br><code>data/golden_eval.json</code><br>将来のStreamlit/Cortex E2E artifact。</p></div>
-            <div class="cell"><b>何を証明するか</b><p>定義済み質問に対する期待回答、拒否、根拠、trace、semantic contractの回帰が許容範囲にあること。</p></div>
-            <div class="cell"><b>何を証明しないか</b><p>live dbt test成功、全質問の正しさ、UI操作性、未定義KPIに対する安全な一般化。</p></div>
+            <div class="cell"><b>コマンドまたは証跡artifact</b><p><code>python -m retail_ai_ops.eval_runner</code><br><code>python -m retail_ai_ops.eval_runner --strict-known-gaps</code><br><code>python tools/validate_semantic_contract.py semantic/retail_kpi_semantic_model.yaml</code></p></div>
+            <div class="cell"><b>何を証明するか</b><p><code>evaluation_mode=local_static_fixture</code> で、16件の品質期待が通り、10件のknown gapが想定通り観測され、unexpected failureがないこと。</p></div>
+            <div class="cell"><b>何を証明しないか</b><p><code>live_external_executed=false</code>。Snowflake実行、Cortex実呼び出し、UI操作性、全質問の正しさ、Semantic契約とplannerの完全整合は証明しない。</p></div>
             <div class="cell"><b>再利用先</b><p>project-family、generic client-delivery skill、Backlog受入基準、docs template。</p></div>
             <div class="cell"><b>関連ノードまたはレーン</b><p>Semantic Model、Golden Eval、Streamlit UI、Cortex Analyst/Search/Agents readiness。</p></div>
-            <div class="cell"><b>次アクションまたはブロッカー</b><p>semantic YAML、query result fixture、UI path、unsupported/gap casesをそろえ、live proofとは別にuser-facing E2Eとして記録する。</p></div>
+            <div class="cell"><b>次アクションまたはブロッカー</b><p>strict-known-gapsでは <code>failed=10</code> が期待結果。次はlive外部経路、UI path、Pages反映後HTTP 200を別証跡として積む。</p></div>
           </div>
         </article>
 
