@@ -1,0 +1,719 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AIミスパターンレビュー可視化</title>
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <style>
+    :root {
+      --bg: #f5f7f9;
+      --panel: #ffffff;
+      --soft: #f9fbfd;
+      --ink: #1f2933;
+      --muted: #607080;
+      --line: #d8e0e8;
+      --blue: #245f9e;
+      --teal: #087f7a;
+      --amber: #a86010;
+      --red: #b23b33;
+      --violet: #6750a4;
+      --green: #276749;
+      --shadow: 0 14px 34px rgba(31, 41, 51, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.65;
+      letter-spacing: 0;
+    }
+
+    a {
+      color: var(--blue);
+      font-weight: 700;
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 30px 0 56px;
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+      gap: 24px;
+      align-items: stretch;
+      margin-bottom: 22px;
+    }
+
+    .intro,
+    .panel,
+    .pattern,
+    .rail-item,
+    .proof-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .intro { padding: 26px; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 2px 10px;
+      border-radius: 999px;
+      background: #e9f2fc;
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      line-height: 1.32;
+    }
+
+    h1 {
+      margin-top: 14px;
+      max-width: 760px;
+      font-size: 34px;
+    }
+
+    h2 { font-size: 24px; }
+
+    h3 { font-size: 18px; }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .lead {
+      margin-top: 14px;
+      max-width: 780px;
+      color: #415062;
+      font-size: 16px;
+    }
+
+    .source-box {
+      padding: 20px;
+      background: #102033;
+      color: #e8eef5;
+    }
+
+    .source-box p { color: #c5d2df; }
+
+    .source-box code {
+      display: block;
+      margin-top: 14px;
+      padding: 12px;
+      border: 1px solid rgba(232, 238, 245, 0.18);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      font-size: 13px;
+      overflow-wrap: anywhere;
+    }
+
+    nav.panel {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 22px;
+      padding: 12px;
+    }
+
+    nav a,
+    .source-link {
+      min-height: 36px;
+      padding: 6px 10px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--soft);
+      color: #334155;
+      text-decoration: none;
+    }
+
+    .source-link {
+      display: inline-flex;
+      align-items: center;
+      margin-top: 14px;
+      background: #fff;
+    }
+
+    section { margin-top: 22px; }
+
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .section-head p { max-width: 720px; }
+
+    .state-rail {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .rail-item {
+      min-height: 150px;
+      padding: 14px;
+      box-shadow: none;
+    }
+
+    .rail-item::before {
+      content: "";
+      display: block;
+      width: 38px;
+      height: 4px;
+      margin-bottom: 12px;
+      border-radius: 999px;
+      background: var(--blue);
+    }
+
+    .rail-item:nth-child(2)::before { background: var(--teal); }
+    .rail-item:nth-child(3)::before { background: var(--green); }
+    .rail-item:nth-child(4)::before { background: var(--amber); }
+    .rail-item:nth-child(5)::before { background: var(--violet); }
+    .rail-item:nth-child(6)::before { background: var(--red); }
+
+    .rail-item strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 16px;
+    }
+
+    .rail-item span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .proof-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .proof-card {
+      min-height: 176px;
+      padding: 16px;
+      box-shadow: none;
+    }
+
+    .level {
+      display: inline-flex;
+      min-height: 26px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .level-static { background: var(--blue); }
+    .level-local { background: var(--amber); }
+    .level-review { background: var(--violet); }
+    .level-live { background: var(--green); }
+
+    .proof-card h3 { margin-top: 10px; }
+
+    .proof-card p {
+      margin-top: 6px;
+      font-size: 14px;
+    }
+
+    .patterns {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .pattern {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      overflow: visible;
+    }
+
+    .pattern-head {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+      background: var(--soft);
+    }
+
+    .category {
+      display: inline-flex;
+      min-height: 26px;
+      padding: 2px 9px;
+      border-radius: 999px;
+      background: #edf2f7;
+      color: #334155;
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .category-help {
+      position: relative;
+      cursor: help;
+      outline: none;
+    }
+
+    .category-help[data-category="evidence-overclaim"] {
+      --category-definition: "証跡の過大主張: static、compile、mock、local成功を、liveやdata-bearing成功のように報告してしまう状態。";
+    }
+
+    .category-help[data-category="contract"] {
+      --category-definition: "契約不一致: seed、fixture、semantic/eval、APIなどの期待契約と、実装・テスト・文書の現物が食い違っている状態。";
+    }
+
+    .category-help[data-category="artifact"] {
+      --category-definition: "成果物不具合: HTML、リンク、test、schema、selector、生成物など、提出された成果物そのものが壊れている状態。";
+    }
+
+    .category-help[data-category="stale-docs"] {
+      --category-definition: "文書陳腐化: 実装や検証結果が変わった後も、設計書・チケット・READMEの数字、未決事項、説明が古いまま残る状態。";
+    }
+
+    .category-help[data-category="branch-integration"] {
+      --category-definition: "ブランチ・統合リスク: branch/worktreeの鮮度、未commit、許可外ファイル変更、共有ファイル編集により統合判断が危うくなる状態。";
+    }
+
+    .category-help[data-category="reviewer-process"] {
+      --category-definition: "レビュー工程の穴: 今回見つけた欠陥を、次回のレビュースキル、lint、チケット条件、CIで止める仕組みに反映できていない状態。";
+    }
+
+    .category-help::after {
+      content: var(--category-definition);
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      z-index: 30;
+      width: max-content;
+      max-width: min(360px, calc(100vw - 48px));
+      padding: 10px 12px;
+      border: 1px solid #b9c7d8;
+      border-radius: 7px;
+      background: #fff;
+      box-shadow: 0 14px 30px rgba(31, 41, 51, 0.16);
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 650;
+      line-height: 1.55;
+      opacity: 0;
+      overflow-wrap: anywhere;
+      pointer-events: none;
+      transform: translateY(-4px);
+      transition: opacity 0.12s ease, transform 0.12s ease, visibility 0.12s ease;
+      visibility: hidden;
+      white-space: normal;
+    }
+
+    .category-help::before {
+      content: "";
+      position: absolute;
+      top: calc(100% + 3px);
+      left: 16px;
+      z-index: 31;
+      width: 10px;
+      height: 10px;
+      border-left: 1px solid #b9c7d8;
+      border-top: 1px solid #b9c7d8;
+      background: #fff;
+      opacity: 0;
+      pointer-events: none;
+      transform: rotate(45deg);
+      transition: opacity 0.12s ease, visibility 0.12s ease;
+      visibility: hidden;
+    }
+
+    .category-help:hover::after,
+    .category-help:hover::before,
+    .category-help:focus-visible::after,
+    .category-help:focus-visible::before {
+      opacity: 1;
+      transform: translateY(0);
+      visibility: visible;
+    }
+
+    .category-help:hover::before,
+    .category-help:focus-visible::before {
+      transform: rotate(45deg);
+    }
+
+    .category-help:focus-visible {
+      box-shadow: 0 0 0 3px rgba(36, 95, 158, 0.22);
+    }
+
+    .pattern-head h3 { margin-top: 8px; }
+
+    .pattern-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .cell {
+      min-height: 118px;
+      padding: 14px 16px;
+      border-top: 1px solid var(--line);
+    }
+
+    .cell:nth-child(1),
+    .cell:nth-child(2) { border-top: 0; }
+
+    .cell:nth-child(odd) { border-right: 1px solid var(--line); }
+
+    .cell b {
+      display: block;
+      margin-bottom: 6px;
+      color: #2b3a49;
+      font-size: 13px;
+    }
+
+    .cell p {
+      color: #526172;
+      font-size: 14px;
+    }
+
+    .question-panel { padding: 20px; }
+
+    .question-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .question {
+      min-height: 124px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--soft);
+    }
+
+    .question strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .question p { font-size: 14px; }
+
+    .target-table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .target-table th,
+    .target-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+      font-size: 14px;
+    }
+
+    .target-table th {
+      background: #eaf0f6;
+      color: #263747;
+      font-size: 13px;
+    }
+
+    .target-table tr:last-child td { border-bottom: 0; }
+
+    footer {
+      margin-top: 28px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 980px) {
+      header,
+      .patterns { grid-template-columns: 1fr; }
+
+      .state-rail,
+      .proof-grid,
+      .question-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(100% - 24px, 1180px);
+        padding-top: 20px;
+      }
+
+      h1 { font-size: 27px; }
+      h2 { font-size: 21px; }
+
+      .intro,
+      .source-box,
+      .question-panel { padding: 18px; }
+
+      .state-rail,
+      .proof-grid,
+      .question-grid,
+      .pattern-body { grid-template-columns: 1fr; }
+
+      .cell,
+      .cell:nth-child(odd) { border-right: 0; }
+
+      .cell:nth-child(2) { border-top: 1px solid var(--line); }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <section class="intro" aria-labelledby="page-title">
+        <span class="eyebrow">AI Architecture Review Aid</span>
+        <h1 id="page-title">AIミスパターンレビュー可視化</h1>
+        <p class="lead">
+          AI実装や並列セッションの成果物を受託品質で見るための確認面。
+          ミスの症状、必要な証跡、レビュー質問、反映先を同じ画面で比較する。
+        </p>
+        <a class="source-link" href="https://github.com/Tenormusica2024/retail-ai-ops-copilot/blob/main/skills/ai-architecture-learning/child-skills/code-review-ai-mistake-patterns/SKILL.md">
+          source skillを開く
+        </a>
+        <a class="source-link" href="../architecture/retail-ai-ops-copilot-architecture.html">
+          構成図を見る
+        </a>
+        <a class="source-link" href="code-review-findings.html">
+          発覚問題だけを見る
+        </a>
+      </section>
+
+      <aside class="source-box" aria-label="このHTMLの位置づけ">
+        <h2>位置づけ</h2>
+        <p>
+          このHTMLはレビュー補助面であり、source of truthではない。
+          レビュー行動の正本は `code-review-ai-mistake-patterns` skillに残す。
+        </p>
+        <code>HTML = human audit surface<br>SKILL.md = reviewer prompt source</code>
+      </aside>
+    </header>
+
+    <nav class="panel" aria-label="ページ内ナビゲーション">
+      <a href="#states">状態語</a>
+      <a href="#proof">証跡レベル</a>
+      <a href="#patterns">ミスカテゴリ</a>
+      <a href="#questions">レビュー質問</a>
+      <a href="#targets">反映先</a>
+    </nav>
+
+    <section id="states" aria-labelledby="states-title">
+      <div class="section-head">
+        <h2 id="states-title">状態語は段階ごとに止める</h2>
+        <p>pane配送、受理、報告、レビュー、統合判断は別の証跡を必要とする。</p>
+      </div>
+      <div class="state-rail">
+        <article class="rail-item">
+          <strong>posted</strong>
+          <span>タスク文がIssueやdispatch surfaceに存在する。相手が読んだ証拠ではない。</span>
+        </article>
+        <article class="rail-item">
+          <strong>delivered</strong>
+          <span>bridgeやpane送信が完了した。Codexが受け入れた証拠ではない。</span>
+        </article>
+        <article class="rail-item">
+          <strong>accepted</strong>
+          <span>受信transcript、worktree、明示返信などで作業受理が確認できる。</span>
+        </article>
+        <article class="rail-item">
+          <strong>reported</strong>
+          <span>担当sessionが完了または状況を返した。内容の正しさは未レビュー。</span>
+        </article>
+        <article class="rail-item">
+          <strong>reviewed</strong>
+          <span>監督側がファイル、diff、出力、検証ログを独立に見た状態。</span>
+        </article>
+        <article class="rail-item">
+          <strong>integration_ready</strong>
+          <span>blocking findingがなく、branch鮮度とchecksを確認した後にmain sessionだけが判断する。</span>
+        </article>
+      </div>
+    </section>
+
+    <section id="proof" aria-labelledby="proof-title">
+      <div class="section-head">
+        <h2 id="proof-title">証跡レベルを混ぜない</h2>
+        <p>static/mock/dummy/localは有用な証跡だが、live data-bearing proofとは扱いを分ける。</p>
+      </div>
+      <div class="proof-grid">
+        <article class="proof-card">
+          <span class="level level-static">static</span>
+          <h3>構文と生成物</h3>
+          <p>`dbt parse`、compiled SQL、manifest、DOM textなど。構造が読める証跡。</p>
+        </article>
+        <article class="proof-card">
+          <span class="level level-local">mock / dummy</span>
+          <h3>代替入力</h3>
+          <p>dummy credentials、fixture、`--empty`、モック。live経路の代替成功にはしない。</p>
+        </article>
+        <article class="proof-card">
+          <span class="level level-review">local review</span>
+          <h3>人間の突き合わせ</h3>
+          <p>CSV行、生成SQL、画面文言、diffを読む。過大主張と契約ズレを止める。</p>
+        </article>
+        <article class="proof-card">
+          <span class="level level-live">live data-bearing</span>
+          <h3>実データ実行</h3>
+          <p>target、role、warehouse、database、schema、成功/失敗test名を残す。</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="patterns" aria-labelledby="patterns-title">
+      <div class="section-head">
+        <h2 id="patterns-title">AIミスカテゴリ別の見方</h2>
+        <p>findingはカテゴリ、症状、証跡、質問、反映先まで一緒に返す。</p>
+      </div>
+      <div class="patterns">
+        <article class="pattern">
+          <div class="pattern-head">
+            <span class="category category-help" data-category="evidence-overclaim" tabindex="0" aria-label="証跡の過大主張: static、compile、mock、local成功を、liveやdata-bearing成功のように報告してしまう状態">証跡の過大主張</span>
+            <h3>静的成功をlive成功に見せる</h3>
+          </div>
+          <div class="pattern-body">
+            <div class="cell"><b>典型症状</b><p>`parse`、`compile --empty`、mockの成功を、実データやwarehouse品質の成功として報告する。</p></div>
+            <div class="cell"><b>検知証跡</b><p>コマンド、env、target、compiled SQL、実行ログ、live target情報の有無。</p></div>
+            <div class="cell"><b>レビュー質問</b><p>これはstatic、dummy、local、liveのどれか。liveならrole/schema/test名は残っているか。</p></div>
+            <div class="cell"><b>反映先</b><p>dbt-readiness-gates、Backlog ticketing、deterministic check。</p></div>
+          </div>
+        </article>
+
+        <article class="pattern">
+          <div class="pattern-head">
+            <span class="category category-help" data-category="contract" tabindex="0" aria-label="契約不一致: seed、fixture、semantic/eval、APIなどの期待契約と、実装・テスト・文書の現物が食い違っている状態">契約不一致</span>
+            <h3>テスト期待値が実データとずれる</h3>
+          </div>
+          <div class="pattern-body">
+            <div class="cell"><b>典型症状</b><p>singular testは生成できるが、seed row、fixture、mart grainの現物と一致しない。</p></div>
+            <div class="cell"><b>検知証跡</b><p>CSV行、schema.yml、compiled test SQL、manifest、Golden Eval case。</p></div>
+            <div class="cell"><b>レビュー質問</b><p>期待語彙は現在のartifactに存在するか。重要な注意書きはテストで守られているか。</p></div>
+            <div class="cell"><b>反映先</b><p>domain child skill、row-level lint、CI gate、source contract doc。</p></div>
+          </div>
+        </article>
+
+        <article class="pattern">
+          <div class="pattern-head">
+            <span class="category category-help" data-category="artifact" tabindex="0" aria-label="成果物不具合: HTML、リンク、test、schema、selector、生成物など、提出された成果物そのものが壊れている状態">成果物不具合</span>
+            <h3>成果物そのものが壊れている</h3>
+          </div>
+          <div class="pattern-body">
+            <div class="cell"><b>典型症状</b><p>リンク切れ、HTML構文崩れ、selector漏れ、意図したタグや列がmanifestに出ない。</p></div>
+            <div class="cell"><b>検知証跡</b><p>ファイル存在、リンク先、HTML parser、`dbt ls`、manifest、ブラウザ表示。</p></div>
+            <div class="cell"><b>レビュー質問</b><p>報告だけでなく、実ファイル、生成物、レンダリング結果を見たか。</p></div>
+            <div class="cell"><b>反映先</b><p>deterministic test/lint、artifact review handoff、対象domain skill。</p></div>
+          </div>
+        </article>
+
+        <article class="pattern">
+          <div class="pattern-head">
+            <span class="category category-help" data-category="stale-docs" tabindex="0" aria-label="文書陳腐化: 実装や検証結果が変わった後も、設計書・チケット・READMEの数字、未決事項、説明が古いまま残る状態">文書陳腐化</span>
+            <h3>設計書と実装状態が古いまま残る</h3>
+          </div>
+          <div class="pattern-body">
+            <div class="cell"><b>典型症状</b><p>pre-change件数とpost-change件数が混在し、どの証跡時点の数字か分からない。</p></div>
+            <div class="cell"><b>検知証跡</b><p>Backlog本文、設計doc、README、Obsidian mirror、最新コマンド結果。</p></div>
+            <div class="cell"><b>レビュー質問</b><p>baseline、実装後、未実施、次のlive証跡が明確に分かれているか。</p></div>
+            <div class="cell"><b>反映先</b><p>Backlog ticketing、doc sync gate、project rule、feedback ledger。</p></div>
+          </div>
+        </article>
+
+        <article class="pattern">
+          <div class="pattern-head">
+            <span class="category category-help" data-category="branch-integration" tabindex="0" aria-label="ブランチ・統合リスク: branch/worktreeの鮮度、未commit、許可外ファイル変更、共有ファイル編集により統合判断が危うくなる状態">ブランチ・統合リスク</span>
+            <h3>branch状態を見ずに統合できると言う</h3>
+          </div>
+          <div class="pattern-body">
+            <div class="cell"><b>典型症状</b><p>`ahead` と `behind`、shared file編集、許可外ファイル変更を見落とす。</p></div>
+            <div class="cell"><b>検知証跡</b><p>`git status --short --branch`、changed-file list、base_ref、diff scope。</p></div>
+            <div class="cell"><b>レビュー質問</b><p>このlaneは何を変更してよいか。main session専有ファイルに触れていないか。</p></div>
+            <div class="cell"><b>反映先</b><p>parallel-session review orchestration、task brief contract、worktree integration。</p></div>
+          </div>
+        </article>
+
+        <article class="pattern">
+          <div class="pattern-head">
+            <span class="category category-help" data-category="reviewer-process" tabindex="0" aria-label="レビュー工程の穴: 今回見つけた欠陥を、次回のレビュースキル、lint、チケット条件、CIで止める仕組みに反映できていない状態">レビュー工程の穴</span>
+            <h3>今回見つけた穴を次回も見逃す</h3>
+          </div>
+          <div class="pattern-body">
+            <div class="cell"><b>典型症状</b><p>findingだけ返し、どのskill、lint、Backlog ruleへ反映するか残さない。</p></div>
+            <div class="cell"><b>検知証跡</b><p>review report、feedback ledger、child skill、CI/lint、acceptance criteria。</p></div>
+            <div class="cell"><b>レビュー質問</b><p>これは一回限りか、再利用できるミスパターンか。次にどこで止めるか。</p></div>
+            <div class="cell"><b>反映先</b><p>code-review-ai-mistake-patterns、domain child skill、deterministic lint。</p></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="questions" class="panel question-panel" aria-labelledby="questions-title">
+      <div class="section-head">
+        <h2 id="questions-title">レビュー時に必ず聞く質問</h2>
+        <p>報告を読んだだけで終えず、artifact、証跡レベル、反映先を分けて確認する。</p>
+      </div>
+      <div class="question-grid">
+        <article class="question"><strong>何が変わったか</strong><p>changed files、diff、生成物、画面を見たか。報告だけを信用していないか。</p></article>
+        <article class="question"><strong>証跡はどのレベルか</strong><p>static、mock、dummy、local、live data-bearing proofを分けて書けるか。</p></article>
+        <article class="question"><strong>契約と現物は合うか</strong><p>seed row、fixture、schema、Semantic/Eval名、mart grainが一致するか。</p></article>
+        <article class="question"><strong>テストは壊れるべき時に壊れるか</strong><p>現在の正しいartifactでは通り、意図した欠陥では落ちるか。</p></article>
+        <article class="question"><strong>branchは統合可能か</strong><p>clean/current/allowed-file内か。`ahead behind` を無視していないか。</p></article>
+        <article class="question"><strong>次回どこで防ぐか</strong><p>skill、Backlog rule、lint、CI、ledgerだけ、のどれに返すか。</p></article>
+      </div>
+    </section>
+
+    <section id="targets" aria-labelledby="targets-title">
+      <div class="section-head">
+        <h2 id="targets-title">反映先を選ぶ</h2>
+        <p>findingは修正提案だけで終えず、再発防止の置き場所まで分類する。</p>
+      </div>
+      <table class="target-table">
+        <thead>
+          <tr>
+            <th>反映先</th>
+            <th>使う場面</th>
+            <th>注意点</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>code-review-ai-mistake-patterns</td><td>AI/並列agentに共通するレビュー観点を増やす。</td><td>domain固有なら子スキルへ逃がす。</td></tr>
+          <tr><td>domain child skill</td><td>dbt、Backlog、diagramなど具体領域の受入基準を強める。</td><td>親skillだけに汎用文として埋めない。</td></tr>
+          <tr><td>deterministic lint / CI</td><td>人間レビューより機械チェックに向く契約、リンク、行、manifest確認。</td><td>mock/local成功をlive成功として扱わない。</td></tr>
+          <tr><td>Backlog / ticketing rule</td><td>未実施、証跡、担当、next actionを作業面へ残す。</td><td>postedやdeliveredをacceptedやreportedにしない。</td></tr>
+          <tr><td>feedback ledger only</td><td>一回限りだが記録したい問題。</td><td>再利用できるならskill/lint候補へ上げる。</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <footer>
+      Source prompt: skills/ai-architecture-learning/child-skills/code-review-ai-mistake-patterns/SKILL.md
+      / This page is a human-readable visualization for review and onboarding.
+    </footer>
+  </main>
+</body>
+</html>

@@ -3,33 +3,156 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="refresh" content="0; url=architecture/retail-ai-ops-copilot-architecture.html">
-  <title>Retail AI Ops Copilot</title>
+  <title>Retail AI Ops Copilot | Review Surfaces</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <style>
+    :root {
+      --bg: #f4f6f8;
+      --panel: #ffffff;
+      --ink: #1f2933;
+      --muted: #5f6b7a;
+      --line: #d9e0e8;
+      --blue: #2868a8;
+    }
+
+    * { box-sizing: border-box; }
+
     body {
       margin: 0;
       min-height: 100vh;
-      display: grid;
-      place-items: center;
-      background: #eef1f5;
-      color: #1f2933;
+      background: var(--bg);
+      color: var(--ink);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+      letter-spacing: 0;
     }
 
-    a {
-      color: #2f72bc;
+    main {
+      width: min(1040px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 48px 0;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 32px;
+      line-height: 1.25;
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .surface-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    .surface {
+      min-height: 180px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: 0 10px 24px rgba(31, 41, 51, 0.08);
+    }
+
+    .surface h2 {
+      margin: 0 0 8px;
+      font-size: 20px;
+      line-height: 1.35;
+    }
+
+    .surface p { margin-bottom: 18px; }
+
+    .surface a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 40px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      background: var(--blue);
+      color: #fff;
       font-weight: 700;
+      text-decoration: none;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 3px 9px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #f8fafc;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    @media (max-width: 760px) {
+      main {
+        width: min(100% - 24px, 1040px);
+        padding: 28px 0;
+      }
+
+      h1 { font-size: 26px; }
+
+      .surface-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
   <main>
-    <p>
-      <a href="architecture/retail-ai-ops-copilot-architecture.html">
-        Retail AI Ops Copilot システム構成図
-      </a>
-    </p>
+    <header>
+      <h1>Retail AI Ops Copilot レビュー面</h1>
+      <p>構成図、品質ゲート、AIレビュー観点へ移動するための公開ドキュメント入口。</p>
+    </header>
+
+    <section class="surface-grid" aria-label="公開ドキュメントリンク">
+      <article class="surface">
+        <h2>システム構成図</h2>
+        <p>Snowflake-native retail KPI copilot の構成、readiness、責務境界を確認する。</p>
+        <a href="architecture/retail-ai-ops-copilot-architecture.html">構成図を開く</a>
+        <div class="meta" aria-label="構成図の分類">
+          <span class="tag">architecture</span>
+          <span class="tag">readiness</span>
+          <span class="tag">diagram</span>
+        </div>
+      </article>
+
+      <article class="surface">
+        <h2>AIミスパターン可視化</h2>
+        <p>AI実装・並列セッションレビューで見落としやすい症状、証跡、質問、反映先を確認する。</p>
+        <a href="project-management/code-review-ai-mistake-patterns.html">レビュー観点を開く</a>
+        <div class="meta" aria-label="レビュー可視化の分類">
+          <span class="tag">code review</span>
+          <span class="tag">evidence</span>
+          <span class="tag">feedback</span>
+        </div>
+      </article>
+
+      <article class="surface">
+        <h2>コードレビュー発覚問題</h2>
+        <p>実際のコードレビューやレーンレビューで発覚した問題だけを、混ぜずに確認する。</p>
+        <a href="project-management/code-review-findings.html">発覚問題を開く</a>
+        <div class="meta" aria-label="発覚問題ページの分類">
+          <span class="tag">findings</span>
+          <span class="tag">code review</span>
+          <span class="tag">lessons</span>
+        </div>
+      </article>
+    </section>
   </main>
 </body>
 </html>

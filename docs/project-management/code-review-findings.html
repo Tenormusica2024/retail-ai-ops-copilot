@@ -1,0 +1,1218 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>コードレビュー発覚問題一覧</title>
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <style>
+    :root {
+      --bg: #f5f7fa;
+      --panel: #ffffff;
+      --panel-soft: #f9fbfd;
+      --ink: #1d2733;
+      --muted: #5d6978;
+      --line: #d8e0ea;
+      --blue: #2567a8;
+      --blue-soft: #e8f2fb;
+      --red: #b42318;
+      --red-soft: #fff0ed;
+      --orange: #a45105;
+      --orange-soft: #fff6e8;
+      --green: #166534;
+      --green-soft: #edf8ef;
+      --violet: #5b37a8;
+      --violet-soft: #f1edff;
+      --shadow: 0 16px 34px rgba(29, 39, 51, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        linear-gradient(rgba(37, 103, 168, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(37, 103, 168, 0.035) 1px, transparent 1px),
+        var(--bg);
+      background-size: 24px 24px;
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.62;
+      letter-spacing: 0;
+    }
+
+    a { color: inherit; }
+
+    .page {
+      width: min(1220px, calc(100% - 36px));
+      margin: 0 auto;
+      padding: 42px 0 56px;
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+      gap: 18px;
+      align-items: stretch;
+      margin-bottom: 20px;
+    }
+
+    .hero,
+    .scope,
+    .finding,
+    .summary,
+    .rule {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.94);
+      box-shadow: var(--shadow);
+    }
+
+    .hero { padding: 28px; }
+    .scope { padding: 22px; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 3px 10px;
+      border: 1px solid #bcd5ee;
+      border-radius: 999px;
+      background: var(--blue-soft);
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    h1 {
+      margin: 14px 0 10px;
+      font-size: 36px;
+      line-height: 1.2;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.35;
+    }
+
+    h3 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.38;
+    }
+
+    p { margin: 0; }
+
+    .lead {
+      max-width: 740px;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      padding: 7px 12px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--blue);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .button.primary {
+      border-color: var(--blue);
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .scope h2 { margin-bottom: 12px; }
+
+    .scope-list {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .scope-list li {
+      display: grid;
+      grid-template-columns: 86px minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--panel-soft);
+    }
+
+    .scope-list strong {
+      color: var(--blue);
+      font-size: 13px;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0 0 20px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: 0 8px 22px rgba(29, 39, 51, 0.08);
+    }
+
+    .nav a {
+      min-height: 32px;
+      padding: 5px 10px;
+      border-radius: 6px;
+      background: var(--panel-soft);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .filter-panel {
+      display: grid;
+      grid-template-columns: minmax(180px, 1fr) minmax(260px, 1.25fr) auto;
+      gap: 12px;
+      align-items: end;
+      margin: 0 0 20px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: 0 10px 26px rgba(29, 39, 51, 0.08);
+    }
+
+    .filter-field {
+      display: grid;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .filter-field label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .filter-field select {
+      width: 100%;
+      min-height: 40px;
+      padding: 7px 10px;
+      border: 1px solid #b9c7d8;
+      border-radius: 6px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      font-size: 14px;
+      font-weight: 750;
+    }
+
+    .filter-reset {
+      min-height: 40px;
+      padding: 7px 12px;
+      border: 1px solid var(--blue);
+      border-radius: 6px;
+      background: var(--blue);
+      color: #fff;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 900;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .filter-status {
+      grid-column: 1 / -1;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .filter-empty {
+      display: none;
+      margin: 0 0 22px;
+      padding: 14px 16px;
+      border: 1px solid #f0c89d;
+      border-radius: 8px;
+      background: var(--orange-soft);
+      color: var(--orange);
+      font-weight: 800;
+    }
+
+    .filter-empty.is-visible { display: block; }
+
+    .is-hidden-by-filter { display: none !important; }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0;
+      overflow: hidden;
+      margin-bottom: 22px;
+    }
+
+    .summary-card {
+      padding: 18px;
+      border-right: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .summary-card:last-child { border-right: 0; }
+
+    .summary-card strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 24px;
+      line-height: 1.1;
+    }
+
+    .summary-card span {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .section-head {
+      margin: 30px 0 14px;
+    }
+
+    .section-head p {
+      margin-top: 5px;
+      color: var(--muted);
+    }
+
+    .finding-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .finding {
+      overflow: visible;
+    }
+
+    .finding-head {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+      background: var(--panel-soft);
+    }
+
+    .finding-id {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 64px;
+      min-height: 34px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: var(--blue);
+      color: #fff;
+      font-weight: 900;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .badge.red { background: var(--red-soft); color: var(--red); }
+    .badge.orange { background: var(--orange-soft); color: var(--orange); }
+    .badge.green { background: var(--green-soft); color: var(--green); }
+    .badge.violet { background: var(--violet-soft); color: var(--violet); }
+    .badge.blue { background: var(--blue-soft); color: var(--blue); }
+
+    .finding-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .tag-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 30px;
+      max-width: 100%;
+      padding: 4px 9px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--panel-soft);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .tag-chip b {
+      color: var(--ink);
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .tag-chip.node { border-color: #bcd5ee; background: var(--blue-soft); }
+    .tag-chip.file { border-color: #d7c9f5; background: var(--violet-soft); }
+    .tag-chip.kind { border-color: #f0c89d; background: var(--orange-soft); }
+    .tag-chip.comment { border-color: #b7dfc7; background: var(--green-soft); }
+
+    .category-help {
+      position: relative;
+      cursor: help;
+      outline: none;
+    }
+
+    .category-help[data-category="contract"] {
+      --category-definition: "契約不一致: seed、fixture、semantic/eval、APIなどの期待契約と、実装・テスト・文書の現物が食い違っている状態。";
+    }
+
+    .category-help[data-category="scope"] {
+      --category-definition: "スコープ境界: そのレーンやチケットで編集・判断してよい範囲を越えそうな状態。実装してよい範囲と提案だけに留める範囲を分けて見る。";
+    }
+
+    .category-help[data-category="branch"] {
+      --category-definition: "ブランチリスク: worktreeやbranchの鮮度、未commit、未追跡、共有ファイル編集により、統合判断が危うくなる状態。";
+    }
+
+    .category-help[data-category="state"] {
+      --category-definition: "状態語混同: posted、delivered、accepted、reported、reviewed、integration_readyなどの状態を混ぜ、進捗や完了を過大評価する状態。";
+    }
+
+    .category-help[data-category="stale-docs"] {
+      --category-definition: "文書陳腐化: 実装や検証結果が変わった後も、設計書・チケット・READMEの数字、未決事項、説明が古いまま残る状態。";
+    }
+
+    .category-help[data-category="evidence-boundary"] {
+      --category-definition: "証跡境界: local、mock、private_simulationなどの証跡を、実サービスやlive運用の証跡と取り違えそうな状態。";
+    }
+
+    .category-help::after {
+      content: var(--category-definition);
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      z-index: 30;
+      width: max-content;
+      max-width: min(360px, calc(100vw - 48px));
+      padding: 10px 12px;
+      border: 1px solid #b9c7d8;
+      border-radius: 7px;
+      background: #fff;
+      box-shadow: 0 14px 30px rgba(29, 39, 51, 0.16);
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 650;
+      line-height: 1.55;
+      opacity: 0;
+      overflow-wrap: anywhere;
+      pointer-events: none;
+      transform: translateY(-4px);
+      transition: opacity 0.12s ease, transform 0.12s ease, visibility 0.12s ease;
+      visibility: hidden;
+      white-space: normal;
+    }
+
+    .category-help::before {
+      content: "";
+      position: absolute;
+      top: calc(100% + 3px);
+      left: 16px;
+      z-index: 31;
+      width: 10px;
+      height: 10px;
+      border-left: 1px solid #b9c7d8;
+      border-top: 1px solid #b9c7d8;
+      background: #fff;
+      opacity: 0;
+      pointer-events: none;
+      transform: rotate(45deg);
+      transition: opacity 0.12s ease, visibility 0.12s ease;
+      visibility: hidden;
+    }
+
+    .finding-head .category-help::after {
+      right: 0;
+      left: auto;
+    }
+
+    .finding-head .category-help::before {
+      right: 16px;
+      left: auto;
+    }
+
+    .category-help:hover::after,
+    .category-help:hover::before,
+    .category-help:focus-visible::after,
+    .category-help:focus-visible::before {
+      opacity: 1;
+      transform: translateY(0);
+      visibility: visible;
+    }
+
+    .category-help:hover::before,
+    .category-help:focus-visible::before {
+      transform: rotate(45deg);
+    }
+
+    .category-help:focus-visible {
+      box-shadow: 0 0 0 3px rgba(37, 103, 168, 0.22);
+    }
+
+    .finding-body {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      border-top: 0;
+    }
+
+    .cell {
+      min-height: 142px;
+      padding: 16px 18px;
+      border-right: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .cell:nth-child(4n) { border-right: 0; }
+
+    .cell b {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .cell p {
+      color: var(--ink);
+      font-size: 14px;
+    }
+
+    .code-comparison {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 12px;
+      padding: 0 18px 18px;
+      background: #fff;
+    }
+
+    .snippet {
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fbfcfe;
+      overflow: hidden;
+    }
+
+    .snippet h4 {
+      margin: 0;
+      padding: 9px 11px;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.3;
+    }
+
+    .snippet.problem h4 {
+      background: var(--red-soft);
+      color: var(--red);
+    }
+
+    .snippet.fixed h4 {
+      background: var(--green-soft);
+      color: var(--green);
+    }
+
+    .code-meta {
+      padding: 8px 12px;
+      border-bottom: 1px solid #263646;
+      background: #101820;
+      color: #b8dfff;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 11px;
+      font-weight: 850;
+      line-height: 1.45;
+      overflow-wrap: anywhere;
+    }
+
+    pre {
+      margin: 0;
+      max-height: 260px;
+      padding: 12px;
+      overflow: auto;
+      background: #101820;
+      color: #f7fbff;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+      line-height: 1.55;
+      white-space: pre;
+    }
+
+    .snippet pre code {
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      font-size: 1em;
+    }
+
+    .fix-note {
+      grid-column: 1 / -1;
+      padding: 12px 14px;
+      border: 1px solid #c9d9ec;
+      border-radius: 7px;
+      background: var(--blue-soft);
+      color: #24496d;
+      font-size: 14px;
+    }
+
+    code {
+      padding: 1px 5px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: #f8fafc;
+      color: #27384a;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.92em;
+    }
+
+    .rule {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      overflow: hidden;
+      margin-top: 26px;
+    }
+
+    .rule-block {
+      padding: 20px;
+      border-right: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .rule-block:last-child { border-right: 0; }
+
+    .rule-block ul {
+      margin: 12px 0 0;
+      padding-left: 20px;
+      color: var(--muted);
+    }
+
+    footer {
+      margin-top: 28px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 980px) {
+      header,
+      .rule { grid-template-columns: 1fr; }
+
+      .summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+      .filter-panel { grid-template-columns: 1fr 1fr; }
+
+      .filter-reset { width: 100%; }
+
+      .summary-card:nth-child(2) { border-right: 0; }
+
+      .summary-card:nth-child(-n + 2) { border-bottom: 1px solid var(--line); }
+
+      .finding-body { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+      .code-comparison { grid-template-columns: 1fr; }
+
+      .cell:nth-child(2n) { border-right: 0; }
+
+      .cell:nth-child(-n + 2) { border-bottom: 1px solid var(--line); }
+
+      .rule-block {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .rule-block:last-child { border-bottom: 0; }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(100% - 24px, 1220px);
+        padding-top: 24px;
+      }
+
+      h1 { font-size: 28px; }
+
+      .hero,
+      .scope { padding: 20px; }
+
+      .finding-head {
+        grid-template-columns: 1fr;
+        align-items: start;
+      }
+
+      .summary,
+      .filter-panel,
+      .finding-body { grid-template-columns: 1fr; }
+
+      .summary-card,
+      .summary-card:nth-child(2),
+      .cell,
+      .cell:nth-child(2n),
+      .cell:nth-child(4n) {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .summary-card:last-child,
+      .cell:last-child { border-bottom: 0; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <section class="hero" aria-labelledby="page-title">
+        <span class="eyebrow">実レビューで発覚した問題だけ</span>
+        <h1 id="page-title">コードレビュー発覚問題一覧</h1>
+        <p class="lead">
+          このページは、AIミスパターンの総合説明ではなく、実際のコードレビュー、
+          レーンレビュー、統合レビューで発覚した問題だけを切り出した確認面。
+          「何がまずかったか」を先に読み、再発防止先を後で確認する。
+        </p>
+        <div class="links">
+          <a class="button primary" href="code-review-ai-mistake-patterns.html">総合レビュー観点へ戻る</a>
+          <a class="button" href="../architecture/retail-ai-ops-copilot-architecture.html">構成図を見る</a>
+          <a class="button" href="../index.html">docs入口へ戻る</a>
+        </div>
+      </section>
+
+      <aside class="scope" aria-label="このページの範囲">
+        <h2>載せるもの / 載せないもの</h2>
+        <ul class="scope-list">
+          <li><strong>載せる</strong><span>レビューで実際に発覚した欠陥、過大主張、古い文書、レーン境界ミス</span></li>
+          <li><strong>載せない</strong><span>一般論のレビュー観点、全状態語の解説、反映先一覧の詳細</span></li>
+          <li><strong>正本</strong><span>レビューpromptはskill、履歴はfeedback ledger、このHTMLは人間向け確認面</span></li>
+        </ul>
+      </aside>
+    </header>
+
+    <nav class="nav" aria-label="ページ内ナビゲーション">
+      <a href="#dbt">dbt / KPI</a>
+      <a href="#parallel">並列セッション</a>
+      <a href="#backlog">Backlog / Slack</a>
+      <a href="#view-rule">ページ分離ルール</a>
+    </nav>
+
+    <section class="filter-panel" aria-labelledby="filter-title">
+      <h2 id="filter-title" class="visually-hidden">発覚問題の絞り込み</h2>
+      <div class="filter-field">
+        <label for="finding-kind-filter">問題種別</label>
+        <select id="finding-kind-filter" aria-label="問題種別で絞り込み">
+          <option value="">すべての問題種別</option>
+        </select>
+      </div>
+      <div class="filter-field">
+        <label for="finding-node-filter">構成図ノード</label>
+        <select id="finding-node-filter" aria-label="構成図ノードで絞り込み">
+          <option value="">すべての構成図ノード</option>
+        </select>
+      </div>
+      <button class="filter-reset" id="finding-filter-reset" type="button">絞り込み解除</button>
+      <p class="filter-status" id="finding-filter-status" aria-live="polite">全8件を表示中</p>
+    </section>
+
+    <p class="filter-empty" id="finding-filter-empty" hidden>該当する発覚問題はありません。絞り込み条件を変えてください。</p>
+
+    <section class="summary" aria-label="問題集計">
+      <article class="summary-card">
+        <strong>8</strong>
+        <span>掲載した発覚問題</span>
+      </article>
+      <article class="summary-card">
+        <strong>3</strong>
+        <span>主な問題領域</span>
+      </article>
+      <article class="summary-card">
+        <strong>0</strong>
+        <span>一般論だけの項目</span>
+      </article>
+      <article class="summary-card">
+        <strong>1</strong>
+        <span>総合ビューと分離</span>
+      </article>
+    </section>
+
+    <section id="dbt" data-filter-section aria-labelledby="dbt-title">
+      <div class="section-head">
+        <h2 id="dbt-title">dbt / KPI 契約で発覚した問題</h2>
+        <p>parseやcompileでは見えにくい、seed行とsingular testの実契約ズレを中心に見る。</p>
+      </div>
+
+      <div class="finding-list">
+        <article class="finding" data-kind="契約不一致" data-nodes="dbt tests|KPI定義">
+          <div class="finding-head">
+            <span class="finding-id">F-01</span>
+            <h3>singular testが率KPIの危険な再集計を十分に固定していなかった</h3>
+            <span class="badge red category-help" data-category="contract" tabindex="0" aria-label="契約不一致: seed、fixture、semantic/eval、APIなどの期待契約と、実装・テスト・文書の現物が食い違っている状態">契約不一致</span>
+          </div>
+          <div class="finding-tags" aria-label="F-01分類タグ">
+            <span class="tag-chip kind category-help" data-category="contract" tabindex="0" aria-label="問題種別 契約不一致: seed、fixture、semantic/eval、APIなどの期待契約と、実装・テスト・文書の現物が食い違っている状態"><b>問題種別</b> 契約不一致</span>
+            <span class="tag-chip node"><b>構成図ノード</b> dbt tests / KPI定義</span>
+            <span class="tag-chip file"><b>発生ファイル</b> dbt/tests/singular/kpi_definitions_reaggregation_contract.sql</span>
+          </div>
+          <div class="finding-body">
+            <div class="cell"><b>発覚内容</b><p><code>gross_margin_rate</code> のtestは分子分母再計算までは見ていたが、カテゴリ率を平均してはいけないという実務上の危険を固定していなかった。</p></div>
+            <div class="cell"><b>影響</b><p><code>dbt compile --empty</code> が通っても、後段のSemantic/Evalが率KPIの誤集計を許す可能性が残る。</p></div>
+            <div class="cell"><b>検知証跡</b><p>FB-077、FB-085。<code>dbt/tests/singular/kpi_definitions_reaggregation_contract.sql</code> とseed行の突き合わせ。</p></div>
+            <div class="cell"><b>再発防止</b><p>test追加時はcompileだけでなく、実際のseed行と重要な注意文言を照合する。</p></div>
+          </div>
+          <div class="code-comparison">
+            <div class="snippet problem">
+              <h4>問題のあるコード抜粋</h4>
+              <div class="code-meta">SQL / dbt singular test: dbt/tests/singular/kpi_definitions_reaggregation_contract.sql</div>
+              <pre><code>kpi_name = 'gross_margin_rate'
+and (
+    lower(business_definition) not like '%divided by net sales%'
+    or lower(calculation_note) not like '%additive numerator and denominator%'
+)</code></pre>
+            </div>
+            <div class="snippet fixed">
+              <h4>修正後コード抜粋</h4>
+              <div class="code-meta">SQL / dbt singular test: dbt/tests/singular/kpi_definitions_reaggregation_contract.sql</div>
+              <pre><code>kpi_name = 'gross_margin_rate'
+and (
+    lower(business_definition) not like '%divided by net sales%'
+    or lower(calculation_note) not like '%additive numerator and denominator%'
+    or lower(calculation_note) not like '%rather than averaging%'
+)</code></pre>
+            </div>
+            <p class="fix-note">修正方針: 率KPIは「値が存在する」だけでなく、上位粒度で平均してはいけないという再集計ルールまでdbt contractに固定する。</p>
+          </div>
+        </article>
+
+        <article class="finding" data-kind="契約不一致" data-nodes="KPI定義|Semantic KPI Model">
+          <div class="finding-head">
+            <span class="finding-id">F-02</span>
+            <h3>KPI再集計契約が説明文に寄りすぎ、testで守る粒度が不足していた</h3>
+            <span class="badge red category-help" data-category="contract" tabindex="0" aria-label="契約不一致: seed、fixture、semantic/eval、APIなどの期待契約と、実装・テスト・文書の現物が食い違っている状態">契約不一致</span>
+          </div>
+          <div class="finding-tags" aria-label="F-02分類タグ">
+            <span class="tag-chip kind category-help" data-category="contract" tabindex="0" aria-label="問題種別 契約不一致: seed、fixture、semantic/eval、APIなどの期待契約と、実装・テスト・文書の現物が食い違っている状態"><b>問題種別</b> 契約不一致</span>
+            <span class="tag-chip node"><b>構成図ノード</b> KPI定義 / Semantic KPI Model</span>
+            <span class="tag-chip file"><b>発生ファイル</b> dbt/seeds/kpi_definitions.csv</span>
+          </div>
+          <div class="finding-body">
+            <div class="cell"><b>発覚内容</b><p>カテゴリ率の平均禁止や分子分母再計算の警告が、seed文言とsingular testの両方で十分に固定されていなかった。</p></div>
+            <div class="cell"><b>影響</b><p>Semantic ModelやGolden Evalが、率KPIを誤集計してもレビューで通してしまう恐れがある。</p></div>
+            <div class="cell"><b>検知証跡</b><p>FB-085、INV-20260630-003。Lane AレビューでKPI契約の弱さを検出。</p></div>
+            <div class="cell"><b>再発防止</b><p>重要KPIは説明文、seed contract、singular testを同じ警告粒度で揃える。</p></div>
+          </div>
+          <div class="code-comparison">
+            <div class="snippet problem">
+              <h4>問題のあるコード抜粋</h4>
+              <div class="code-meta">CSV / dbt seed: dbt/seeds/kpi_definitions.csv</div>
+              <pre><code>gross_margin_rate,Gross margin divided by net sales,Uses TPCH partsupp supply cost as a cost proxy and recomputes from additive numerator and denominator,true,AI architecture MVP,usable_proxy,Supply cost is not a retail cost accounting model</code></pre>
+            </div>
+            <div class="snippet fixed">
+              <h4>修正後コード抜粋</h4>
+              <div class="code-meta">CSV / dbt seed: dbt/seeds/kpi_definitions.csv</div>
+              <pre><code>gross_margin_rate,Gross margin divided by net sales,Uses TPCH partsupp supply cost as a cost proxy and recomputes from additive numerator and denominator rather than averaging category rates,true,AI architecture MVP,usable_proxy,Supply cost is not a retail cost accounting model</code></pre>
+            </div>
+            <p class="fix-note">修正方針: seedをLLM/semantic/evalが共有する契約面として扱い、計算式だけでなく禁止したい誤用まで自然文で明示する。</p>
+          </div>
+        </article>
+
+        <article class="finding" data-kind="スコープ境界" data-nodes="dbt tests|Golden Eval|Snowpark実行層">
+          <div class="finding-head">
+            <span class="finding-id">F-03</span>
+            <h3>Lane Aのdbt範囲が曖昧で、Golden EvalやSnowpark判断まで触れそうだった</h3>
+            <span class="badge orange category-help" data-category="scope" tabindex="0" aria-label="スコープ境界: そのレーンやチケットで編集・判断してよい範囲を越えそうな状態">スコープ境界</span>
+          </div>
+          <div class="finding-tags" aria-label="F-03分類タグ">
+            <span class="tag-chip kind category-help" data-category="scope" tabindex="0" aria-label="問題種別 スコープ境界: そのレーンやチケットで編集・判断してよい範囲を越えそうな状態"><b>問題種別</b> スコープ境界</span>
+            <span class="tag-chip node"><b>構成図ノード</b> dbt tests / Golden Eval / Snowpark実行層</span>
+            <span class="tag-chip file"><b>発生ファイル</b> docs/project-management/parallel-session-task-split-20260630.md</span>
+            <span class="tag-chip comment"><b>文面所在</b> Lane A brief / dbt実装範囲</span>
+          </div>
+          <div class="finding-body">
+            <div class="cell"><b>発覚内容</b><p>dbt実装者のbriefで、seed tests、Golden Eval追加、progress readiness、Snowpark future-awarenessの境界が暗黙だった。</p></div>
+            <div class="cell"><b>影響</b><p>実装者レーンがアーキテクト判断まで進め、main sessionの設計統制が弱くなる。</p></div>
+            <div class="cell"><b>検知証跡</b><p>FB-082。pre-dispatchレビューで実装scopeとproposal-only scopeを分離。</p></div>
+            <div class="cell"><b>再発防止</b><p>実装者briefは「編集してよいもの」と「提案だけにするもの」を明記する。</p></div>
+          </div>
+          <div class="code-comparison">
+            <div class="snippet problem">
+              <h4>問題のある記述抜粋</h4>
+              <div class="code-meta">Markdown / Lane A brief: docs/project-management/parallel-session-task-split-20260630.md</div>
+              <pre><code>- `order_count`、`gross_margin_rate`、`avg_discount` の再集計危険を
+  dbt singular testで見る範囲と後段Golden Evalへ提案する範囲に分ける
+- 現在のseed行とsingular test期待値が一致しているか確認する</code></pre>
+            </div>
+            <div class="snippet fixed">
+              <h4>修正後記述抜粋</h4>
+              <div class="code-meta">Markdown / Lane A brief: docs/project-management/parallel-session-task-split-20260630.md</div>
+              <pre><code>- Golden Eval追加、Semantic readiness更新、diagram tooltip/readiness更新、
+  Backlog本文更新、Obsidian同期は main session への提案だけ返す
+- `RAIOPS-4` ではSnowpark実装をしない
+- Snowpark-aware観点では、`llm_contract`、`semantic_input`、`eval_input`、
+  将来のtrace接続を壊さないことだけ確認する</code></pre>
+            </div>
+            <p class="fix-note">修正方針: 実装者に考えてよい余地を残しつつ、architecture判断、readiness更新、Backlog/Obsidian同期はmainへ戻す境界を明文化する。</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="parallel" data-filter-section aria-labelledby="parallel-title">
+      <div class="section-head">
+        <h2 id="parallel-title">並列セッション運用で発覚した問題</h2>
+        <p>受理、レビュー、統合判断の状態を混ぜると、タスクが進んだように見えて実際は崩れる。</p>
+      </div>
+
+      <div class="finding-list">
+        <article class="finding" data-kind="ブランチリスク" data-nodes="GitHub Repo|CI-CD">
+          <div class="finding-head">
+            <span class="finding-id">F-04</span>
+            <h3>dispatch briefが整って見えても、新規worktreeが古いHEADを見るリスクがあった</h3>
+            <span class="badge violet category-help" data-category="branch" tabindex="0" aria-label="ブランチリスク: worktreeやbranchの鮮度、未commit、未追跡、共有ファイル編集により、統合判断が危うくなる状態">ブランチリスク</span>
+          </div>
+          <div class="finding-tags" aria-label="F-04分類タグ">
+            <span class="tag-chip kind category-help" data-category="branch" tabindex="0" aria-label="問題種別 ブランチリスク: worktreeやbranchの鮮度、未commit、未追跡、共有ファイル編集により、統合判断が危うくなる状態"><b>問題種別</b> ブランチリスク</span>
+            <span class="tag-chip node"><b>構成図ノード</b> GitHub Repo / CI-CD</span>
+            <span class="tag-chip file"><b>発生ファイル</b> docs/project-management/parallel-session-implementation-plan.md</span>
+          </div>
+          <div class="finding-body">
+            <div class="cell"><b>発覚内容</b><p>source docsやskillsが未commit、未trackingのままでは、別sessionが必要な設計を読めない。</p></div>
+            <div class="cell"><b>影響</b><p>受理済みに見えるレーンが、実際には古い指示や古いskillで作業を進める。</p></div>
+            <div class="cell"><b>検知証跡</b><p>FB-080。pre-dispatchレビューでdispatch base、branch、HEAD、push policy不足を検出。</p></div>
+            <div class="cell"><b>再発防止</b><p>dispatch前にbase ref、worktree、branch、HEAD、対象commitを確認する。</p></div>
+          </div>
+          <div class="code-comparison">
+            <div class="snippet problem">
+              <h4>問題のある記述抜粋</h4>
+              <div class="code-meta">Markdown / 並列セッション親計画: docs/project-management/parallel-session-implementation-plan.md</div>
+              <pre><code>ただし `accepted` / `reported` / `reviewed` / `integration_ready` はTerminalごとに
+別々に判定する。1つのTerminalが報告しても、他のTerminalの受理や完了の証拠には
+しない。</code></pre>
+            </div>
+            <div class="snippet fixed">
+              <h4>修正後記述抜粋</h4>
+              <div class="code-meta">Markdown / 並列セッション親計画: docs/project-management/parallel-session-implementation-plan.md</div>
+              <pre><code>dispatch前に正本docs/skillsが未コミットまたは未追跡の場合は、次のどちらかを選ぶ。
+
+- dispatch base commit/branchを作る
+- brief本文に必要な正本内容を省略せず含める
+
+別worktreeがHEADやbase_refから作られる場合、未コミット正本は読めないため、
+この確認がないまま `accepted` へ進めない。</code></pre>
+            </div>
+            <p class="fix-note">修正方針: 状態語の分離だけでは足りないため、別worktreeが読む正本commitを明示し、未commit正本はbrief本文に完全同梱させる。</p>
+          </div>
+        </article>
+
+        <article class="finding" data-kind="状態語混同" data-nodes="GitHub Repo|LLMOps運用">
+          <div class="finding-head">
+            <span class="finding-id">F-05</span>
+            <h3>レビュワーが <code>integration_ready</code> を結論として使いかけた</h3>
+            <span class="badge orange category-help" data-category="state" tabindex="0" aria-label="状態語混同: posted、delivered、accepted、reported、reviewed、integration_readyなどの状態を混ぜ、進捗や完了を過大評価する状態">状態語混同</span>
+          </div>
+          <div class="finding-tags" aria-label="F-05分類タグ">
+            <span class="tag-chip kind category-help" data-category="state" tabindex="0" aria-label="問題種別 状態語混同: posted、delivered、accepted、reported、reviewed、integration_readyなどの状態を混ぜ、進捗や完了を過大評価する状態"><b>問題種別</b> 状態語混同</span>
+            <span class="tag-chip node"><b>構成図ノード</b> GitHub Repo / LLMOps運用</span>
+            <span class="tag-chip file"><b>発生ファイル</b> skills/ai-architecture-learning/child-skills/code-review-ai-mistake-patterns/SKILL.md</span>
+            <span class="tag-chip comment"><b>文面所在</b> FB-081 / レビュワー結論</span>
+          </div>
+          <div class="finding-body">
+            <div class="cell"><b>発覚内容</b><p>レビュワーlaneが最終統合判断に近い語を使うと、main sessionの独立確認を飛ばしやすい。</p></div>
+            <div class="cell"><b>影響</b><p>reviewedとintegration_readyが混ざり、blocking findingやbranch鮮度確認を抜かす。</p></div>
+            <div class="cell"><b>検知証跡</b><p>FB-081。レビュワーはverdictやrecommendationだけを返すルールに修正。</p></div>
+            <div class="cell"><b>再発防止</b><p>統合可能判断はmain sessionだけが行い、reviewerは <code>reviewer_verdict</code> に留める。</p></div>
+          </div>
+          <div class="code-comparison">
+            <div class="snippet problem">
+              <h4>問題を示すレビュー記録</h4>
+              <div class="code-meta">Markdown table / Feedback Ledger reviewer finding: .agent-feedback/FEEDBACK_LEDGER.md#FB-081</div>
+              <pre><code>FB-081 | The reviewer lane used `integration_ready` as a reviewer conclusion even though that state belongs only to the orchestrator after independent review.</code></pre>
+            </div>
+            <div class="snippet fixed">
+              <h4>修正後ルール抜粋</h4>
+              <div class="code-meta">Skill Markdown / reviewer rule: skills/ai-architecture-learning/child-skills/code-review-ai-mistake-patterns/SKILL.md</div>
+              <pre><code>Reviewer sessions must not declare `integration_ready`. That state belongs to
+the orchestrating main session after independent artifact review, checks,
+branch/worktree inspection, and blocking-finding triage.</code></pre>
+            </div>
+            <p class="fix-note">修正方針: reviewerは結論をrecommendationに留め、main sessionだけが成果物確認、checks、branch状態を見て統合可否を決める。</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="backlog" data-filter-section aria-labelledby="backlog-title">
+      <div class="section-head">
+        <h2 id="backlog-title">Backlog / Slack 周辺で発覚した問題</h2>
+        <p>チケット本文、通知シミュレーター、実サービス監査を同じ進捗として扱わない。</p>
+      </div>
+
+      <div class="finding-list">
+        <article class="finding" data-kind="文書陳腐化" data-nodes="構成図外: Backlogチケット運用">
+          <div class="finding-head">
+            <span class="finding-id">F-06</span>
+            <h3>Backlog本文がRAIOPS-4実装後の状態に追従していなかった</h3>
+            <span class="badge orange category-help" data-category="stale-docs" tabindex="0" aria-label="文書陳腐化: 実装や検証結果が変わった後も、設計書・チケット・READMEの数字、未決事項、説明が古いまま残る状態">文書陳腐化</span>
+          </div>
+          <div class="finding-tags" aria-label="F-06分類タグ">
+            <span class="tag-chip kind category-help" data-category="stale-docs" tabindex="0" aria-label="問題種別 文書陳腐化: 実装や検証結果が変わった後も、設計書・チケット・READMEの数字、未決事項、説明が古いまま残る状態"><b>問題種別</b> 文書陳腐化</span>
+            <span class="tag-chip node"><b>構成図ノード</b> 構成図外: Backlogチケット運用</span>
+            <span class="tag-chip file"><b>発生ファイル</b> docs/project-management/backlog-ticket-bodies.md</span>
+            <span class="tag-chip comment"><b>文面所在</b> RAIOPS-4チケット本文 / 旧108 tests記述</span>
+          </div>
+          <div class="finding-body">
+            <div class="cell"><b>発覚内容</b><p>RAIOPS-4本文に古い <code>108 data tests</code> やseed test未決扱いが残っていた。</p></div>
+            <div class="cell"><b>影響</b><p>チケットを見た別sessionが、実装済み範囲と未実施範囲を誤解する。</p></div>
+            <div class="cell"><b>検知証跡</b><p>FB-084、INV-20260630-004。Lane CがBacklog ticket stalenessを指摘。</p></div>
+            <div class="cell"><b>再発防止</b><p>実装やtest数が変わったら、該当チケット本文も同じタイミングでレビューする。</p></div>
+          </div>
+          <div class="code-comparison">
+            <div class="snippet problem">
+              <h4>問題のあるMarkdown抜粋</h4>
+              <div class="code-meta">Markdown / Backlog ticket body: docs/project-management/backlog-ticket-bodies.md</div>
+              <pre><code>RAIOPS-3ではdbt scaffoldと97 data testsの定義、parse/compileまでは確認済み。RAIOPS-4でKPI定義seed契約を取り込むと108 data testsの静的metadataになる見込みだが、live dbt build/testはまだ通していない
+
+- KPI定義seedのtest方針を決める
+
+未決事項:
+- seed testsをRAIOPS-4に含めるかRAIOPS-5へ寄せるか</code></pre>
+            </div>
+            <div class="snippet fixed">
+              <h4>修正後Markdown抜粋</h4>
+              <div class="code-meta">Markdown / Backlog ticket body: docs/project-management/backlog-ticket-bodies.md</div>
+              <pre><code>RAIOPS-3ではdbt scaffoldと97 data testsの定義、parse/compileまでは確認済み。RAIOPS-4でKPI定義seed契約を取り込み、静的metadataは9 models、1 seed、111 data tests、7 sourcesになっている。ただし、live dbt build/testはまだ通していない
+
+- KPI定義seedのtestをRAIOPS-4範囲として維持し、現行seed行とsingular test期待値を一致させる
+
+未決事項:
+- KPI定義seed契約をlive `dbt seed/test` で通し、Snowflake上の型・値・gap文言が期待通りか確認する</code></pre>
+            </div>
+            <p class="fix-note">修正方針: 実装後の静的metadata、seed testの扱い、live未実施範囲を同じチケット本文で更新し、古い見込み値を残さない。</p>
+          </div>
+        </article>
+
+        <article class="finding" data-kind="スコープ境界" data-nodes="構成図外: Backlog / Slack通知運用">
+          <div class="finding-head">
+            <span class="finding-id">F-07</span>
+            <h3>Lane Cがreview-onlyからRAIOPS-15実装へ滑る余地があった</h3>
+            <span class="badge orange category-help" data-category="scope" tabindex="0" aria-label="スコープ境界: そのレーンやチケットで編集・判断してよい範囲を越えそうな状態">スコープ境界</span>
+          </div>
+          <div class="finding-tags" aria-label="F-07分類タグ">
+            <span class="tag-chip kind category-help" data-category="scope" tabindex="0" aria-label="問題種別 スコープ境界: そのレーンやチケットで編集・判断してよい範囲を越えそうな状態"><b>問題種別</b> スコープ境界</span>
+            <span class="tag-chip node"><b>構成図ノード</b> 構成図外: Backlog / Slack通知運用</span>
+            <span class="tag-chip file"><b>発生ファイル</b> docs/project-management/parallel-session-task-split-20260630.md</span>
+            <span class="tag-chip comment"><b>文面所在</b> FB-083 / Lane Cレビュー指摘</span>
+          </div>
+          <div class="finding-body">
+            <div class="cell"><b>発覚内容</b><p>Backlog/Slackレビューのbriefで、tools、fixtures、tests、実Backlog、実Slackを触らない境界が弱かった。</p></div>
+            <div class="cell"><b>影響</b><p>レビュー専用レーンが実装や外部サービス操作を始め、証跡と責任範囲が混ざる。</p></div>
+            <div class="cell"><b>検知証跡</b><p>FB-083。Backlog durable surfaceとreview-only boundaryを修正。</p></div>
+            <div class="cell"><b>再発防止</b><p>review-only laneは「編集禁止」「外部操作禁止」「提案だけ」をbriefに明記する。</p></div>
+          </div>
+          <div class="code-comparison">
+            <div class="snippet problem">
+              <h4>問題を示すレビュー記録</h4>
+              <div class="code-meta">Markdown table / Feedback Ledger reviewer finding: .agent-feedback/FEEDBACK_LEDGER.md#FB-083</div>
+              <pre><code>FB-083 | Backlog wording still used `正本` for task state and acceptance criteria, and Lane C could slide from review into RAIOPS-15 implementation.</code></pre>
+            </div>
+            <div class="snippet fixed">
+              <h4>修正後Markdown抜粋</h4>
+              <div class="code-meta">Markdown / Lane C review-only brief: docs/project-management/parallel-session-task-split-20260630.md</div>
+              <pre><code>直接編集してよいのは、main sessionが明示した小さな提案ファイルだけにする。
+原則として、Backlog台帳、feedback ledger、project skill、Obsidian mirrorは
+main sessionが統合する。
+
+Lane Cは `RAIOPS-15` を実装しない。`tools/`、`fixtures/`、`outputs/`、
+`tests/`、実Backlog設定、実Slack設定、Issue投稿は触らない。RAIOPS-15に関する
+指摘は提案として返す。</code></pre>
+            </div>
+            <p class="fix-note">修正方針: review-only laneは実装・外部操作・shared file更新を禁止し、検出した改善はmain sessionへの提案として返す。</p>
+          </div>
+        </article>
+
+        <article class="finding" data-kind="証跡境界" data-nodes="構成図外: Backlog / Slack通知運用">
+          <div class="finding-head">
+            <span class="finding-id">F-08</span>
+            <h3>Backlog運用移行の監査とSlack通知シミュレーター実装証跡が混ざりかけた</h3>
+            <span class="badge blue category-help" data-category="evidence-boundary" tabindex="0" aria-label="証跡境界: local、mock、private_simulationなどの証跡を、実サービスやlive運用の証跡と取り違えそうな状態">証跡境界</span>
+          </div>
+          <div class="finding-tags" aria-label="F-08分類タグ">
+            <span class="tag-chip kind category-help" data-category="evidence-boundary" tabindex="0" aria-label="問題種別 証跡境界: local、mock、private_simulationなどの証跡を、実サービスやlive運用の証跡と取り違えそうな状態"><b>問題種別</b> 証跡境界</span>
+            <span class="tag-chip node"><b>構成図ノード</b> 構成図外: Backlog / Slack通知運用</span>
+            <span class="tag-chip file"><b>発生スクリプト</b> tools/simulate_backlog_slack_notification.mjs</span>
+            <span class="tag-chip comment"><b>文面所在</b> IMP-100 / UR・LR報告比較</span>
+          </div>
+          <div class="finding-body">
+            <div class="cell"><b>発覚内容</b><p>LRのlocal <code>private_simulation</code> 成果は実装証跡だが、実Backlogや実Slackの運用監査証跡ではない。</p></div>
+            <div class="cell"><b>影響</b><p>ローカルCLIの成功を、ブラウザやアカウント状態の確認が必要な運用移行 readiness と誤読する。</p></div>
+            <div class="cell"><b>検知証跡</b><p>IMP-100。UR報告はBacklog運用移行を <code>needs-fix</code> と判定。</p></div>
+            <div class="cell"><b>再発防止</b><p>local simulator、Backlog UI、Slack UI、API、実投稿を別証跡としてラベル付けする。</p></div>
+          </div>
+          <div class="code-comparison">
+            <div class="snippet problem">
+              <h4>問題を示すMarkdown抜粋</h4>
+              <div class="code-meta">Markdown / 3レーン分割計画: docs/project-management/parallel-session-task-split-20260630.md</div>
+              <pre><code>Backlogチケット管理は、実装者へ作業を渡すための設計面としては移行可能に近い。
+ただし、Backlog運用そのものを別sessionへ任せるには、まだ一度
+`Backlog/チケット運用QA` laneでレビューさせるのが安全である。</code></pre>
+            </div>
+            <div class="snippet fixed">
+              <h4>修正後Markdown / 実装抜粋</h4>
+              <div class="code-meta">Markdown table + JavaScript guard / IMP-100 and tools/simulate_backlog_slack_notification.mjs</div>
+              <pre><code>| UR | `reported` | Backlog/チケット運用QAは `needs-fix`。実Backlog説明欄diff監査、実同期確認、更新権限、Backlogコメント品質チェックが未完 | `rejected` ではないが `integration_ready` ではない。次は同laneへQA不足の補強指示を返す |
+| LR | `reported` | `9c5e748` で `private_simulation` 通知シミュレーターを実装。main側で `node --test`、二重通知抑止、`sent_external=false`、`git diff --check` を再確認 | `reviewed`。外部Slack/Backlogの確認は別laneまたはbrowser-capable sessionで扱う |
+
+if (options.mode !== DEFAULT_MODE) {
+  throw new Error(`Only ${DEFAULT_MODE} mode is implemented. Refusing mode=${options.mode}`);
+}</code></pre>
+            </div>
+            <p class="fix-note">修正方針: local simulatorの成功は実装証跡として扱い、Backlog/Slack実運用への移行可否はブラウザまたはAPIで別監査する。</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="view-rule" class="rule" aria-labelledby="view-rule-title">
+      <div class="rule-block">
+        <h2 id="view-rule-title">ページ分離ルール</h2>
+        <ul>
+          <li>総合ビューはレビュー観点、状態語、証跡レベル、反映先を扱う</li>
+          <li>発覚問題ビューは実レビューで見つかった問題だけを扱う</li>
+          <li>抽象カテゴリだけの項目は発覚問題ビューに入れない</li>
+          <li>新しい実findingが出たら、このページへ追加するか、別ページ化を検討する</li>
+        </ul>
+      </div>
+      <div class="rule-block">
+        <h2>更新時の確認</h2>
+        <ul>
+          <li>問題が「実際に発覚したもの」か確認する</li>
+          <li>検知証跡とfeedback ledger IDを残す</li>
+          <li>修正済みでも、何を防ぐべきだったかを残す</li>
+          <li>総合ビューと内容重複しすぎたら、説明を削って発覚内容に戻す</li>
+        </ul>
+      </div>
+    </section>
+
+    <footer>
+      Source: .agent-feedback/FEEDBACK_LEDGER.md / code-review-ai-mistake-patterns skill.
+      This page is intentionally narrower than the general review-pattern visualization.
+    </footer>
+  </main>
+  <script>
+    (() => {
+      const findings = Array.from(document.querySelectorAll('.finding[data-kind][data-nodes]'));
+      const kindFilter = document.getElementById('finding-kind-filter');
+      const nodeFilter = document.getElementById('finding-node-filter');
+      const resetButton = document.getElementById('finding-filter-reset');
+      const status = document.getElementById('finding-filter-status');
+      const empty = document.getElementById('finding-filter-empty');
+      const sections = Array.from(document.querySelectorAll('[data-filter-section]'));
+
+      if (!findings.length || !kindFilter || !nodeFilter || !resetButton || !status || !empty) return;
+
+      const collator = new Intl.Collator('ja');
+      const splitNodes = (value) => value.split('|').map((item) => item.trim()).filter(Boolean);
+      const addOptions = (select, values) => {
+        values.sort(collator.compare).forEach((value) => {
+          const option = document.createElement('option');
+          option.value = value;
+          option.textContent = value;
+          select.append(option);
+        });
+      };
+
+      const kindValues = Array.from(new Set(findings.map((finding) => finding.dataset.kind).filter(Boolean)));
+      const nodeValues = Array.from(new Set(findings.flatMap((finding) => splitNodes(finding.dataset.nodes || ''))));
+
+      addOptions(kindFilter, kindValues);
+      addOptions(nodeFilter, nodeValues);
+
+      const update = () => {
+        const selectedKind = kindFilter.value;
+        const selectedNode = nodeFilter.value;
+        let visibleCount = 0;
+
+        findings.forEach((finding) => {
+          const kindMatches = !selectedKind || finding.dataset.kind === selectedKind;
+          const nodeMatches = !selectedNode || splitNodes(finding.dataset.nodes || '').includes(selectedNode);
+          const visible = kindMatches && nodeMatches;
+          finding.classList.toggle('is-hidden-by-filter', !visible);
+          finding.setAttribute('aria-hidden', visible ? 'false' : 'true');
+          if (visible) visibleCount += 1;
+        });
+
+        sections.forEach((section) => {
+          const hasVisibleFinding = Boolean(section.querySelector('.finding:not(.is-hidden-by-filter)'));
+          section.classList.toggle('is-hidden-by-filter', !hasVisibleFinding);
+          section.setAttribute('aria-hidden', hasVisibleFinding ? 'false' : 'true');
+        });
+
+        const filterLabel = [
+          selectedKind ? `問題種別: ${selectedKind}` : null,
+          selectedNode ? `構成図ノード: ${selectedNode}` : null,
+        ].filter(Boolean).join(' / ');
+        status.textContent = filterLabel
+          ? `${visibleCount} / ${findings.length}件を表示中（${filterLabel}）`
+          : `全${findings.length}件を表示中`;
+        empty.hidden = visibleCount !== 0;
+        empty.classList.toggle('is-visible', visibleCount === 0);
+      };
+
+      kindFilter.addEventListener('change', update);
+      nodeFilter.addEventListener('change', update);
+      resetButton.addEventListener('click', () => {
+        kindFilter.value = '';
+        nodeFilter.value = '';
+        update();
+        kindFilter.focus();
+      });
+
+      update();
+    })();
+  </script>
+</body>
+</html>
