@@ -741,6 +741,7 @@
 
     <nav class="nav" aria-label="ページ内ナビゲーション">
       <a href="#dbt">dbt / KPI</a>
+      <a href="#eval-routing">Golden Eval / Routing</a>
       <a href="#parallel">並列セッション</a>
       <a href="#backlog">Backlog / Slack</a>
       <a href="#view-rule">ページ分離ルール</a>
@@ -761,18 +762,18 @@
         </select>
       </div>
       <button class="filter-reset" id="finding-filter-reset" type="button">絞り込み解除</button>
-      <p class="filter-status" id="finding-filter-status" aria-live="polite">全10件を表示中</p>
+      <p class="filter-status" id="finding-filter-status" aria-live="polite">全11件を表示中</p>
     </section>
 
     <p class="filter-empty" id="finding-filter-empty" hidden>該当する改修実例はありません。絞り込み条件を変えてください。</p>
 
     <section class="summary" aria-label="改修実例集計">
       <article class="summary-card">
-        <strong>10</strong>
+        <strong>11</strong>
         <span>掲載した改修実例</span>
       </article>
       <article class="summary-card">
-        <strong>4</strong>
+        <strong>5</strong>
         <span>主な問題領域</span>
       </article>
       <article class="summary-card">
@@ -979,6 +980,68 @@ assert "avg(avg_discount)" not in sql
 assert "sum(avg_discount)" not in sql</code></pre>
             </div>
             <p class="fix-note">修正方針: blockingではなくfuture test candidateとして保持する。Semantic KPI Modelが保存済み率をそのまま平均・合計しないことを、負例mutationで壊れた時に失敗させる。</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="eval-routing" data-filter-section aria-labelledby="eval-routing-title">
+      <div class="section-head">
+        <h2 id="eval-routing-title">Golden Eval / Routing の改修実例</h2>
+        <p>local static evalで証明できることと、known gapとして残すことを分けて見る。</p>
+      </div>
+
+      <div class="finding-list">
+        <article class="finding" data-kind="評価境界" data-nodes="Golden Eval|Agent Router|Trace Store">
+          <div class="finding-head">
+            <span class="finding-id">F-11</span>
+            <h3>citation有無だけのevalでは、semantic根拠と文書根拠の不足を分けられなかった</h3>
+            <span class="badge blue category-help" data-category="evidence-boundary" tabindex="0" aria-label="評価境界: local static evalやknown gapの証跡を、live品質や外部接続済みの証跡と取り違えそうな状態">評価境界</span>
+          </div>
+          <div class="finding-tags" aria-label="F-11分類タグ">
+            <span class="tag-chip kind category-help" data-category="evidence-boundary" tabindex="0" aria-label="問題種別 評価境界: local static evalやknown gapの証跡を、live品質や外部接続済みの証跡と取り違えそうな状態"><b>問題種別</b> 評価境界</span>
+            <span class="tag-chip node"><b>構成図ノード</b> Golden Eval / Agent Router / Trace Store</span>
+            <span class="tag-chip file"><b>発生ファイル</b> data/golden_eval.json / retail_ai_ops/eval_runner.py / tests/test_planner_and_trace.py</span>
+            <span class="tag-chip comment"><b>文面所在</b> L2/L4統合候補 6d7fb0b</span>
+          </div>
+          <div class="finding-body">
+            <div class="cell"><b>レビュー指摘</b><p>mixed queryや未対応KPIの評価で、単一の <code>requires_citations</code> と pass/fail だけでは、semantic YAML根拠はあるがdoc根拠は未接続、または現状routeはknown gapという状態を表せなかった。</p></div>
+            <div class="cell"><b>影響</b><p>Golden Evalが通ったように見えても、Cortex Search文書根拠、未対応KPIのsafe-stop改善、live外部経路の品質確認まで済んだと誤読される。</p></div>
+            <div class="cell"><b>検知証跡</b><p>L2/L4統合候補 <code>work/raiops6-8-integration-20260702</code> の <code>6d7fb0b</code>。<code>data/golden_eval.json</code>、<code>retail_ai_ops/eval_runner.py</code>、<code>tests/test_planner_and_trace.py</code> の差分を確認。</p></div>
+            <div class="cell"><b>再発防止</b><p>semantic citation、doc citation、known gapのcurrent/desired routeを別フィールドで残し、local static evalが外部接続済み品質へ膨らまないようにする。</p></div>
+          </div>
+          <div class="code-comparison">
+            <div class="snippet problem">
+              <h4>問題のある評価契約抜粋</h4>
+              <div class="code-meta">JSON / Golden Eval fixture: data/golden_eval.json</div>
+              <pre><code>"expected_answer_checks": {
+  "answer_contains": ["SQL案は作成しました", "文書根拠取得はsafe-stopします"],
+  "requires_sql": true,
+  "requires_citations": true,
+  "requires_human_review": true,
+  "safe_stop_reason": "doc_source_missing"
+}</code></pre>
+            </div>
+            <div class="snippet fixed">
+              <h4>修正後の評価契約・runner抜粋</h4>
+              <div class="code-meta">JSON + Python / data/golden_eval.json and retail_ai_ops/eval_runner.py</div>
+              <pre><code>"expected_answer_checks": {
+  "requires_semantic_citation": true,
+  "requires_doc_citation": false,
+  "safe_stop_reason": "doc_source_missing"
+}
+"known_gap": {
+  "current_route": "business_definition_question",
+  "current_safe_stop_reason": "definition_lookup",
+  "desired_route": "unsupported_question",
+  "desired_safe_stop_reason": "semantic_model_missing"
+}
+
+"semantic_citations": _semantic_citations(answer.citations),
+"doc_citations": _doc_citations(answer.citations),
+"desired_safe_stop_reason": _known_gap_field(case, "desired_safe_stop_reason")</code></pre>
+            </div>
+            <p class="fix-note">修正方針: L2/L4統合候補はreview済み候補として、Golden Evalとroutingの境界を細かく可視化した。<code>semantic/retail_kpi_semantic_model.yaml</code> の引用確認、doc citation未接続、known gapの現状route/望ましいrouteを分けるが、live Snowflake、Cortex Search、Pages公開、push済みの証跡としては扱わない。</p>
           </div>
         </article>
       </div>
