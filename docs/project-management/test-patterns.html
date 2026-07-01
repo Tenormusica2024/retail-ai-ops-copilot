@@ -518,17 +518,17 @@
               <span class="badge level-contract">証跡: contract-test</span>
               <span class="badge level-data">証跡: data-bearing-local</span>
             </div>
-            <h3>dbt generic / singular tests</h3>
+            <h3>dbt schema / generic tests と future singular tests</h3>
           </div>
           <div class="pattern-body">
-            <div class="cell"><b>現在のプロジェクト状況</b><p>seed契約、model schema、generic tests、KPI seed行、unsupported gap、reaggregation hazard用のsingular testがある。</p></div>
+            <div class="cell"><b>現在のプロジェクト状況</b><p>model schema testsとgeneric testsはある。このcandidate worktreeでは <code>dbt/tests/singular/</code> と <code>dbt/seeds/schema.yml</code> は未配置で、KPI seed契約やreaggregation hazardのsingular testは追加候補として扱う。</p></div>
             <div class="cell"><b>使うべきか</b><p>使う。Semantic ModelとGolden Evalへ渡すKPI定義、grain、率系/再集計リスクの最低契約を守る。</p></div>
-            <div class="cell"><b>コマンドまたは証跡artifact</b><p><code>dbt/seeds/schema.yml</code><br><code>dbt/tests/singular/*.sql</code><br><code>dbt test --select tag:llm_contract+</code></p></div>
-            <div class="cell"><b>何を証明するか</b><p>必須KPI行、not_null/unique、accepted values、unsupported/gap表現、再集計注意の契約が壊れていないこと。</p></div>
+            <div class="cell"><b>コマンドまたは証跡artifact</b><p><code>dbt/models/**/schema.yml</code><br><code>dbt/tests/generic/*.sql</code><br><code>dbt test --select tag:llm_contract+</code> はlive実行時の候補</p></div>
+            <div class="cell"><b>何を証明するか</b><p>現candidateではmodel列のnot_null/unique/rangeなどの契約とgeneric test macroの存在。KPI seed行、unsupported/gap表現、再集計注意のsingular契約は未証明。</p></div>
             <div class="cell"><b>何を証明しないか</b><p>LLMが正しく説明すること、live warehouseで全testがpassすること、rate KPIを月別以外へ安全に再集計できること。</p></div>
             <div class="cell"><b>再利用先</b><p>project-local、project-family、lint・CI、Backlog受入基準、generic client-delivery skill。</p></div>
             <div class="cell"><b>関連ノードまたはレーン</b><p><code>kpi_definitions</code> seed、<code>mart_retail_monthly_kpi</code>、Semantic input、Eval input。</p></div>
-            <div class="cell"><b>次アクションまたはブロッカー</b><p>live dbt testを別証跡で追加し、率系KPIの再集計はSemantic/Golden Eval側のケースへ接続する。</p></div>
+            <div class="cell"><b>次アクションまたはブロッカー</b><p>singular/seed contractを実体化してからlive dbt testを別証跡で追加し、率系KPIの再集計はSemantic/Golden Eval側のケースへ接続する。</p></div>
           </div>
         </article>
 

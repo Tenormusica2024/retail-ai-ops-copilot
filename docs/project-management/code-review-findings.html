@@ -788,48 +788,44 @@
     <section id="dbt" data-filter-section aria-labelledby="dbt-title">
       <div class="section-head">
         <h2 id="dbt-title">dbt / KPI 契約の改修例</h2>
-        <p>parseやcompileでは見えにくい、seed行とsingular testの実契約ズレを中心に見る。</p>
+        <p>parseやcompileでは見えにくい、schema/generic tests、seed契約、過去のsingular test案の証跡境界を中心に見る。</p>
       </div>
 
       <div class="finding-list">
         <article class="finding" data-kind="契約不一致" data-nodes="dbt tests|KPI定義">
           <div class="finding-head">
             <span class="finding-id">F-01</span>
-            <h3>singular testが率KPIの危険な再集計を十分に固定していなかった</h3>
+            <h3>率KPIの危険な再集計を固定するsingular test案が現candidateに残っていなかった</h3>
             <span class="badge red category-help" data-category="contract" tabindex="0" aria-label="契約不一致: seed、fixture、semantic/eval、APIなどの期待契約と、実装・テスト・文書の現物が食い違っている状態">契約不一致</span>
           </div>
           <div class="finding-tags" aria-label="F-01分類タグ">
             <span class="tag-chip kind category-help" data-category="contract" tabindex="0" aria-label="問題種別 契約不一致: seed、fixture、semantic/eval、APIなどの期待契約と、実装・テスト・文書の現物が食い違っている状態"><b>問題種別</b> 契約不一致</span>
             <span class="tag-chip node"><b>構成図ノード</b> dbt tests / KPI定義</span>
-            <span class="tag-chip file"><b>発生ファイル</b> dbt/tests/singular/kpi_definitions_reaggregation_contract.sql</span>
+            <span class="tag-chip file"><b>発生ファイル</b> 過去レビュー証跡: dbt/tests/singular/kpi_definitions_reaggregation_contract.sql案 / 現candidate: dbt/tests/singular/未配置</span>
           </div>
           <div class="finding-body">
-            <div class="cell"><b>発覚内容</b><p><code>gross_margin_rate</code> のtestは分子分母再計算までは見ていたが、カテゴリ率を平均してはいけないという実務上の危険を固定していなかった。</p></div>
-            <div class="cell"><b>影響</b><p><code>dbt compile --empty</code> が通っても、後段のSemantic/Evalが率KPIの誤集計を許す可能性が残る。</p></div>
-            <div class="cell"><b>検知証跡</b><p>FB-077、FB-085。<code>dbt/tests/singular/kpi_definitions_reaggregation_contract.sql</code> とseed行の突き合わせ。</p></div>
-            <div class="cell"><b>再発防止</b><p>test追加時はcompileだけでなく、実際のseed行と重要な注意文言を照合する。</p></div>
+            <div class="cell"><b>発覚内容</b><p><code>gross_margin_rate</code> の分子分母再計算やカテゴリ率平均禁止を固定するsingular test案が過去レビューで出たが、このcandidate worktreeには実体ファイルがない。</p></div>
+            <div class="cell"><b>影響</b><p>schema/generic testsがあっても、後段のSemantic/Evalが率KPIの誤集計を許す可能性は残る。</p></div>
+            <div class="cell"><b>検知証跡</b><p>FB-077、FB-085の過去レビュー文脈と、現candidateで <code>dbt/tests/singular/</code> が存在しないことの棚卸し。</p></div>
+            <div class="cell"><b>再発防止</b><p>過去レビューのtest案を現物証跡として扱わず、実体化するまでfuture candidateとして表示する。</p></div>
           </div>
           <div class="code-comparison">
             <div class="snippet problem">
-              <h4>問題のあるコード抜粋</h4>
-              <div class="code-meta">SQL / dbt singular test: dbt/tests/singular/kpi_definitions_reaggregation_contract.sql</div>
-              <pre><code>kpi_name = 'gross_margin_rate'
-and (
-    lower(business_definition) not like '%divided by net sales%'
-    or lower(calculation_note) not like '%additive numerator and denominator%'
-)</code></pre>
+              <h4>問題のある証跡扱い</h4>
+              <div class="code-meta">HTML / current candidate evidence mismatch: docs/project-management/code-review-findings.html</div>
+              <pre><code>&lt;span class="tag-chip file"&gt;
+  dbt/tests/singular/kpi_definitions_reaggregation_contract.sql
+&lt;/span&gt;</code></pre>
             </div>
             <div class="snippet fixed">
-              <h4>修正後コード抜粋</h4>
-              <div class="code-meta">SQL / dbt singular test: dbt/tests/singular/kpi_definitions_reaggregation_contract.sql</div>
-              <pre><code>kpi_name = 'gross_margin_rate'
-and (
-    lower(business_definition) not like '%divided by net sales%'
-    or lower(calculation_note) not like '%additive numerator and denominator%'
-    or lower(calculation_note) not like '%rather than averaging%'
-)</code></pre>
+              <h4>修正後の証跡扱い</h4>
+              <div class="code-meta">HTML / evidence boundary: docs/project-management/code-review-findings.html</div>
+              <pre><code>過去レビュー証跡:
+  dbt/tests/singular/kpi_definitions_reaggregation_contract.sql案
+現candidate:
+  dbt/tests/singular/未配置</code></pre>
             </div>
-            <p class="fix-note">修正方針: 率KPIは「値が存在する」だけでなく、上位粒度で平均してはいけないという再集計ルールまでdbt contractに固定する。</p>
+            <p class="fix-note">修正方針: 率KPIは「値が存在する」だけでなく、上位粒度で平均してはいけないという再集計ルールまでdbt contractに固定する。ただし実体ファイルがない間は、現物証跡ではなくfuture test candidateとして扱う。</p>
           </div>
         </article>
 
@@ -845,10 +841,10 @@ and (
             <span class="tag-chip file"><b>発生ファイル</b> dbt/seeds/kpi_definitions.csv</span>
           </div>
           <div class="finding-body">
-            <div class="cell"><b>発覚内容</b><p>カテゴリ率の平均禁止や分子分母再計算の警告が、seed文言とsingular testの両方で十分に固定されていなかった。</p></div>
+            <div class="cell"><b>発覚内容</b><p>カテゴリ率の平均禁止や分子分母再計算の警告が、seed文言とtest contract候補の両方で十分に固定されていなかった。</p></div>
             <div class="cell"><b>影響</b><p>Semantic ModelやGolden Evalが、率KPIを誤集計してもレビューで通してしまう恐れがある。</p></div>
             <div class="cell"><b>検知証跡</b><p>FB-085、INV-20260630-003。Lane AレビューでKPI契約の弱さを検出。</p></div>
-            <div class="cell"><b>再発防止</b><p>重要KPIは説明文、seed contract、singular testを同じ警告粒度で揃える。</p></div>
+            <div class="cell"><b>再発防止</b><p>重要KPIは説明文、seed contract、schema/generic tests、将来のsingular testを同じ警告粒度で揃える。</p></div>
           </div>
           <div class="code-comparison">
             <div class="snippet problem">
