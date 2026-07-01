@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>コードレビュー発覚問題一覧</title>
+  <title>ソースコード改修実例</title>
   <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
   <style>
     :root {
@@ -427,6 +427,10 @@
       --category-definition: "証跡境界: local、mock、private_simulationなどの証跡を、実サービスやlive運用の証跡と取り違えそうな状態。";
     }
 
+    .category-help[data-category="future-test"] {
+      --category-definition: "将来テスト候補: 現時点ではblockingではないが、次の品質ゲートで負例・mutation・回帰テストとして固定すべき状態。";
+    }
+
     .category-help::after {
       content: var(--category-definition);
       position: absolute;
@@ -710,11 +714,11 @@
   <main class="page">
     <header>
       <section class="hero" aria-labelledby="page-title">
-        <span class="eyebrow">実レビューで発覚した問題だけ</span>
-        <h1 id="page-title">コードレビュー発覚問題一覧</h1>
+        <span class="eyebrow">実レビューで見つかった改修例だけ</span>
+        <h1 id="page-title">ソースコード改修実例</h1>
         <p class="lead">
           このページは、AIミスパターンの総合説明ではなく、実際のコードレビュー、
-          レーンレビュー、統合レビューで発覚した問題だけを切り出した確認面。
+          レーンレビュー、統合レビューで見つかった改修例だけを切り出した確認面。
           「何がまずかったか」を先に読み、再発防止先を後で確認する。
         </p>
         <div class="links">
@@ -743,7 +747,7 @@
     </nav>
 
     <section class="filter-panel" aria-labelledby="filter-title">
-      <h2 id="filter-title" class="visually-hidden">発覚問題の絞り込み</h2>
+      <h2 id="filter-title" class="visually-hidden">ソースコード改修実例の絞り込み</h2>
       <div class="filter-field">
         <label for="finding-kind-filter">問題種別</label>
         <select id="finding-kind-filter" aria-label="問題種別で絞り込み">
@@ -757,18 +761,18 @@
         </select>
       </div>
       <button class="filter-reset" id="finding-filter-reset" type="button">絞り込み解除</button>
-      <p class="filter-status" id="finding-filter-status" aria-live="polite">全8件を表示中</p>
+      <p class="filter-status" id="finding-filter-status" aria-live="polite">全10件を表示中</p>
     </section>
 
-    <p class="filter-empty" id="finding-filter-empty" hidden>該当する発覚問題はありません。絞り込み条件を変えてください。</p>
+    <p class="filter-empty" id="finding-filter-empty" hidden>該当する改修実例はありません。絞り込み条件を変えてください。</p>
 
-    <section class="summary" aria-label="問題集計">
+    <section class="summary" aria-label="改修実例集計">
       <article class="summary-card">
-        <strong>8</strong>
-        <span>掲載した発覚問題</span>
+        <strong>10</strong>
+        <span>掲載した改修実例</span>
       </article>
       <article class="summary-card">
-        <strong>3</strong>
+        <strong>4</strong>
         <span>主な問題領域</span>
       </article>
       <article class="summary-card">
@@ -783,7 +787,7 @@
 
     <section id="dbt" data-filter-section aria-labelledby="dbt-title">
       <div class="section-head">
-        <h2 id="dbt-title">dbt / KPI 契約で発覚した問題</h2>
+        <h2 id="dbt-title">dbt / KPI 契約の改修例</h2>
         <p>parseやcompileでは見えにくい、seed行とsingular testの実契約ズレを中心に見る。</p>
       </div>
 
@@ -899,12 +903,94 @@ and (
             <p class="fix-note">修正方針: 実装者に考えてよい余地を残しつつ、architecture判断、readiness更新、Backlog/Obsidian同期はmainへ戻す境界を明文化する。</p>
           </div>
         </article>
+
+        <article class="finding" data-kind="進捗率過小評価" data-nodes="dbt staging|dbt marts|dbt tests">
+          <div class="finding-head">
+            <span class="finding-id">F-09</span>
+            <h3>dbt実装開始後も構成図のdbt進捗が0%のままだった</h3>
+            <span class="badge orange category-help" data-category="stale-docs" tabindex="0" aria-label="進捗率過小評価: 実装や検証結果が変わった後も、設計書・チケット・READMEの数字、未決事項、説明が古いまま残る状態">進捗率過小評価</span>
+          </div>
+          <div class="finding-tags" aria-label="F-09分類タグ">
+            <span class="tag-chip kind category-help" data-category="stale-docs" tabindex="0" aria-label="問題種別 進捗率過小評価: 実装開始後も公開面の進捗率やtooltipが古いまま残る状態"><b>問題種別</b> 進捗率過小評価</span>
+            <span class="tag-chip node"><b>構成図ノード</b> dbt staging / dbt marts / dbt tests</span>
+            <span class="tag-chip file"><b>発生ファイル</b> docs/architecture/retail-ai-ops-copilot-architecture.html / dbt/models/** / dbt/tests/**</span>
+          </div>
+          <div class="finding-body">
+            <div class="cell"><b>発覚内容</b><p>staging SQL model、intermediate model、mart model、schema tests、generic testsが存在するのに、構成図のdbt系ノードが0%の未実装表示に残っていた。</p></div>
+            <div class="cell"><b>影響</b><p>実装済みのレビュー対象が公開面から見えず、逆に未実施のlive dbt build/testやSnowflake実行との境界も曖昧になる。</p></div>
+            <div class="cell"><b>検知証跡</b><p>DISPATCH_L6_PUBLIC_SURFACE_RECALIBRATE_DBT_PROGRESS_20260702_002。対象worktreeの <code>dbt/models/**</code> と <code>dbt/tests/generic/**</code> を棚卸し。</p></div>
+            <div class="cell"><b>再発防止</b><p>progress更新時は実ファイル棚卸しを先に行い、source実装あり・live未証明をtooltipで分離して低率に補正する。</p></div>
+          </div>
+          <div class="code-comparison">
+            <div class="snippet problem">
+              <h4>問題のあるHTML抜粋</h4>
+              <div class="code-meta">HTML / architecture node attributes: docs/architecture/retail-ai-ops-copilot-architecture.html</div>
+              <pre><code>&lt;div class="service small orange" data-progress="0%" data-status="dbt stagingは未実装"&gt;
+&lt;div class="service small orange" data-progress="0%" data-status="dbt martsは未実装"&gt;
+&lt;div class="service small orange" data-progress="0%" data-status="dbt testsは未実装"&gt;</code></pre>
+            </div>
+            <div class="snippet fixed">
+              <h4>修正後HTML抜粋</h4>
+              <div class="code-meta">HTML / architecture node attributes: docs/architecture/retail-ai-ops-copilot-architecture.html</div>
+              <pre><code>data-progress="25%" data-status="実装証跡あり: stg_tpch_* SQL model 7本..."
+data-progress="25%" data-status="実装証跡あり: int_order_line_enrichedとmart_retail_monthly_kpi..."
+data-progress="20%" data-status="実装証跡あり: staging/intermediate/mart schema.yml..."
+data-note="live dbt build/test、Snowflake実行、SQL結果正当性、answer-quality証跡は未実施。"</code></pre>
+            </div>
+            <p class="fix-note">修正方針: dbt staging/marts/testsは0%から低率へ上げる。tooltipでは実装証跡ありと未実施証跡を分ける。ただし、このcandidate worktreeでは <code>dbt/tests/singular/</code> と <code>dbt/target/</code> artifactは見つからないため、live dbt build/test、Snowflake実行、SQL結果正当性、answer-quality証跡は未実施として扱う。</p>
+          </div>
+        </article>
+
+        <article class="finding" data-kind="将来テスト候補" data-nodes="Semantic KPI Model|dbt tests">
+          <div class="finding-head">
+            <span class="finding-id">F-10</span>
+            <h3>率KPIの保存済み率をavg/sumする負例テストがまだ不足している</h3>
+            <span class="badge blue category-help" data-category="future-test" tabindex="0" aria-label="将来テスト候補: 現時点ではblockingではないが、次の品質ゲートで負例・mutation・回帰テストとして固定すべき状態">将来テスト候補</span>
+          </div>
+          <div class="finding-tags" aria-label="F-10分類タグ">
+            <span class="tag-chip kind category-help" data-category="future-test" tabindex="0" aria-label="問題種別 将来テスト候補: 現時点ではblockingではないが、次の品質ゲートで負例・mutation・回帰テストとして固定すべき状態"><b>問題種別</b> reviewer-finding / 将来テスト候補</span>
+            <span class="tag-chip node"><b>構成図ノード</b> Semantic KPI Model / dbt tests</span>
+            <span class="tag-chip file"><b>発生ファイル</b> semantic/retail_kpi_semantic_model.yaml / tests/**</span>
+          </div>
+          <div class="finding-body">
+            <div class="cell"><b>発覚内容</b><p><code>gross_margin_rate</code> と <code>avg_discount</code> はmartで分子分母から再計算しているが、Semantic Modelや生成SQLが保存済み率を <code>avg()</code> / <code>sum()</code> しないことを壊す負例テストがまだない。</p></div>
+            <div class="cell"><b>影響</b><p>構造化SQLやsemantic YAMLの変更で率KPIの誤集計が混入しても、現行のplanner/traceテストだけでは検出できない可能性がある。</p></div>
+            <div class="cell"><b>検知証跡</b><p>L3 review finding。<code>semantic/retail_kpi_semantic_model.yaml</code> の率KPI定義と <code>tests/test_planner_and_trace.py</code> の現行assertを確認。</p></div>
+            <div class="cell"><b>再発防止</b><p>次のtest-pattern更新で、保存済み率のavg/sumを禁止するnegative mutation testを追加候補として扱う。</p></div>
+          </div>
+          <div class="code-comparison">
+            <div class="snippet problem">
+              <h4>不足が残る定義・テスト抜粋</h4>
+              <div class="code-meta">YAML + pytest: semantic/retail_kpi_semantic_model.yaml / tests/test_planner_and_trace.py</div>
+              <pre><code>- name: gross_margin_rate
+  expr: gross_margin_rate
+  default_aggregation: avg
+- name: avg_discount
+  expr: avg_discount
+  default_aggregation: avg
+
+assert plan.metric == "gross_margin_rate"
+assert "MART_RETAIL_MONTHLY_KPI" in (plan.sql or "")</code></pre>
+            </div>
+            <div class="snippet fixed">
+              <h4>追加候補の負例テスト抜粋</h4>
+              <div class="code-meta">pytest / future negative mutation candidate: tests/**</div>
+              <pre><code>sql = (plan.sql or "").lower()
+
+assert "avg(gross_margin_rate)" not in sql
+assert "sum(gross_margin_rate)" not in sql
+assert "avg(avg_discount)" not in sql
+assert "sum(avg_discount)" not in sql</code></pre>
+            </div>
+            <p class="fix-note">修正方針: blockingではなくfuture test candidateとして保持する。Semantic KPI Modelが保存済み率をそのまま平均・合計しないことを、負例mutationで壊れた時に失敗させる。</p>
+          </div>
+        </article>
       </div>
     </section>
 
     <section id="parallel" data-filter-section aria-labelledby="parallel-title">
       <div class="section-head">
-        <h2 id="parallel-title">並列セッション運用で発覚した問題</h2>
+        <h2 id="parallel-title">並列セッション運用の改修例</h2>
         <p>受理、レビュー、統合判断の状態を混ぜると、タスクが進んだように見えて実際は崩れる。</p>
       </div>
 
@@ -988,7 +1074,7 @@ branch/worktree inspection, and blocking-finding triage.</code></pre>
 
     <section id="backlog" data-filter-section aria-labelledby="backlog-title">
       <div class="section-head">
-        <h2 id="backlog-title">Backlog / Slack 周辺で発覚した問題</h2>
+        <h2 id="backlog-title">Backlog / Slack 周辺の改修例</h2>
         <p>チケット本文、通知シミュレーター、実サービス監査を同じ進捗として扱わない。</p>
       </div>
 
@@ -1122,8 +1208,8 @@ if (options.mode !== DEFAULT_MODE) {
         <h2 id="view-rule-title">ページ分離ルール</h2>
         <ul>
           <li>総合ビューはレビュー観点、状態語、証跡レベル、反映先を扱う</li>
-          <li>発覚問題ビューは実レビューで見つかった問題だけを扱う</li>
-          <li>抽象カテゴリだけの項目は発覚問題ビューに入れない</li>
+          <li>ソースコード改修実例ビューは実レビューで見つかった問題だけを扱う</li>
+          <li>抽象カテゴリだけの項目はソースコード改修実例ビューに入れない</li>
           <li>新しい実findingが出たら、このページへ追加するか、別ページ化を検討する</li>
         </ul>
       </div>

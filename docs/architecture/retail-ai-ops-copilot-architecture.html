@@ -923,7 +923,7 @@
 
     <nav class="context-links" aria-label="関連レビュー面">
       <a href="../index.html">docs入口</a>
-      <a href="../project-management/code-review-findings.html">コードレビュー発覚問題</a>
+      <a href="../project-management/code-review-findings.html">ソースコード改修実例</a>
       <a href="../project-management/code-review-ai-mistake-patterns.html">AIミスパターン可視化</a>
       <a href="../project-management/test-patterns.html">テストパターン一覧</a>
     </nav>
@@ -1087,17 +1087,17 @@
           <div class="service-title">KPI定義<br>マスタ</div>
           <div class="service-sub">dbt seed<br>Snowflake表</div>
         </div>
-        <div class="service small orange" tabindex="0" data-progress="0%" data-progress-tier="none" data-status="dbt stagingは未実装" data-note="現MVPはorders/lineitem/customer/nation/region/part/partsuppを直接SQLビューで結合。これはdbt stagingの品質証跡ではない。" style="left: 571px; top: 359px;">
+        <div class="service small orange" tabindex="0" data-progress="25%" data-progress-tier="low" data-status="実装証跡あり: stg_tpch_* SQL model 7本、staging schema.ymlのnot_null/unique/range系data_tests、generic test macro" data-note="credentials-free parse/compile artifactはこのcandidate worktreeで未確認。live dbt build/test、Snowflake実行、SQL結果正当性、answer-quality証跡は未実施。" style="left: 571px; top: 359px;">
           <div class="icon sprite sp-dbt-table" role="img" aria-label="dbt staging"></div>
           <div class="service-title">dbt staging</div>
           <div class="service-sub">source整理<br>型・粒度整備</div>
         </div>
-        <div class="service small orange" tabindex="0" data-progress="0%" data-progress-tier="none" data-status="dbt martsは未実装" data-note="MART_RETAIL_MONTHLY_KPIは直接SQLビューとして存在。ただしdbt model/materializationではなく、dbt martsの品質証跡ではない。" style="left: 571px; top: 459px;">
+        <div class="service small orange" tabindex="0" data-progress="25%" data-progress-tier="low" data-status="実装証跡あり: int_order_line_enrichedとmart_retail_monthly_kpiのSQL model、mart schema tests、率KPIを分子分母から再計算するmodel" data-note="credentials-free parse/compile artifactはこのcandidate worktreeで未確認。live dbt build/test、Snowflake実行、SQL結果正当性、answer-quality証跡は未実施。" style="left: 571px; top: 459px;">
           <div class="icon sprite sp-dbt-table" role="img" aria-label="dbt marts"></div>
           <div class="service-title">dbt marts</div>
           <div class="service-sub">KPI mart<br>売上・粗利proxy</div>
         </div>
-        <div class="service small orange" tabindex="0" data-progress="0%" data-progress-tier="none" data-status="dbt testsは未実装" data-note="pytest/routing evalはdbt testsの品質証跡ではない。dbt build/test、data test、schema testは未実装。" style="left: 571px; top: 559px;">
+        <div class="service small orange" tabindex="0" data-progress="20%" data-progress-tier="low" data-status="実装証跡あり: staging/intermediate/mart schema.ymlのdata_testsとgeneric test macro" data-note="このcandidate worktreeではdbt/tests/singularとcredentials-free parse/compile artifactは未確認。live dbt build/test、Snowflake実行、SQL結果正当性、answer-quality証跡は未実施。" style="left: 571px; top: 559px;">
           <div class="icon sprite sp-dbt-tests" role="img" aria-label="dbt tests"></div>
           <div class="service-title">dbt tests</div>
           <div class="service-sub">将来の品質検証</div>
