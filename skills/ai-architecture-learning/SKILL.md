@@ -38,6 +38,136 @@ routing rule, reviewer-agent contract, lint/CI gate, or evidence standard proves
 useful, separate the generic lesson from project-specific context so it can be
 promoted into a reusable skill later.
 
+Code-review findings are first-class learning artifacts in this project. When a
+review finds a real issue, identify whether it is an artifact bug, evidence
+overclaim, stale design doc, branch-integration risk, or reviewer-process gap.
+Then reflect the reusable mistake pattern into the code-review child skill or a
+domain-specific child skill instead of leaving it only in the final review
+comment.
+
+Test patterns are also first-class learning artifacts. When a useful test,
+lint, fixture check, E2E case, or live-proof boundary appears, classify what it
+proves, what it does not prove, and whether it should stay project-local or be
+promoted into a reusable professional test-pattern skill.
+
+## Reviewer-First Staged Upstreaming
+
+Use reviewer-first staged upstreaming when splitting implementation and review
+work across agents. The goal is to train reviewer agents on real AI failure
+patterns without turning the implementation task into a hidden-requirements
+trap.
+
+Implementation briefs must always include the baseline delivery contract:
+
+- purpose and user-facing intent
+- exact scope, allowed files, forbidden files, and shared-file ownership
+- source-of-truth docs and required design decisions
+- acceptance criteria, required commands, and evidence level
+- public/private boundary, secret policy, and no-silent-fallback rules
+- exact state vocabulary such as `posted`, `delivered`, `accepted`,
+  `reported`, `reviewed`, and `integration_ready` when parallel work is in
+  scope
+- any repeated, high-severity, safety-related, public-delivery, or machine-check
+  rule that has already been promoted upstream
+
+Implementation briefs should not receive the full reviewer-only mistake
+catalog by default. Do not pre-fill every likely AI error, old reviewer finding,
+and known weak spot into the implementer prompt when the purpose is to test
+whether the reviewer catches natural implementation misses.
+
+Implementation lanes must not be instructed to read reviewer-only artifacts
+unless the brief explicitly chooses `implementation_brief_level=full-pattern-aware`.
+Reviewer-only artifacts include the code-review AI mistake-pattern child skill,
+findings-only HTML pages, prior review finding ledgers, and known-miss lists.
+Give implementers the baseline contract, promoted rules, source-of-truth docs,
+and executable acceptance criteria; keep exploratory review lenses on the
+reviewer side so reviewer quality can be measured and improved.
+
+Reviewer briefs should be pattern-aware. They should load the relevant
+reviewer child skill, prior findings, known AI mistake patterns, evidence
+boundaries, and reflection-routing rules. Reviewers are expected to classify
+findings, propose the right reflection target, and identify whether a finding
+should remain reviewer-only or be promoted upstream.
+
+Reviewer sessions are not only defect detectors. They are reviewer-training
+surfaces. Each review should identify which review lens caught the issue, which
+lens missed it, and whether the miss should update a reviewer skill, a domain
+child skill, a lint/test, or future implementer acceptance criteria. If no
+findings exist, the reviewer should still report the coverage boundaries and
+which reusable review patterns were exercised.
+
+Escalate a reviewer-only pattern into implementation briefs, deterministic
+lint/CI, Backlog acceptance criteria, or project-wide rules when any of these
+are true:
+
+- the same class of issue recurs after a reviewer has already caught it
+- the issue can leak secrets, break a public page, corrupt evidence, or cause a
+  wrong delivery-status claim
+- the issue is mechanically checkable
+- the issue is a stable requirement rather than exploratory review judgment
+- missing it would make the implementer fail an unstated acceptance condition
+- the cost of late reviewer repair is higher than early prevention
+
+Keep a pattern reviewer-only when it is still exploratory, low-risk, not yet
+stable, too context-dependent, or mainly useful for training the reviewer to
+notice new shapes of AI error.
+
+Every delegated implementation/review split should name the information mode
+in the brief or report:
+
+- `implementation_brief_level=baseline`: baseline delivery contract only
+- `implementation_brief_level=hardened`: baseline plus promoted recurring or
+  high-risk rules
+- `implementation_brief_level=full-pattern-aware`: implementer receives the same
+  mistake-pattern context as the reviewer; use this for safety-critical,
+  deadline-critical, or repeated-failure repairs
+- `reviewer_context_level=pattern-aware`: reviewer receives the relevant
+  reviewer skill and prior failure patterns
+
+`Hardened` means distilled promoted rules only. Do not pass raw prior findings,
+reviewer-only HTML, mistake catalogs, or reviewer trap lists to a hardened
+implementer. Point to the promoted rule, lint, CI check, Backlog acceptance
+criterion, or project rule that came out of those findings.
+
+If a task genuinely needs reviewer-only material as source input, classify it
+as `implementation_brief_level=full-pattern-aware` and record the exception
+reason. Typical examples are reviewer-skill maintenance, reviewer-tooling HTML,
+or a repeated-failure repair where maximizing first-pass safety is more
+important than measuring reviewer catch quality.
+
+If a reviewer finds a defect, the orchestrator must decide whether the defect
+was caused by implementer negligence against the baseline contract, a legitimate
+reviewer-only training miss, or a rule that should now be promoted upstream.
+Do not let reviewers become a permanent manual repair layer for defects that
+should be prevented by better briefs, lints, tests, or CI.
+
+Before dispatching or updating project-local implementation/reviewer briefs, run
+`node tools/check_parallel_session_guardrails.mjs`. This guardrail exists because
+the orchestrator itself must actively decide how much context to give the
+implementer session. If the check fails, fix the brief before sending it to a
+parallel session.
+
+In this project, the main session's default role is orchestrator, not artifact
+implementer. After a workstream is intended for parallel sessions, do not absorb
+implementation, public HTML edits, tests, or follow-up page fixes into the main
+session merely because they are small. Dispatch the artifact change to a usable
+lane, verify `accepted`, and keep the main session focused on coordination,
+review, feedback reflection, integration, and final evidence. Direct
+main-context artifact work is allowed only with explicit user takeover
+authorization, or when the target lane is formally unavailable and the report
+labels the result `main-context substituted`.
+
+The project guardrail lint enforces this boundary by inspecting diffs. If
+artifact files changed, the same diff must include delegated-lane evidence in
+`.agent-feedback/SUBAGENT_INVOCATIONS.md` or an explicit
+`main-context substituted` reason. Run `node tools/check_parallel_session_guardrails.mjs`
+before accepting the work as done.
+
+Do not make feedback-ledger updates the activation source for orchestrator-only
+controls. The feedback ledger may be read and updated for reflection, but
+parallel-session control gates should depend on dispatch/review operations,
+artifact diffs, and invocation evidence.
+
 Do not let a narrow reference MVP, proxy dataset, or implementation shortcut
 erase technologies that belong to the intended realistic architecture. Preserve
 architecture identities such as dbt, Cortex, semantic modeling, evaluation,
@@ -231,6 +361,19 @@ separate in the learning diagram.
   - parse/compile versus live `dbt build/test` proof separation
   - Semantic/Eval/Streamlit/Cortex readiness gating from dbt evidence
   - dbt test failure policy and parallel session brief boundaries
+- `child-skills/code-review-ai-mistake-patterns/SKILL.md`
+  - reviewer lens for AI/parallel-agent implementation mistakes
+  - evidence overclaims, stale docs, branch lag, and report-vs-artifact gaps
+  - data-bearing contract checks that static compile/lint cannot prove
+  - routing from generic review findings into domain-specific child skills
+- `child-skills/test-pattern-reuse/SKILL.md`
+  - reusable test-pattern taxonomy separate from review lenses
+  - static/lint, fixture-unit, contract, data-bearing, compile-only,
+    live-integration, and user-facing E2E evidence levels
+  - promotion rules for turning project tests into generic client-delivery
+    skills, lint/CI, Backlog acceptance criteria, or templates
+  - current known gaps such as pytest environment readiness, live Snowflake
+    proof, private simulation boundaries, and answer-quality eval coverage
 - `child-skills/role-responsibility-tooltips/SKILL.md`
   - role responsibility wording in hover cards
   - PM/DE/DS/AI engineer/PG boundary clarity
@@ -252,6 +395,19 @@ When work concerns RAIOPS-4, dbt tests, dbt build/test evidence, parse/compile
 versus live proof, or readiness gating for Semantic/Eval/UI/Cortex from dbt
 quality evidence, route to the dbt readiness gates child skill before editing
 design docs, Backlog text, readiness rubrics, or final reports.
+
+When work concerns code review findings, AI-generated implementation defects,
+parallel-session output review, evidence overclaim, stale docs discovered by
+review, branch integration risk, or a reviewer-process gap, route to the
+code-review AI mistake-pattern child skill. If the finding is domain-specific,
+route both to this review lens and the matching domain child skill.
+
+When work concerns test design, test coverage, fixture checks, lint/CI checks,
+E2E cases, live-proof boundaries, failed/skipped test interpretation, or whether
+a test pattern should become reusable for future client-delivery work, route to
+the test pattern reuse child skill. If the test belongs to dbt, Backlog/Slack,
+diagram, role tooltip, or another domain, route to both this cross-cutting test
+skill and the matching domain child skill.
 
 When feedback concerns who owns a concept, KPI, data definition, AI grounding,
 tool routing, eval, trace, or implementation feasibility, route to the role

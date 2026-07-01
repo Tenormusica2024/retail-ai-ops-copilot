@@ -297,6 +297,21 @@ If this command passes but a feedback item still did not trigger reflection,
 the remaining issue is a weak trigger condition. Strengthen the global/project
 feedback-ledger trigger rules instead of only adding more routing checks.
 
+## Test Pattern Reuse
+
+Useful tests in this repo should be treated as reusable learning artifacts, not
+only one-off project checks. When a new test, lint, fixture check, E2E case, or
+live-proof boundary is added, classify its evidence level and whether it should
+stay project-local or be promoted into a reusable professional test pattern.
+Use:
+
+- `skills/ai-architecture-learning/child-skills/test-pattern-reuse/SKILL.md`
+
+Current evidence should stay explicit: `dbt parse` / `compile --empty` is not
+live Snowflake proof, local `private_simulation` tests are not real Backlog or
+Slack delivery, and diagram lint is visual-geometry proof rather than business
+correctness.
+
 For Backlog ticket creation, updates, reviews, or repo synchronization, load the
 project-local child skill before writing ticket text:
 `skills/ai-architecture-learning/child-skills/backlog-ticketing/SKILL.md`.
@@ -305,6 +320,38 @@ Before splitting implementation across parallel Codex sessions, use
 `docs/project-management/parallel-session-implementation-plan.md`. Parallel
 work should start from design-fixed Backlog lanes with explicit acceptance
 criteria, allowed files, blocked shared files, and verification commands.
+Also run the parallel-session guardrail lint before dispatching or updating
+implementation/reviewer briefs:
+
+```bash
+node tools/check_parallel_session_guardrails.mjs
+```
+
+For public docs surface changes, run the public-surface link guard before push
+or Pages verification:
+
+```bash
+node tools/check_public_surface_links.mjs
+```
+
+This check protects the project separation that humans keep correcting during
+review: implementation briefs must carry the baseline delivery contract without
+receiving the full reviewer-only mistake catalog by default, reviewer briefs
+must be pattern-aware, and shared surfaces such as feedback ledgers, project
+skills, Obsidian mirrors, and integration-ready decisions stay with the main
+orchestrating session.
+
+The same lint also guards against orchestrator takeover. If artifact files such
+as HTML pages, tests, dbt assets, app code, fixtures, or runtime tools changed,
+the diff must include either new delegated-lane evidence in
+`.agent-feedback/SUBAGENT_INVOCATIONS.md` or an explicit
+`main-context substituted` reason. GitHub Actions passes the push/PR compare
+range through `ORCHESTRATOR_GUARD_COMPARE`; locally the lint checks the current
+dirty/staged/untracked diff.
+
+This gate is not triggered by feedback-ledger updates. The feedback ledger is a
+record and routing surface; orchestration control is driven by dispatch/review
+operations, changed artifact files, and invocation evidence.
 
 For diagram checks, if Playwright is provided by the Codex runtime instead of
 repo-local dependencies, run:

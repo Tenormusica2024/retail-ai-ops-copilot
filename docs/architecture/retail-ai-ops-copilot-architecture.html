@@ -1071,10 +1071,10 @@
           <div class="service-title">商品・原価</div>
           <div class="service-sub">カテゴリ<br>proxy</div>
         </div>
-        <div class="service compact green" tabindex="0" data-progress="10%" data-progress-tier="low" data-tip="right" data-status="手動定義表あり" data-note="KPI_DEFINITIONSはsetup SQLのVALUESで作成した手動定義表。週報・会議メモ・Cortex Search対象文書はまだ未ロード。" style="left: 62px; top: 597px;">
+        <div class="service compact green" tabindex="0" data-progress="10%" data-progress-tier="low" data-tip="right" data-status="dbt管理のKPI定義マスタあり" data-note="repoではdbt/seeds/kpi_definitions.csvとして管理し、dbt seed実行後にSnowflake上のKPI_DEFINITIONSテーブルとして参照する。Snowflake公式サンプル由来ではない。" style="left: 62px; top: 597px;">
           <div class="icon generic green" role="img" aria-label="KPI定義">KPI</div>
-          <div class="service-title">KPI定義</div>
-          <div class="service-sub">手動投入<br>定義表</div>
+          <div class="service-title">KPI定義<br>マスタ</div>
+          <div class="service-sub">dbt seed<br>Snowflake表</div>
         </div>
 
         <div class="service small snow" tabindex="0" data-progress="25%" data-progress-tier="low" data-status="Snowflake公式サンプルを直接参照" data-note="データレイク/STAGE/RAW層ではなく、現在はSNOWFLAKE_SAMPLE_DATA.TPCH_SF1を直接ビューから参照。将来の取込層とは区別する。" style="left: 350px; top: 376px;">
@@ -1082,10 +1082,10 @@
           <div class="service-title">TPCH<br>元テーブル</div>
           <div class="service-sub">注文・明細<br>顧客・商品</div>
         </div>
-        <div class="service small snow" tabindex="0" data-progress="10%" data-progress-tier="low" data-status="KPI定義Seedのみ作成済み" data-note="KPI_DEFINITIONSテーブルは手動Seedとして作成済み。週報・文書投入、Cortex Search index、継続的な取込層は未実装。" style="left: 350px; top: 545px;">
+        <div class="service small snow" tabindex="0" data-progress="10%" data-progress-tier="low" data-status="dbt seedからSnowflake table化" data-note="定義元はdbt/seeds/kpi_definitions.csv。実行時はSnowflake上のKPI_DEFINITIONSテーブルとして参照する。Snowflake公式サンプル由来ではない。" style="left: 350px; top: 545px;">
           <div class="icon generic green" role="img" aria-label="KPI定義">KPI</div>
-          <div class="service-title">KPI定義</div>
-          <div class="service-sub">手動投入<br>定義表</div>
+          <div class="service-title">KPI定義<br>マスタ</div>
+          <div class="service-sub">dbt seed<br>Snowflake表</div>
         </div>
         <div class="service small orange" tabindex="0" data-progress="0%" data-progress-tier="none" data-status="dbt stagingは未実装" data-note="現MVPはorders/lineitem/customer/nation/region/part/partsuppを直接SQLビューで結合。これはdbt stagingの品質証跡ではない。" style="left: 571px; top: 359px;">
           <div class="icon sprite sp-dbt-table" role="img" aria-label="dbt staging"></div>

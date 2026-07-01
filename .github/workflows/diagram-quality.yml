@@ -4,8 +4,12 @@ on:
   pull_request:
     paths:
       - "docs/architecture/**"
+      - "docs/index.html"
+      - "docs/project-management/**"
       - "tools/check_diagram_*.mjs"
       - "tools/check_feedback_reflection.mjs"
+      - "tools/check_parallel_session_guardrails.mjs"
+      - "tools/check_public_surface_links.mjs"
       - ".github/workflows/diagram-quality.yml"
       - "README.md"
       - "AGENTS.md"
@@ -16,8 +20,12 @@ on:
       - main
     paths:
       - "docs/architecture/**"
+      - "docs/index.html"
+      - "docs/project-management/**"
       - "tools/check_diagram_*.mjs"
       - "tools/check_feedback_reflection.mjs"
+      - "tools/check_parallel_session_guardrails.mjs"
+      - "tools/check_public_surface_links.mjs"
       - ".github/workflows/diagram-quality.yml"
       - "README.md"
       - "AGENTS.md"
@@ -40,6 +48,44 @@ jobs:
 
       - name: Run feedback reflection lint
         run: node tools/check_feedback_reflection.mjs
+
+  parallel-session-guardrails:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+
+      - name: Run parallel session guardrail lint
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            export ORCHESTRATOR_GUARD_COMPARE="${{ github.event.pull_request.base.sha }}..${{ github.sha }}"
+          elif [ "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ]; then
+            export ORCHESTRATOR_GUARD_COMPARE="${{ github.event.before }}..${{ github.sha }}"
+          fi
+          node tools/check_parallel_session_guardrails.mjs
+
+  public-surface-links:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+
+      - name: Run public surface link lint
+        run: node tools/check_public_surface_links.mjs
 
   diagram-quality:
     runs-on: ubuntu-latest

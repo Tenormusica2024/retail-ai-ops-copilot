@@ -150,6 +150,34 @@ missing project gates for trigger decisions or child-skill creation.
 If the lint passes but a feedback turn still did not fire, treat that as a
 trigger-condition weakness and strengthen the feedback-ledger trigger rules.
 
+## Public Surface Link Gates
+
+Before reporting public docs surface changes as ready for push or Pages
+verification, run:
+
+```bash
+node tools/check_public_surface_links.mjs
+```
+
+This check covers the docs entry page, architecture HTML, review-findings HTML,
+AI mistake-pattern HTML, and test-pattern HTML. It verifies required public
+tokens and repo-local relative links. It is a local/CI link guard, not proof
+that GitHub Pages has deployed the latest commit.
+
+## Test Pattern Reuse
+
+When a task adds, runs, reviews, or explains tests, route reusable test-design
+lessons through:
+
+```text
+skills/ai-architecture-learning/child-skills/test-pattern-reuse/SKILL.md
+```
+
+Report what each test proves and does not prove. Keep evidence levels separate:
+static/lint, fixture-unit, contract, data-bearing local check, compile-only,
+live integration, and user-facing E2E. Do not collapse these into a generic
+"tests passed" claim.
+
 Before creating, updating, reviewing, or synchronizing Backlog tickets, load
 `skills/ai-architecture-learning/child-skills/backlog-ticketing/SKILL.md`.
 
@@ -157,6 +185,44 @@ Before splitting implementation work across parallel Codex sessions, read
 `docs/project-management/parallel-session-implementation-plan.md`. Do not start
 parallel implementation until the relevant design, Backlog lane, allowed files,
 blocked shared files, acceptance criteria, and verification commands are clear.
+Before dispatching or revising implementation/reviewer briefs, run:
+
+```bash
+node tools/check_parallel_session_guardrails.mjs
+```
+
+This rule-based guardrail protects project separation: implementation lanes get
+the baseline delivery contract, reviewer lanes get pattern-aware context, and
+main session keeps responsibility for shared files, feedback ledger, project
+skills, Obsidian mirror, and `integration_ready` decisions. If the guardrail
+fails, do not dispatch; fix the brief first.
+
+The main session is primarily the orchestrator. After parallel-session
+development/review is active, user-facing artifact changes, implementation
+fixes, HTML/page tweaks, tests, and follow-up repairs should be dispatched to a
+target lane whenever a usable lane exists. The main session may directly handle
+feedback-ledger reflection, task briefs, acceptance verification, review,
+integration, shared-file merge decisions, and final public verification. If the
+main session performs artifact work because no lane is available or takeover is
+explicitly authorized, label it `main-context substituted` and explain why it
+was not delegated.
+
+System architecture diagram progress-rate updates and visible diagram text,
+tooltip, label, or layout updates are artifact work. After the immediate
+question-answer thread that discovered the issue ends, the main session should
+prepare the brief and dispatch those edits to a diagram/progress lane instead
+of directly patching the HTML whenever a usable lane exists.
+
+`tools/check_parallel_session_guardrails.mjs` enforces part of this boundary:
+artifact-file diffs require either a new real delegated-lane evidence row in
+`.agent-feedback/SUBAGENT_INVOCATIONS.md` or an explicit
+`main-context substituted` reason. Do not treat a passing prose rule as enough
+when this lint fails.
+
+Do not use feedback-ledger updates as the trigger for orchestrator-only
+guardrails. The ledger may be read for context and updated for reflection, but
+parallel-session control gates fire from dispatch/review operations, artifact
+diffs, and invocation evidence.
 
 ## Scope Boundaries
 
