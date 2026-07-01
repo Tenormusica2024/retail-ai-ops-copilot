@@ -1102,7 +1102,7 @@
           <div class="service-title">dbt tests</div>
           <div class="service-sub">将来の品質検証</div>
         </div>
-        <div class="service semantic snow" tabindex="0" data-progress="45%" data-progress-tier="mid" data-status="ef6a825 reviewed-candidate_local-static: semantic validator hardening" data-note="L5 ef6a825: semantic contract tests 19 passed、validator --json ok=true / live_external_execution=false、全体pytest 27 passed。率KPIのstored-rate SUM/AVG誤用負例とdenominator zero guardを強化。Snowflake実行、Cortex Analyst登録/実応答、SQL result correctness、answer quality、live外部実行、L4 browser E2Eは未証明。" style="left: 795px; top: 365px;">
+        <div class="service semantic snow" tabindex="0" data-progress="45%" data-progress-tier="mid" data-status="ef6a825 reviewed-candidate_local-static: semantic validator hardening" data-note="L5 ef6a825: semantic contract tests 19 passed、validator --json ok=true / live_external_execution=false、全体pytest 27 passed。率KPIのstored-rate SUM/AVG誤用負例とdenominator zero guardを強化。Snowflake実行、Cortex Analyst登録/実応答、SQL result correctness、answer quality、live外部実行は未証明。L4 browser E2EはSemantic validatorの追加進捗として扱わない。" style="left: 795px; top: 365px;">
           <div class="icon sprite sp-semantic" role="img" aria-label="Semantic KPI Model"></div>
           <div class="service-title">Semantic KPI Model</div>
           <div class="service-sub">(YAML / Semantic Model)<br>指標定義・ディメンション<br>ビジネスルール・メトリクス<br>階層・ルックアップ</div>
@@ -1139,13 +1139,13 @@
           <div class="service-title">地域分析者</div>
           <div class="service-sub">地域KPIの比較<br>国/地域フィルタ</div>
         </div>
-        <div class="service compact" tabindex="0" data-progress="25%" data-progress-tier="low" data-status="SQL previewと結果表示のUI経路あり" data-note="分析者workflow、UI E2E、結果解釈品質テストは未実装。" style="left: 720px; top: 132px;">
+        <div class="service compact" tabindex="0" data-progress="30%" data-progress-tier="low" data-status="SQL previewとtrace表示のbrowser E2E証跡あり" data-note="L4 a7080dd: 実ブラウザDOMでchat input、タブDOM、SQL preview、result、trace path、JSONL、screenshotを確認。分析者workflowの網羅、回答品質、SQL result correctness、live Snowflake/Cortex、レスポンシブ/アクセシビリティは未証明。" style="left: 720px; top: 132px;">
           <div class="icon sprite sp-analyst-user" role="img" aria-label="データアナリスト"></div>
           <div class="service-title">データアナリスト</div>
           <div class="service-sub">深掘り分析・レポート作成<br>データ探索</div>
         </div>
 
-        <div class="service wide red" tabindex="0" data-progress="35%" data-progress-tier="low" data-status="reviewed-candidate_local-component-smoke" data-note="L4 7b3656d9: Streamlit component smoke + HTTP startup smokeで6 passed。Snowflake credentialsなしでsilent fallbackしないこと、local_explicit_testだけをfixture成功扱いにすること、structured KPI / follow-up / ambiguous / unsupported / unsafe actionの5シナリオでroute、tool_plan、SQL request、result、citation、trace保存、human approval候補の表示またはtraceを確認。Playwrightまたは実ブラウザDOM操作、スクリーンショット、レスポンシブ、アクセシビリティ、live Snowflake / Cortex実行、回答品質、SQL result correctness、外部Slack/Backlog送信は未証明。live_external_executed=false。" style="left: 950px; top: 132px;">
+        <div class="service wide red" tabindex="0" data-progress="45%" data-progress-tier="mid" data-status="reviewed-candidate_browser-e2e" data-note="L4 a7080dd: Playwright ChromiumでStreamlit serverをサブプロセス起動し、/_stcore/health待機後に実ブラウザでchat input、タブDOM、SQL preview、result、trace path、JSONL、screenshotを確認。structured KPI / follow-up / ambiguous / unsupported sensitive / unsafe actionと、Snowflake runtimeでcredentialsなしの場合にlocal fixtureへsilent fallbackしない明示error停止を確認。local outputはoutputs/raiops11-browser-e2e配下のローカル実行証跡。live Snowflake/Cortex UI integration、実SQL結果正当性、回答品質、レスポンシブ/アクセシビリティ/クロスブラウザ網羅、外部Slack/Backlog送信、L5 Semantic追加進捗は未証明。" style="left: 950px; top: 132px;">
           <div class="icon sprite sp-streamlit" role="img" aria-label="Streamlit"></div>
           <div class="service-title">Streamlit UI</div>
           <div class="service-sub">サンプルKPI UI<br>チャット・QA・SQL確認</div>

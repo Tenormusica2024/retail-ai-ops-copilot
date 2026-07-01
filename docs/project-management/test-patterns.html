@@ -550,10 +550,10 @@
             <div class="cell"><b>使うべきか</b><p>使う。率KPIを保存済み率のまま <code>SUM</code> / <code>AVG</code> する誤用と、分母ゼロguardの欠落をSemantic契約変更時に早く検知する。</p></div>
             <div class="cell"><b>コマンドまたは証跡artifact</b><p><code>PYTHONDONTWRITEBYTECODE=1 pytest -q tests/test_semantic_contract.py</code><br><code>PYTHONDONTWRITEBYTECODE=1 python3 tools/validate_semantic_contract.py --json</code><br><code>PYTHONDONTWRITEBYTECODE=1 pytest -q</code></p></div>
             <div class="cell"><b>何を証明するか</b><p>Semantic validatorがstored-rate <code>SUM</code> / <code>AVG</code> の負例と、denominator zero guardの契約違反をlocal/staticに検出できること。</p></div>
-            <div class="cell"><b>何を証明しないか</b><p>Snowflake実行、Cortex Analyst登録または実応答、SQL result correctness、answer quality、live external execution、L4 browser E2Eのreviewed/published状態は証明しない。</p></div>
+            <div class="cell"><b>何を証明しないか</b><p>Snowflake実行、Cortex Analyst登録または実応答、SQL result correctness、answer quality、live external executionは証明しない。L4 browser E2Eは別証跡で扱い、Semantic validatorの追加進捗には加算しない。</p></div>
             <div class="cell"><b>再利用先</b><p>Semantic KPI Model、verified query、Golden Evalのrate KPIケース、CIの契約validator、Backlog受入基準。</p></div>
             <div class="cell"><b>関連ノードまたはレーン</b><p>Semantic KPI Model、dbt tests、Golden Eval、L5 Semantic validator lane。</p></div>
-            <div class="cell"><b>次アクションまたはブロッカー</b><p>live Snowflake/Cortex、SQL結果正当性、回答品質は別証跡で追加する。L4 browser E2Eは今回のSemantic公開面には反映しない。</p></div>
+            <div class="cell"><b>次アクションまたはブロッカー</b><p>live Snowflake/Cortex、SQL結果正当性、回答品質は別証跡で追加する。L4 browser E2EはUI証跡として扱い、Semantic公開面の進捗には加算しない。</p></div>
           </div>
         </article>
 
@@ -678,6 +678,27 @@
             <div class="cell"><b>再利用先</b><p>Streamlit UI、App Runtime、trace logging、人間承認候補表示、GitHub Pages公開面のevidence boundary。</p></div>
             <div class="cell"><b>関連ノードまたはレーン</b><p>Streamlit UI、App Runtime、Agent Router、Planner、Golden Eval、Human Review Queue。</p></div>
             <div class="cell"><b>次アクションまたはブロッカー</b><p>Playwrightまたは実ブラウザDOM、スクリーンショット、レスポンシブ、アクセシビリティ、live Snowflake/Cortex、回答品質、SQL結果正当性は別証跡として追加する。</p></div>
+          </div>
+        </article>
+
+        <article class="pattern">
+          <div class="pattern-head">
+            <div class="badge-row">
+              <span class="badge category">カテゴリ: Streamlit browser E2E</span>
+              <span class="badge level-e2e">証跡: user-facing-e2e / browser-e2e</span>
+              <span class="badge level-data">証跡: local output evidence</span>
+            </div>
+            <h3>RAIOPS-11 Streamlit browser E2E</h3>
+          </div>
+          <div class="pattern-body">
+            <div class="cell"><b>現在のプロジェクト状況</b><p>L4 commit <code>a7080dd</code> を <code>reviewed-candidate_browser-e2e</code> として公開面へ反映。main/orchestrator再実行では <code>.venv/bin/pytest -q</code> が <code>38 passed</code>、<code>python3 -m retail_ai_ops.eval_runner</code> は exit 1、<code>9/10</code>、known gapは <code>golden-005</code>。</p></div>
+            <div class="cell"><b>使うべきか</b><p>使う。component-smokeでは見えない、実ブラウザDOM、chat入力、タブ表示、SQL preview、result、trace保存、screenshotの利用者経路を検査する。</p></div>
+            <div class="cell"><b>コマンドまたは証跡artifact</b><p><code>tests/test_streamlit_browser_e2e.py</code><br><code>requirements-e2e.txt</code><br><code>docs/project-management/raiops11-browser-e2e-report.md</code><br><code>outputs/raiops11-browser-e2e/*.png</code> / <code>*.jsonl</code> はローカル実行証跡。</p></div>
+            <div class="cell"><b>何を証明するか</b><p>Playwright ChromiumでStreamlit serverをサブプロセス起動し、<code>/_stcore/health</code> 待機後にstructured KPI、follow-up、ambiguous、unsupported sensitive、unsafe actionを実ブラウザ経由で確認すること。</p></div>
+            <div class="cell"><b>何を証明しないか</b><p>live Snowflake/Cortex UI integration、実SQL結果正当性、回答品質、レスポンシブ/アクセシビリティ/クロスブラウザ網羅、外部Slack/Backlog送信、L5 Semantic validatorの追加進捗は証明しない。</p></div>
+            <div class="cell"><b>再利用先</b><p>Streamlit UI、App Runtime、SQL preview、trace logging、human approval候補表示、public-surface evidence boundary。</p></div>
+            <div class="cell"><b>関連ノードまたはレーン</b><p>Streamlit UI、データアナリスト、App Runtime、Trace Logger、Human Review Queue、L4 RAIOPS-11 browser E2E lane。</p></div>
+            <div class="cell"><b>次アクションまたはブロッカー</b><p>live UI integration、answer quality、SQL result correctness、accessibility/responsive、cross-browserは別証跡として追加する。component-smokeとbrowser E2Eをlive成功として扱わない。</p></div>
           </div>
         </article>
 
