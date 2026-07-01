@@ -391,7 +391,7 @@
         <h1 id="page-title">テストパターン一覧</h1>
         <p class="lead">
           Retail AI Ops Copilotで使うべき検証パターンを、実行結果ではなく「何を証明するか」「何を証明しないか」の単位で整理する。
-          static、fixture、contract、local data、compile、live、user-facing E2Eを混ぜず、後続のSemantic Model、Golden Eval、Streamlit、Cortex readinessへ渡せる形にする。
+          static、単体/ユニット、contract、local data、compile、結合、E2Eを混ぜず、後続のSemantic Model、Golden Eval、Streamlit、Cortex readinessへ渡せる形にする。
         </p>
         <div class="source-links" aria-label="関連ページ">
           <a class="source-link" href="../index.html">レビュー面入口へ戻る</a>
@@ -430,8 +430,8 @@
           <span>ファイル、HTML、docs、ledger、グラフ構造を読む。実サービスや実データの成功は証明しない。</span>
         </article>
         <article class="level-card">
-          <strong>証跡: fixture-unit</strong>
-          <span>local fixtureやmock入力に対する決定的テスト。外部配送やlive APIの成功とは分ける。</span>
+          <strong>証跡: fixture-unit / 単体・ユニットテスト</strong>
+          <span>local fixtureやmock入力に対する決定的テスト。関数、変換、通知生成などの小さい単位を検証し、外部配送やlive APIの成功とは分ける。</span>
         </article>
         <article class="level-card">
           <strong>証跡: contract-test</strong>
@@ -446,12 +446,12 @@
           <span>dbtやツールが構文解析、依存解決、生成をできることを示す。live実行成功にはしない。</span>
         </article>
         <article class="level-card">
-          <strong>証跡: live-integration</strong>
-          <span>対象service、role、schema、warehouse、成功/失敗ログがそろう実結合証跡。dummy envとは別扱い。</span>
+          <strong>証跡: live-integration / 結合テスト</strong>
+          <span>対象service、role、schema、warehouse、成功/失敗ログがそろう実結合証跡。dummy envや単体テストとは別扱い。</span>
         </article>
         <article class="level-card">
-          <strong>証跡: user-facing-e2e</strong>
-          <span>人間が見る画面や回答品質まで検証する。内部関数やcompileだけでは代替できない。</span>
+          <strong>証跡: user-facing-e2e / E2Eテスト</strong>
+          <span>人間が見る画面、回答品質、承認フローまで検証する。内部関数、単体テスト、compileだけでは代替できない。</span>
         </article>
         <article class="level-card">
           <strong>証跡: workflow contract</strong>
@@ -536,7 +536,7 @@
           <div class="pattern-head">
             <div class="badge-row">
               <span class="badge category">カテゴリ: notification workflow</span>
-              <span class="badge level-fixture">証跡: fixture-unit</span>
+              <span class="badge level-fixture">証跡: fixture-unit / 単体・ユニット</span>
             </div>
             <h3>Backlog / Slack private_simulation Node tests</h3>
           </div>
@@ -618,7 +618,7 @@
           <div class="pattern-head">
             <div class="badge-row">
               <span class="badge category">カテゴリ: Python runtime</span>
-              <span class="badge level-fixture">証跡: fixture-unit</span>
+              <span class="badge level-fixture">証跡: fixture-unit / 単体・ユニット</span>
               <span class="badge level-data">証跡: data-bearing-local</span>
             </div>
             <h3>Python pytest planner / trace / Obsidian sync</h3>
@@ -639,7 +639,7 @@
           <div class="pattern-head">
             <div class="badge-row">
               <span class="badge category">カテゴリ: answer quality</span>
-              <span class="badge level-e2e">証跡: user-facing-e2e</span>
+              <span class="badge level-e2e">証跡: user-facing-e2e / E2E</span>
               <span class="badge level-contract">証跡: eval pattern</span>
             </div>
             <h3>Golden Eval / user-facing answer quality</h3>
