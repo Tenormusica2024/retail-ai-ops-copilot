@@ -1145,7 +1145,7 @@
           <div class="service-sub">深掘り分析・レポート作成<br>データ探索</div>
         </div>
 
-        <div class="service wide red" tabindex="0" data-progress="30%" data-progress-tier="low" data-status="Reference MVPのチャットUIあり。dbt/Cortexは未経由" data-note="UIは利用者入力、SQL/回答表示、警告/承認導線を担当。実行経路はApp RuntimeまたはCortex Analystへ委譲する想定だが、現MVPはMART_RETAIL_MONTHLY_KPIへの直接SQL実行。" style="left: 950px; top: 132px;">
+        <div class="service wide red" tabindex="0" data-progress="35%" data-progress-tier="low" data-status="reviewed-candidate_local-component-smoke" data-note="L4 7b3656d9: Streamlit component smoke + HTTP startup smokeで6 passed。Snowflake credentialsなしでsilent fallbackしないこと、local_explicit_testだけをfixture成功扱いにすること、structured KPI / follow-up / ambiguous / unsupported / unsafe actionの5シナリオでroute、tool_plan、SQL request、result、citation、trace保存、human approval候補の表示またはtraceを確認。Playwrightまたは実ブラウザDOM操作、スクリーンショット、レスポンシブ、アクセシビリティ、live Snowflake / Cortex実行、回答品質、SQL result correctness、外部Slack/Backlog送信は未証明。live_external_executed=false。" style="left: 950px; top: 132px;">
           <div class="icon sprite sp-streamlit" role="img" aria-label="Streamlit"></div>
           <div class="service-title">Streamlit UI</div>
           <div class="service-sub">サンプルKPI UI<br>チャット・QA・SQL確認</div>

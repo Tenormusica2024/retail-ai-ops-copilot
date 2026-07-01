@@ -434,6 +434,10 @@
           <span>local fixtureやmock入力に対する決定的テスト。関数、変換、通知生成などの小さい単位を検証し、外部配送やlive APIの成功とは分ける。</span>
         </article>
         <article class="level-card">
+          <strong>証跡: component-smoke / UI component smoke</strong>
+          <span>StreamlitなどのUI部品とHTTP起動を軽く検査する。Playwright、実ブラウザDOM、スクリーンショット、回答品質、live外部実行とは分ける。</span>
+        </article>
+        <article class="level-card">
           <strong>証跡: contract-test</strong>
           <span>seed、model、API、workflow state、eval caseなどの契約を検査する。契約外の品質は別テストが必要。</span>
         </article>
@@ -632,6 +636,27 @@
             <div class="cell"><b>再利用先</b><p>project-local、project-family、lint・CI、Backlog受入基準。</p></div>
             <div class="cell"><b>関連ノードまたはレーン</b><p>agent planner、trace logging、Obsidian docs mirror、Golden Eval seed。</p></div>
             <div class="cell"><b>次アクションまたはブロッカー</b><p>pytest未導入なら実施済みにしない。Python env固定後にcommand、runtime、skip理由を報告形式へ入れる。</p></div>
+          </div>
+        </article>
+
+        <article class="pattern">
+          <div class="pattern-head">
+            <div class="badge-row">
+              <span class="badge category">カテゴリ: Streamlit UI smoke</span>
+              <span class="badge level-fixture">証跡: component-smoke</span>
+              <span class="badge level-static">証跡: HTTP startup smoke</span>
+            </div>
+            <h3>RAIOPS-11 Streamlit component smoke</h3>
+          </div>
+          <div class="pattern-body">
+            <div class="cell"><b>現在のプロジェクト状況</b><p>L4 commit <code>7b3656d9</code> を <code>reviewed-candidate_local-component-smoke</code> として公開面へ反映。main/orchestrator再実行では <code>.venv/bin/pytest -q tests/test_streamlit_ui_e2e_smoke.py</code> が <code>6 passed</code>、全体 <code>.venv/bin/pytest -q</code> が <code>32 passed</code>。</p></div>
+            <div class="cell"><b>使うべきか</b><p>使う。Streamlitの利用者向け表示経路を作り始めた段階で、silent fallbackやfixture成功条件の緩みを安く止める。</p></div>
+            <div class="cell"><b>コマンドまたは証跡artifact</b><p><code>tests/test_streamlit_ui_e2e_smoke.py</code><br><code>docs/project-management/raiops11-ui-e2e-smoke-report.md</code><br><code>python3 -m retail_ai_ops.eval_runner</code> は <code>EVAL_EXIT=1</code>、<code>9/10 passed</code>、known gapは <code>golden-005</code> のみ。</p></div>
+            <div class="cell"><b>何を証明するか</b><p>Snowflake credentialsなしでsilent fallbackしないこと、<code>local_explicit_test</code>だけがfixture成功扱いになること。structured KPI、follow-up、ambiguous、unsupported、unsafe actionの5シナリオでroute、tool_plan、SQL request、result、citation、trace保存、human approval候補の表示またはtraceを確認する。</p></div>
+            <div class="cell"><b>何を証明しないか</b><p><code>live_external_executed=false</code>。Playwrightまたは実ブラウザDOM操作、スクリーンショット、レスポンシブ、アクセシビリティ、live Snowflake / Cortex実行、回答品質、SQL result correctness、外部Slack/Backlog送信は未証明。user-facing E2E未満として扱う。</p></div>
+            <div class="cell"><b>再利用先</b><p>Streamlit UI、App Runtime、trace logging、人間承認候補表示、GitHub Pages公開面のevidence boundary。</p></div>
+            <div class="cell"><b>関連ノードまたはレーン</b><p>Streamlit UI、App Runtime、Agent Router、Planner、Golden Eval、Human Review Queue。</p></div>
+            <div class="cell"><b>次アクションまたはブロッカー</b><p>Playwrightまたは実ブラウザDOM、スクリーンショット、レスポンシブ、アクセシビリティ、live Snowflake/Cortex、回答品質、SQL結果正当性は別証跡として追加する。</p></div>
           </div>
         </article>
 
