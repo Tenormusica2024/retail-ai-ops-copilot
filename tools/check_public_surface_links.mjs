@@ -24,15 +24,15 @@ const blockedPublicSurfaceFraming = [
 const publicPages = [
   {
     file: "docs/index.html",
-    tokens: ["ソースコード改修実例", "ソースコード改修実例を開く", "テストパターン一覧", "b8321eb", "RAIOPS-11", "Streamlit component smoke"],
+    tokens: ["ソースコード改修実例", "ソースコード改修実例を開く", "テストパターン一覧", "integrated-local", "RAIOPS-11", "browser E2E"],
   },
   {
     file: "docs/architecture/retail-ai-ops-copilot-architecture.html",
-    tokens: ["dbt seed", "ソースコード改修実例", "テストパターン一覧", "quality_passed=16", "reviewed-candidate_browser-e2e", "a7080dd", "ef6a825", "reviewed-candidate_local-static"],
+    tokens: ["dbt seed", "ソースコード改修実例", "テストパターン一覧", "quality_passed=18", "known_gaps_observed=8", "integrated-local browser E2E rerun passed", "b7d0bcf", "6a38978", "ef6a825", "reviewed-candidate_local-static"],
   },
   {
     file: "docs/project-management/code-review-findings.html",
-    tokens: ["ソースコード改修実例", "dbt seed", "b8321eb", "known_gaps_observed=10"],
+    tokens: ["ソースコード改修実例", "dbt seed", "known_gaps_observed"],
   },
   {
     file: "docs/project-management/code-review-ai-mistake-patterns.html",
@@ -40,7 +40,7 @@ const publicPages = [
   },
   {
     file: "docs/project-management/test-patterns.html",
-    tokens: ["テストパターン一覧", "code-review-findings.html", "evaluation_mode=local_static_fixture", "Streamlit component smoke", "reviewed-candidate_browser-e2e", "a7080dd", "browser-e2e", "live_external_executed=false", "ef6a825", "率KPI mutation", "live_external_execution=false"],
+    tokens: ["テストパターン一覧", "code-review-findings.html", "evaluation_mode=local_static_fixture", "Streamlit component smoke", "quality_passed=18", "known_gaps_observed=8", "6a38978", "統合証跡レポートcounter freshness", "live_external_executed=false", "ef6a825", "率KPI mutation", "live_external_execution=false"],
   },
 ];
 

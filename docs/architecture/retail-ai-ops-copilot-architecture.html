@@ -1145,17 +1145,17 @@
           <div class="service-sub">深掘り分析・レポート作成<br>データ探索</div>
         </div>
 
-        <div class="service wide red" tabindex="0" data-progress="45%" data-progress-tier="mid" data-status="reviewed-candidate_browser-e2e" data-note="L4 a7080dd: Playwright ChromiumでStreamlit serverをサブプロセス起動し、/_stcore/health待機後に実ブラウザでchat input、タブDOM、SQL preview、result、trace path、JSONL、screenshotを確認。structured KPI / follow-up / ambiguous / unsupported sensitive / unsafe actionと、Snowflake runtimeでcredentialsなしの場合にlocal fixtureへsilent fallbackしない明示error停止を確認。local outputはoutputs/raiops11-browser-e2e配下のローカル実行証跡。live Snowflake/Cortex UI integration、実SQL結果正当性、回答品質、レスポンシブ/アクセシビリティ/クロスブラウザ網羅、外部Slack/Backlog送信、L5 Semantic追加進捗は未証明。" style="left: 950px; top: 132px;">
+        <div class="service wide red" tabindex="0" data-progress="50%" data-progress-tier="mid" data-status="integrated-local browser E2E rerun passed" data-note="L5 rerun after L2 fix on 6a38978: Streamlit browser E2E 6 passed in 19.17s、component smoke 6 passed、全体pytest 76 passed。Playwright ChromiumでStreamlit serverをサブプロセス起動し、/_stcore/health待機後にchat input、タブDOM、SQL preview、result、trace path、JSONL、screenshotを確認。local outputはoutputs/raiops11-browser-e2e配下のローカル実行証跡。live Snowflake/Cortex UI integration、実SQL結果正当性、回答品質、レスポンシブ/アクセシビリティ/クロスブラウザ網羅、外部Slack/Backlog送信は未証明。" style="left: 950px; top: 132px;">
           <div class="icon sprite sp-streamlit" role="img" aria-label="Streamlit"></div>
           <div class="service-title">Streamlit UI</div>
           <div class="service-sub">サンプルKPI UI<br>チャット・QA・SQL確認</div>
         </div>
-        <div class="service runtime slate" tabindex="0" data-progress="55%" data-progress-tier="mid" data-tip="left" data-status="b8321ebでrouter/planner local static候補" data-note="pytest 43 passed。Golden Evalはquality_passed=16、known_gaps_observed=10、unexpected_failures=0、failed=0 under allow-known-gaps、strict-known-gaps failed=10、total=26、evaluation_mode=local_static_fixture、live_external_executed=false。known gapは品質合格数に含めない。" style="left: 1370px; top: 292px;">
+        <div class="service runtime slate" tabindex="0" data-progress="60%" data-progress-tier="mid" data-tip="left" data-status="integrated-local routing/eval: 18 quality pass + 8 known gaps" data-note="L2 6a38978 + b7d0bcf: pytest 76 passed、evalはquality_passed=18、known_gaps_observed=8、unexpected_failures=0、failed=0 under allow-known-gaps、total=26、evaluation_mode=local_static_fixture、live_external_executed=false。broad/rollup order_countはSQL前にsafe-stop。accepted=26を品質合格数として扱わない。live Snowflake/Cortexは未証明。" style="left: 1370px; top: 292px;">
           <div class="icon sprite sp-agent-router" role="img" aria-label="Agent Router"></div>
           <div class="service-title">Agent Router</div>
           <div class="service-sub">問い合わせ分類・ルーティング</div>
         </div>
-        <div class="service runtime purple" tabindex="0" data-progress="50%" data-progress-tier="mid" data-tip="left" data-status="deterministic plannerをlocal/static検証" data-note="b8321eb: pytest 43 passed、eval runner exit 0。Golden Evalはquality_passed=16、known_gaps_observed=10、unexpected_failures=0、failed=0 under allow-known-gaps、strict-known-gaps failed=10、total=26、evaluation_mode=local_static_fixture、live_external_executed=false。SQL結果正当性、Cortex経路は未実施。" style="left: 1370px; top: 402px;">
+        <div class="service runtime purple" tabindex="0" data-progress="55%" data-progress-tier="mid" data-tip="left" data-status="integrated-local planner safe-stop / rate KPI guard" data-note="L3 re-review PASS_WITH_MINOR後、L2 b7d0bcfでbranch-local reportを更新。broad/rollup order_countはSQL前safe-stop、rate KPI SQLはnumerator/denominatorをnullifで再計算するlocal/static契約へ前進。SQL result correctness、Cortex経路、live external executionは未証明。" style="left: 1370px; top: 402px;">
           <div class="icon sprite sp-planner" role="img" aria-label="Planner"></div>
           <div class="service-title">Planner (LangGraph)</div>
           <div class="service-sub">計画立案・ツール選択<br>状態管理・メモリ</div>
@@ -1165,7 +1165,7 @@
           <div class="service-title">Tool Adapter</div>
           <div class="service-sub">ツール呼び出しアダプタ<br>(Cortex / Search / SQL 等)</div>
         </div>
-        <div class="service runtime purple" tabindex="0" data-progress="45%" data-progress-tier="mid" data-tip="left" data-status="JSONL trace writerとtrace内容testあり" data-note="Snowflake OPS tableへのアプリ書き込み、品質dashboard、欠損検知は未接続。" style="left: 1370px; top: 622px;">
+        <div class="service runtime purple" tabindex="0" data-progress="50%" data-progress-tier="mid" data-tip="left" data-status="local trace path / JSONLをbrowser E2Eで確認" data-note="L5 browser E2E rerunでtrace path、JSONL、screenshotをローカル実行証跡として確認。trace / screenshotsはoutputs/配下のignored artifactで、Pagesやlive-service proofではない。Snowflake OPS table書き込み、品質dashboard、欠損検知、live external実行は未接続。" style="left: 1370px; top: 622px;">
           <div class="icon sprite sp-trace-logger" role="img" aria-label="Trace Logger"></div>
           <div class="service-title">Trace Logger</div>
           <div class="service-sub">実行トレース記録<br>(入力・出力・コスト等)</div>
@@ -1181,7 +1181,7 @@
           <div class="service-title">CI / CD</div>
           <div class="service-sub">GitHub Actions<br>dbt build / test<br>pytest / eval<br>semantic検証</div>
         </div>
-        <div class="service compact orange" tabindex="0" data-progress="50%" data-progress-tier="mid" data-status="b8321eb local/static eval: 16 quality pass + 10 known gaps" data-note="quality_passed=16、known_gaps_observed=10、unexpected_failures=0、failed=0 under allow-known-gaps、total=26。strict-known-gapsではfailed=10。evaluation_mode=local_static_fixture、live_external_executed=false。26件全体を品質合格数として扱わない。" style="left: 535px; top: 780px;">
+        <div class="service compact orange" tabindex="0" data-progress="55%" data-progress-tier="mid" data-status="integrated-local eval: quality_passed=18 + known_gaps_observed=8" data-note="L2 b7d0bcf refreshed integration evidence counters: quality_passed=18、known_gaps_observed=8、unexpected_failures=0、failed=0 under allow-known-gaps、total=26、evaluation_policy=allow_known_gaps、evaluation_mode=local_static_fixture、live_external_executed=false。accepted=26は品質合格数ではなく、strict-known-gapsは品質gate pressureとして別扱い。" style="left: 535px; top: 780px;">
           <div class="icon sprite sp-golden-eval" role="img" aria-label="Golden Eval"></div>
           <div class="service-title">Golden Eval</div>
           <div class="service-sub">(回帰評価セット)<br>質問セット・期待値<br>正解SQL・結果<br>評価基準・閾値</div>
@@ -1201,7 +1201,7 @@
           <div class="service-title">Error Taxonomy</div>
           <div class="service-sub">エラー分類・原因分析<br>改善アクション管理</div>
         </div>
-        <div class="service review-node green" tabindex="0" data-progress="30%" data-progress-tier="low" data-tip="left" data-status="requires_human_review flagとUI warningあり" data-note="承認queue、修正コメント保存、再評価loop、HITL E2Eは未実装。" style="left: 1480px; top: 780px;">
+        <div class="service review-node green" tabindex="0" data-progress="35%" data-progress-tier="low" data-tip="left" data-status="human_review_typeを3系統に分離" data-note="L3 re-review: human_review_typeはpre_execution_approval、post_answer_quality_review、safe_stop_reviewを分離。unsafe action approvalとsafe-stop系はlocal/browser E2E証跡あり。production approval queue persistence、外部write execution、Slack/Backlog送信、HITL live E2Eは未証明。" style="left: 1480px; top: 780px;">
           <div class="icon sprite sp-human-review" role="img" aria-label="人手レビュー"></div>
           <div class="service-title">人手レビュー</div>
           <div class="service-sub">低信頼・エッジケース確認<br>承認・修正・コメント</div>

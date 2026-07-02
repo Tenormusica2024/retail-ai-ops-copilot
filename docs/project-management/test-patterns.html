@@ -691,14 +691,14 @@
             <h3>RAIOPS-11 Streamlit browser E2E</h3>
           </div>
           <div class="pattern-body">
-            <div class="cell"><b>現在のプロジェクト状況</b><p>L4 commit <code>a7080dd</code> を <code>reviewed-candidate_browser-e2e</code> として公開面へ反映。main/orchestrator再実行では <code>.venv/bin/pytest -q</code> が <code>38 passed</code>、<code>python3 -m retail_ai_ops.eval_runner</code> は exit 1、<code>9/10</code>、known gapは <code>golden-005</code>。</p></div>
+            <div class="cell"><b>現在のプロジェクト状況</b><p>L4 commit <code>a7080dd</code> のbrowser E2Eを、L5がL2 fix後の <code>6a38978</code> で再実行。<code>.venv/bin/pytest -q tests/test_streamlit_browser_e2e.py</code> は <code>6 passed in 19.17s</code>、UI smokeは <code>6 passed in 0.44s</code>、全体pytestは <code>76 passed in 24.27s</code>。</p></div>
             <div class="cell"><b>使うべきか</b><p>使う。component-smokeでは見えない、実ブラウザDOM、chat入力、タブ表示、SQL preview、result、trace保存、screenshotの利用者経路を検査する。</p></div>
             <div class="cell"><b>コマンドまたは証跡artifact</b><p><code>tests/test_streamlit_browser_e2e.py</code><br><code>requirements-e2e.txt</code><br><code>docs/project-management/raiops11-browser-e2e-report.md</code><br><code>outputs/raiops11-browser-e2e/*.png</code> / <code>*.jsonl</code> はローカル実行証跡。</p></div>
             <div class="cell"><b>何を証明するか</b><p>Playwright ChromiumでStreamlit serverをサブプロセス起動し、<code>/_stcore/health</code> 待機後にstructured KPI、follow-up、ambiguous、unsupported sensitive、unsafe actionを実ブラウザ経由で確認すること。</p></div>
-            <div class="cell"><b>何を証明しないか</b><p>live Snowflake/Cortex UI integration、実SQL結果正当性、回答品質、レスポンシブ/アクセシビリティ/クロスブラウザ網羅、外部Slack/Backlog送信、L5 Semantic validatorの追加進捗は証明しない。</p></div>
+            <div class="cell"><b>何を証明しないか</b><p>live Snowflake/Cortex UI integration、実SQL結果正当性、回答品質、レスポンシブ/アクセシビリティ/クロスブラウザ網羅、外部Slack/Backlog送信、production approval queue persistenceは証明しない。</p></div>
             <div class="cell"><b>再利用先</b><p>Streamlit UI、App Runtime、SQL preview、trace logging、human approval候補表示、public-surface evidence boundary。</p></div>
             <div class="cell"><b>関連ノードまたはレーン</b><p>Streamlit UI、データアナリスト、App Runtime、Trace Logger、Human Review Queue、L4 RAIOPS-11 browser E2E lane。</p></div>
-            <div class="cell"><b>次アクションまたはブロッカー</b><p>live UI integration、answer quality、SQL result correctness、accessibility/responsive、cross-browserは別証跡として追加する。component-smokeとbrowser E2Eをlive成功として扱わない。</p></div>
+            <div class="cell"><b>次アクションまたはブロッカー</b><p>live UI integration、answer quality、SQL result correctness、accessibility/responsive、cross-browserは別証跡として追加する。component-smokeとbrowser E2Eをlive成功として扱わない。trace / screenshotはignored local outputsとして扱う。</p></div>
           </div>
         </article>
 
@@ -712,14 +712,35 @@
             <h3>Golden Eval / user-facing answer quality</h3>
           </div>
           <div class="pattern-body">
-            <div class="cell"><b>現在のプロジェクト状況</b><p><code>b8321eb</code> の統合候補でlocal/static fixture evalを確認。<code>quality_passed=16</code>、<code>known_gaps_observed=10</code>、<code>unexpected_failures=0</code>、allow-known-gapsでは <code>failed=0</code>、<code>total=26</code>。</p></div>
+            <div class="cell"><b>現在のプロジェクト状況</b><p>L2 commit <code>b7d0bcf</code> でintegration evidence reportを更新。local/static fixture evalは <code>quality_passed=18</code>、<code>known_gaps_observed=8</code>、<code>unexpected_failures=0</code>、allow-known-gapsでは <code>failed=0</code>、<code>total=26</code>、<code>evaluation_mode=local_static_fixture</code>、<code>live_external_executed=false</code>。</p></div>
             <div class="cell"><b>使うべきか</b><p>使う。dbt契約だけでは防げない、質問意図、KPI粒度、unsupported回答、率系再集計の品質劣化を検知する。</p></div>
             <div class="cell"><b>コマンドまたは証跡artifact</b><p><code>python -m retail_ai_ops.eval_runner</code><br><code>python -m retail_ai_ops.eval_runner --strict-known-gaps</code><br><code>python tools/validate_semantic_contract.py semantic/retail_kpi_semantic_model.yaml</code></p></div>
-            <div class="cell"><b>何を証明するか</b><p><code>evaluation_mode=local_static_fixture</code> で、16件の品質期待が通り、10件のknown gapが想定通り観測され、unexpected failureがないこと。</p></div>
+            <div class="cell"><b>何を証明するか</b><p><code>evaluation_mode=local_static_fixture</code> で、18件の品質期待が通り、8件のknown gapが想定通り観測され、unexpected failureがないこと。<code>accepted=26</code> は品質合格数として使わない。</p></div>
             <div class="cell"><b>何を証明しないか</b><p><code>live_external_executed=false</code>。Snowflake実行、Cortex実呼び出し、UI操作性、全質問の正しさ、Semantic契約とplannerの完全整合は証明しない。</p></div>
             <div class="cell"><b>再利用先</b><p>project-family、generic client-delivery skill、Backlog受入基準、docs template。</p></div>
             <div class="cell"><b>関連ノードまたはレーン</b><p>Semantic Model、Golden Eval、Streamlit UI、Cortex Analyst/Search/Agents readiness。</p></div>
-            <div class="cell"><b>次アクションまたはブロッカー</b><p>strict-known-gapsでは <code>failed=10</code> が期待結果。次はlive外部経路、UI path、Pages反映後HTTP 200を別証跡として積む。</p></div>
+            <div class="cell"><b>次アクションまたはブロッカー</b><p>strict-known-gapsは品質gate pressureとして別扱い。branch-local evidence reportのcounterが変わった場合は、古いexact counter行を残さず更新してから公開面へ反映する。</p></div>
+          </div>
+        </article>
+
+        <article class="pattern">
+          <div class="pattern-head">
+            <div class="badge-row">
+              <span class="badge category">カテゴリ: integration evidence hygiene</span>
+              <span class="badge level-static">証跡: static-lint</span>
+              <span class="badge level-contract">証跡: workflow contract</span>
+            </div>
+            <h3>統合証跡レポートcounter freshness</h3>
+          </div>
+          <div class="pattern-body">
+            <div class="cell"><b>現在のプロジェクト状況</b><p>L3 re-reviewはblockingなし、minorはbranch-local evidence reportのstale counter。L2 <code>b7d0bcf</code> で旧counter行の不在を確認し、local/static evalの最新値へ更新した。</p></div>
+            <div class="cell"><b>使うべきか</b><p>使う。Eval counterが変わるたびに公開面、branch-local report、lint tokenのどれかが古いままだと、local/static proofとpublished Pages proofがずれる。</p></div>
+            <div class="cell"><b>コマンドまたは証跡artifact</b><p><code>git diff --check HEAD~1..HEAD</code><br><code>rg</code>で旧exact counter行の不在確認<br><code>node tools/check_public_surface_links.mjs</code></p></div>
+            <div class="cell"><b>何を証明するか</b><p>公開説明が最新のlocal/static eval counterを参照し、stale reportをsource of truthにしていないこと。</p></div>
+            <div class="cell"><b>何を証明しないか</b><p>live Snowflake/Cortex実行、実SQL結果正当性、回答品質そのもの、Pages公開後のHTTP 200。</p></div>
+            <div class="cell"><b>再利用先</b><p>Golden Eval、integration evidence report、public surface lint、parallel-session handoff。</p></div>
+            <div class="cell"><b>関連ノードまたはレーン</b><p>L2 integration evidence refresh、L3 re-review、Golden Eval、docs/index、public-surface lane。</p></div>
+            <div class="cell"><b>次アクションまたはブロッカー</b><p>新しいcounter変更を公開する場合は、local/static eval、browser E2E、live integration、published Pagesを同じ状態語へ畳まない。</p></div>
           </div>
         </article>
 
